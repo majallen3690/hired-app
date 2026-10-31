@@ -19,9 +19,9 @@ class _Pending extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: HiredText.h1),
+              Text(title, style: HiredText.h1.copyWith(color: context.hc.text)),
               const SizedBox(height: 8),
-              Text('Not built yet. Design: $design', style: HiredText.body),
+              Text('Not built yet. Design: $design', style: HiredText.body.copyWith(color: context.hc.text2)),
             ],
           ),
         ),
@@ -43,13 +43,14 @@ class _Shell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.hc;
     return Scaffold(
       extendBody: true,
       body: Aurora(child: child),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 22),
         child: Glass(
-          radius: 22,
+          radius: HiredRadii.tabBar,
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
           child: Row(
             children: [
@@ -63,14 +64,14 @@ class _Shell extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(icon, size: 22, color: location == path ? HiredColors.ember : HiredColors.text3),
+                          Icon(icon, size: 22, color: location == path ? c.ember : c.text3),
                           const SizedBox(height: 3),
                           Text(
                             label,
                             style: HiredText.small.copyWith(
                               fontSize: 10.5,
                               fontWeight: location == path ? FontWeight.w600 : FontWeight.w500,
-                              color: location == path ? HiredColors.text : HiredColors.text3,
+                              color: location == path ? c.text : c.text3,
                             ),
                           ),
                         ],

@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 
 import '../theme/tokens.dart';
 
-/// BackdropFilter blur 28 + 155° white gradient 11% → 3.5% + 1px top highlight.
-/// Never nest glass in glass.
+/// BackdropFilter blur 28 + 155° gradient 11% → 3.5% + 1px top highlight. Never nest glass in glass.
 class Glass extends StatelessWidget {
   const Glass({
     super.key,
     required this.child,
-    this.padding = const EdgeInsets.all(16),
+    this.padding = const EdgeInsets.all(HiredSpace.lg),
     this.radius = HiredRadii.card,
     this.blur = 28,
     this.onTap,
@@ -24,6 +23,7 @@ class Glass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.hc;
     final r = BorderRadius.circular(radius);
     return ClipRRect(
       borderRadius: r,
@@ -40,14 +40,14 @@ class Glass extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: const Alignment(-0.9, -1),
                   end: const Alignment(0.6, 1),
-                  colors: [HiredColors.glassTop, HiredColors.glassBottom],
+                  colors: [c.glassTop, c.glassBottom],
                   stops: const [0, 0.62],
                 ),
                 border: Border(
-                  top: BorderSide(color: HiredColors.edge),
-                  left: BorderSide(color: HiredColors.hair),
-                  right: BorderSide(color: HiredColors.hair),
-                  bottom: BorderSide(color: HiredColors.hair),
+                  top: BorderSide(color: c.edge),
+                  left: BorderSide(color: c.hair),
+                  right: BorderSide(color: c.hair),
+                  bottom: BorderSide(color: c.hair),
                 ),
               ),
               padding: padding,
@@ -60,7 +60,7 @@ class Glass extends StatelessWidget {
   }
 }
 
-/// Quiet living background: one warm and one cool light, drifting slowly.
+/// Quiet living background: one warm and one cool light drifting on an 18 s loop. Stills under reduce motion.
 class Aurora extends StatefulWidget {
   const Aurora({super.key, required this.child});
   final Widget child;
@@ -90,18 +90,20 @@ class _AuroraState extends State<Aurora> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final c = context.hc;
+    final light = Theme.of(context).brightness == Brightness.light;
     return Stack(
       fit: StackFit.expand,
       children: [
-        const ColoredBox(color: HiredColors.ink),
+        ColoredBox(color: c.ink),
         AnimatedBuilder(
           animation: _c,
           builder: (_, __) {
             final t = Curves.easeInOut.transform(_c.value);
             return Stack(
               children: [
-                _blob(left: 16 + 22 * t, top: 190 - 28 * t, size: 360, color: HiredColors.ember, opacity: 0.34),
-                _blob(left: -150 + 14 * t, top: 620, size: 260, color: HiredColors.signal, opacity: 0.12),
+                _blob(left: 16 + 22 * t, top: 190 - 28 * t, size: 360, color: c.ember, opacity: light ? 0.22 : 0.34),
+                _blob(left: -150 + 14 * t, top: 620, size: 260, color: c.signal, opacity: light ? 0.10 : 0.12),
               ],
             );
           },

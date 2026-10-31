@@ -34,7 +34,13 @@ class TickDial extends StatelessWidget {
         children: [
           Positioned.fill(
             child: CustomPaint(
-              painter: _DialPainter(values: values, focus: focus, stroke: stroke, tick: tick),
+              painter: _DialPainter(
+                values: values,
+                focus: focus,
+                stroke: stroke,
+                tick: tick,
+                palette: context.hc,
+              ),
             ),
           ),
           if (child != null) child!,
@@ -45,12 +51,19 @@ class TickDial extends StatelessWidget {
 }
 
 class _DialPainter extends CustomPainter {
-  _DialPainter({required this.values, required this.focus, required this.stroke, required this.tick});
+  _DialPainter({
+    required this.values,
+    required this.focus,
+    required this.stroke,
+    required this.tick,
+    required this.palette,
+  });
 
   final List<double> values;
   final int? focus;
   final double stroke;
   final double tick;
+  final HiredPalette palette;
 
   static const _perArc = 14;
   static const _step = 2 * math.pi / 60;
@@ -63,21 +76,22 @@ class _DialPainter extends CustomPainter {
     final outer = r + stroke / 2;
 
     final track = Paint()
-      ..color = HiredColors.track
+      ..color = palette.track
       ..strokeWidth = tick
       ..strokeCap = StrokeCap.butt;
 
     for (var arc = 0; arc < 4; arc++) {
-      final lit = (_perArc * (values[arc].clamp(0, 100)) / 100).round();
+      final lit = (_perArc * values[arc].clamp(0, 100) / 100).round();
       final isFocus = focus == arc;
+      final litColor = isFocus ? palette.band(values[arc].round()) : palette.text;
       final litPaint = Paint()
-        ..color = isFocus ? HiredColors.band(values[arc].round()) : HiredColors.text
+        ..color = litColor
         ..strokeWidth = tick
         ..strokeCap = StrokeCap.butt;
 
       if (isFocus && lit > 0) {
         final glow = Paint()
-          ..color = HiredColors.band(values[arc].round()).withValues(alpha: 0.35)
+          ..color = litColor.withValues(alpha: 0.35)
           ..strokeWidth = tick * 2.4
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 7);
         for (var j = 0; j < lit; j++) {
@@ -97,5 +111,6 @@ class _DialPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_DialPainter old) => old.values != values || old.focus != focus;
+  bool shouldRepaint(_DialPainter old) =>
+      old.values != values || old.focus != focus || old.palette != palette;
 }

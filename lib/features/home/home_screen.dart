@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/scoring/readiness.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/tokens.dart';
-import '../../core/widgets/glass.dart';
+import '../../core/widgets/score_widgets.dart';
 import '../../core/widgets/tick_dial.dart';
 import 'scores_provider.dart';
 
@@ -31,13 +31,20 @@ const _labels = <SubScore, String>{
   SubScore.presence: 'Presence',
 };
 
+const _corners = <SubScore, Alignment>{
+  SubScore.resume: Alignment.topRight,
+  SubScore.interview: Alignment.bottomRight,
+  SubScore.communication: Alignment.bottomLeft,
+  SubScore.presence: Alignment.topLeft,
+};
+
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final c = context.hc;
     final scores = ref.watch(latestScoresProvider);
-    final readiness = scores == null ? null : readinessScore(scores);
     final weakest = scores == null ? null : weakestSubScore(scores);
 
     // A new account has no scores yet, so the honest first step is the resume.
@@ -46,68 +53,24 @@ class HomeScreen extends ConsumerWidget {
 
     return SafeArea(
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 120),
+        padding: const EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.md, HiredSpace.screen, 120),
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Welcome back', style: HiredText.small.copyWith(color: HiredColors.text3)),
-                    const SizedBox(height: 4),
-                    Text.rich(TextSpan(style: HiredText.h1, children: [
-                      const TextSpan(text: 'Ready to '),
-                      TextSpan(text: 'practise?', style: HiredText.h1Em),
-                    ])),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          Text('Welcome back', style: HiredText.small.copyWith(color: c.text3)),
+          const SizedBox(height: HiredSpace.xs),
+          Text.rich(TextSpan(style: HiredText.h1.copyWith(color: c.text), children: [
+            const TextSpan(text: 'Ready to '),
+            TextSpan(text: 'practise?', style: HiredText.h1Em),
+          ])),
           const SizedBox(height: 36),
-          _Dial(scores: scores, readiness: readiness, weakest: weakest),
-          const SizedBox(height: 28),
+          _Dial(scores: scores, weakest: weakest, onCorner: (k) => context.go(_actions[k]!.route)),
+          const SizedBox(height: HiredSpace.xxl),
           if (action != null)
-            Glass(
-              padding: const EdgeInsets.fromLTRB(18, 16, 16, 16),
+            NextActionCard(
+              kicker: scores == null ? 'Start here' : 'Biggest lift · ${_labels[next]}',
+              lead: action.lead,
+              emphasis: action.em,
+              note: action.note,
               onTap: () => context.go(action.route),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          scores == null ? 'START HERE' : 'BIGGEST LIFT · ${_labels[next]!.toUpperCase()}',
-                          style: HiredText.label,
-                        ),
-                        const SizedBox(height: 5),
-                        Text.rich(TextSpan(
-                          style: HiredText.h2.copyWith(fontWeight: FontWeight.w400, fontSize: 18),
-                          children: [
-                            TextSpan(text: '${action.lead} '),
-                            TextSpan(text: action.em, style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.w500)),
-                          ],
-                        )),
-                        const SizedBox(height: 5),
-                        Text(action.note, style: HiredText.small.copyWith(color: HiredColors.text3)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: HiredColors.ember,
-                      borderRadius: BorderRadius.circular(HiredRadii.button),
-                    ),
-                    child: const Icon(Icons.arrow_forward_rounded, color: HiredColors.onEmber),
-                  ),
-                ],
-              ),
             ),
         ],
       ),
@@ -116,69 +79,48 @@ class HomeScreen extends ConsumerWidget {
 }
 
 class _Dial extends StatelessWidget {
-  const _Dial({required this.scores, required this.readiness, required this.weakest});
+  const _Dial({required this.scores, required this.weakest, required this.onCorner});
 
   final SubScores? scores;
-  final int? readiness;
   final SubScore? weakest;
+  final ValueChanged<SubScore> onCorner;
 
   @override
   Widget build(BuildContext context) {
+    final c = context.hc;
     final reduce = MediaQuery.of(context).disableAnimations;
+    final s = scores;
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0, end: 1),
       duration: reduce ? Duration.zero : HiredMotion.scoreReveal,
       curve: HiredMotion.easeOutQuart,
       builder: (context, e, _) {
-        final s = scores;
-        final values = s == null
-            ? List<double>.filled(4, 0)
-            : [for (final k in SubScore.values) s[k] * e];
-        const corners = [
-          (SubScore.resume, Alignment.topRight),
-          (SubScore.interview, Alignment.bottomRight),
-          (SubScore.communication, Alignment.bottomLeft),
-          (SubScore.presence, Alignment.topLeft),
-        ];
         return SizedBox(
           height: 292,
           child: Stack(
             children: [
               Align(
                 child: TickDial(
-                  values: values,
+                  values: s == null ? List.filled(4, 0.0) : [for (final k in SubScore.values) s[k] * e],
                   focus: weakest?.index,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(readiness == null ? '–' : '${(readiness! * e).round()}', style: HiredText.num(80)),
+                      Text(s == null ? '–' : '${(readinessScore(s) * e).round()}',
+                          style: HiredText.num(80).copyWith(color: c.text)),
                       const SizedBox(height: 2),
-                      Text('readiness', style: HiredText.italic),
+                      Text('readiness', style: HiredText.italic.copyWith(color: c.text3)),
                     ],
                   ),
                 ),
               ),
-              for (final (k, align) in corners)
-                Align(
-                  alignment: align,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: align.x > 0 ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        s == null ? '–' : '${(s[k] * e).round()}',
-                        style: HiredText.num(30, color: k == weakest ? HiredColors.band(s![k]) : HiredColors.text),
-                      ),
-                      Text(
-                        _labels[k]!,
-                        style: HiredText.small.copyWith(
-                          fontSize: 12,
-                          fontWeight: k == weakest ? FontWeight.w600 : FontWeight.w400,
-                          color: k == weakest ? HiredColors.band(s![k]) : HiredColors.text3,
-                        ),
-                      ),
-                    ],
-                  ),
+              for (final k in SubScore.values)
+                ScoreCorner(
+                  label: _labels[k]!,
+                  value: s == null ? null : (s[k] * e).round(),
+                  alignment: _corners[k]!,
+                  highlight: k == weakest,
+                  onTap: () => onCorner(k),
                 ),
             ],
           ),
