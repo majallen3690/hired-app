@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./hired.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,200..800;1,200..800&amp;family=Geist+Mono:wght@400;500;600&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..700,0..1,-50..200&amp;display=block">
+<style>
+body{margin:0}
+a{color:inherit}
+</style>
+</helmet>
+<div class="screen {{themeClass}}" style="width: 390px; height: 844px; font-family: 'Hanken Grotesk', sans-serif">
+  <div class="aurora" aria-hidden="true">
+    <span class="blob heat" style="width: 360px; height: 360px; left: 16px; top: 190px; opacity: 0.34"></span>
+    <span class="blob signal" style="width: 260px; height: 260px; left: -150px; top: 620px; opacity: 0.12; animation-delay: -11s"></span>
+  </div>
+  <svg class="grain" aria-hidden="true"><filter id="grainA"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#grainA)"></rect></svg>
+
+  <main class="safe col">
+    <header class="row rise" style="justify-content: space-between; align-items: flex-start">
+      <div class="col" style="gap: 4px">
+        <span class="small" style="color: var(--text-3)">Saturday, 31 October</span>
+        <h1 class="h1">Evening, <em>Ishita</em></h1>
+      </div>
+      <button class="icon-btn" type="button" aria-label="Notifications, 2 new" style="position: relative; margin-right: -8px"><span class="ms">notifications</span><span style="position: absolute; right: 10px; top: 9px; width: 6px; height: 6px; border-radius: 999px; background: var(--heat-1)"></span></button>
+    </header>
+
+    <a class="row rise d1" href="C05-Tracker.dc.html" style="margin-top: 20px; padding: 13px 0; gap: 10px; text-decoration: none; box-shadow: 0 -1px 0 var(--hair), 0 1px 0 var(--hair)">
+      <span class="pulse" style="width: 6px; height: 6px; border-radius: 999px; flex: none; background: var(--signal)"></span>
+      <span style="flex: 1; font-size: 14px"><span style="font-weight: 600">Zoho</span><span style="color: var(--text-2)"> · technical round</span></span>
+      <span class="small it" style="color: var(--text-3)">tomorrow, 10:30</span>
+      <span class="ms" style="font-size: 18px; color: var(--text-3)">chevron_right</span>
+    </a>
+
+    <section style="position: relative; height: 292px; margin-top: 26px" aria-label="Placement readiness">
+      <div style="position: absolute; left: 51px; top: 22px; width: 248px; height: 248px">
+        <svg width="248" height="248" viewBox="0 0 248 248" style="position: absolute; left: 0; top: 0; overflow: visible" role="img" aria-label="Readiness {{shown}} of 100. Resume {{qRes.s}}, Interview {{qInt.s}}, Speaking {{qCom.s}}, Presence {{qPre.s}}.">
+          <g class="spin-in">
+            <g transform="rotate(-90 124 124)" fill="none" stroke-width="16">
+              <circle cx="124" cy="124" r="108" style="stroke: var(--track)" stroke-dasharray="{{trackDash}}" stroke-dashoffset="{{qRes.off}}"></circle>
+              <circle cx="124" cy="124" r="108" style="stroke: var(--track)" stroke-dasharray="{{trackDash}}" stroke-dashoffset="{{qInt.off}}"></circle>
+              <circle cx="124" cy="124" r="108" style="stroke: var(--track)" stroke-dasharray="{{trackDash}}" stroke-dashoffset="{{qCom.off}}"></circle>
+              <circle cx="124" cy="124" r="108" style="stroke: var(--track)" stroke-dasharray="{{trackDash}}" stroke-dashoffset="{{qPre.off}}"></circle>
+              <circle class="breath" cx="124" cy="124" r="108" stroke-width="24" style="stroke: {{glow.c}}; filter: blur(7px)" stroke-dasharray="{{glow.dash}}" stroke-dashoffset="{{glow.off}}"></circle>
+              <circle cx="124" cy="124" r="108" style="stroke: {{qRes.lit}}" stroke-dasharray="{{qRes.dash}}" stroke-dashoffset="{{qRes.off}}"></circle>
+              <circle cx="124" cy="124" r="108" style="stroke: {{qInt.lit}}" stroke-dasharray="{{qInt.dash}}" stroke-dashoffset="{{qInt.off}}"></circle>
+              <circle cx="124" cy="124" r="108" style="stroke: {{qCom.lit}}" stroke-dasharray="{{qCom.dash}}" stroke-dashoffset="{{qCom.off}}"></circle>
+              <circle cx="124" cy="124" r="108" style="stroke: {{qPre.lit}}" stroke-dasharray="{{qPre.dash}}" stroke-dashoffset="{{qPre.off}}"></circle>
+            </g>
+          </g>
+        </svg>
+        <div class="col" style="position: absolute; inset: 0; align-items: center; justify-content: center">
+          <span class="num" style="font-size: 80px; line-height: 80px; margin-top: 6px">{{shown}}</span>
+          <span class="it" style="font-size: 14px; line-height: 20px; color: var(--text-3)">readiness</span>
+          <span class="row" style="gap: 3px; margin-top: 8px; font-size: 13px; font-weight: 500; color: var(--ok)"><span class="ms" style="font-size: 15px">trending_up</span>{{delta}}</span>
+        </div>
+      </div>
+
+      <sc-for list="{{subs}}" as="q" hint-placeholder-count="4">
+        <a href="{{q.href}}" class="col rise {{q.d}}" style="position: absolute; {{q.pos}}; gap: 0; text-decoration: none">
+          <span class="num" style="font-size: 30px; line-height: 34px; color: {{q.val}}">{{q.n}}</span>
+          <span style="font-size: 12px; line-height: 16px; font-weight: {{q.w}}; color: {{q.lbl}}">{{q.label}}</span>
+        </a>
+      </sc-for>
+    </section>
+
+    <a class="glass rise d4" href="{{action.href}}" style="display: flex; align-items: center; margin-top: 26px; padding: 16px 16px 16px 18px; gap: 14px; text-decoration: none">
+      <span class="col" style="flex: 1; gap: 5px; min-width: 0">
+        <span class="label">{{oppText}}</span>
+        <span style="font-size: 18px; line-height: 23px; font-weight: 400; letter-spacing: -0.015em">{{action.lead}} <em style="font-weight: 500">{{action.em}}</em></span>
+        <span class="small" style="color: var(--text-3)">{{action.note}}</span>
+      </span>
+      <span class="row" style="width: 44px; height: 44px; border-radius: 12px; justify-content: center; flex: none; color: var(--on-heat); background: var(--heat-1)"><span class="ms nudge">arrow_forward</span></span>
+    </a>
+  </main>
+
+  <div class="fade-bottom" aria-hidden="true"></div>
+  <nav class="tabbar glass" aria-label="Main">
+    <a class="tab on" href="A01-Home.dc.html" aria-current="page"><span class="ms">home</span>Home</a>
+    <a class="tab" href="A02-Resume-Input.dc.html"><span class="ms">description</span>Resume</a>
+    <a class="tab" href="A06-Interview-Setup.dc.html"><span class="ms">mic</span>Interview</a>
+    <a class="tab" href="C05-Tracker.dc.html"><span class="ms">work</span>Tracker</a>
+    <a class="tab" href="C07-Progress.dc.html"><span class="ms">insights</span>Progress</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"interview":{"editor":"range","min":0,"max":100,"step":1,"default":50,"section":"Scores"},"resume":{"editor":"range","min":0,"max":100,"step":1,"default":74,"section":"Scores"},"communication":{"editor":"range","min":0,"max":100,"step":1,"default":62,"section":"Scores"},"presence":{"editor":"range","min":0,"max":100,"step":1,"default":66,"section":"Scores"},"from":{"editor":"int","default":0,"section":"Count-up"},"prevInterview":{"editor":"int","default":-1,"section":"Count-up"},"delta":{"editor":"text","default":"+4 this week","section":"Count-up"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  num(v, d) {
+    const n = parseInt(v, 10);
+    return isNaN(n) ? d : Math.max(0, Math.min(100, n));
+  }
+  scores() {
+    return {
+      resume: this.num(this.props.resume, 74),
+      interview: this.num(this.props.interview, 50),
+      communication: this.num(this.props.communication, 62),
+      presence: this.num(this.props.presence, 66)
+    };
+  }
+  readiness(s) {
+    // Same weights as lib/core/scoring/readiness.dart
+    return Math.round(s.resume * 0.30 + s.interview * 0.35 + s.communication * 0.20 + s.presence * 0.15);
+  }
+  componentDidMount() {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      this.setState({ e: 1 });
+      return;
+    }
+    const from = this.num(this.props.from, 0);
+    const start = performance.now() + 350;
+    const dur = from > 0 ? 900 : 1300;
+    const step = (t) => {
+      const k = Math.max(0, Math.min(1, (t - start) / dur));
+      this.setState({ e: 1 - Math.pow(1 - k, 4) });
+      if (k < 1) this.raf = requestAnimationFrame(step);
+    };
+    this.setState({ e: 0 });
+    this.raf = requestAnimationFrame(step);
+  }
+  componentWillUnmount() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const s = this.scores();
+    const e = this.state && this.state.e != null ? this.state.e : 1;
+    const from = this.num(this.props.from, 0);
+    const prevRaw = parseInt(this.props.prevInterview, 10);
+    const hasPrev = !isNaN(prevRaw) && prevRaw >= 0;
+    const to = this.readiness(s);
+    const shown = Math.round(from + (to - from) * e);
+    const light = this.props.theme === 'light';
+    const ink = light ? '#161514' : '#F3F2EF';
+    const band = (v) => (v >= 75 ? 'var(--ok)' : v >= 50 ? 'var(--warn)' : 'var(--bad)');
+
+    // 60-tick dial: 4 arcs of 14 ticks, the quarter ticks stay empty so the arcs read apart
+    const period = (2 * Math.PI * 108) / 60;
+    const tick = 3.4;
+    const pair = tick + ' ' + (period - tick).toFixed(3) + ' ';
+    const ticks = (n) => { let out = ''; for (let i = 0; i < n; i++) out += pair; return out + '0 900'; };
+
+    // Clockwise from 12, and each figure sits in the corner beside its own arc
+    const defs = [
+      { key: 'resume', label: 'Resume', href: 'A02-Resume-Input.dc.html', pos: 'right: 0; top: 0; align-items: flex-end', d: 'd2' },
+      { key: 'interview', label: 'Interview', href: 'A06-Interview-Setup.dc.html', pos: 'right: 0; bottom: 0; align-items: flex-end', d: 'd3' },
+      { key: 'communication', label: 'Speaking', href: 'C01-Intro-Recorder.dc.html', pos: 'left: 0; bottom: 0; align-items: flex-start', d: 'd3' },
+      { key: 'presence', label: 'Presence', href: 'C03-Presence-Camera.dc.html', pos: 'left: 0; top: 0; align-items: flex-start', d: 'd2' }
+    ];
+    let focusKey = null;
+    let min = 101;
+    defs.forEach((d) => { if (s[d.key] < min) { min = s[d.key]; focusKey = d.key; } });
+    if (min >= 75) focusKey = null;
+
+    let glow = { c: 'transparent', dash: '0 900', off: 0 };
+    const q = defs.map((d, i) => {
+      const final = s[d.key];
+      let shownSub;
+      if (d.key === 'interview' && hasPrev) shownSub = prevRaw + (final - prevRaw) * e;
+      else shownSub = from > 0 ? final : final * e;
+      const isFocus = d.key === focusKey;
+      const item = {
+        label: d.label, href: d.href, pos: d.pos, d: d.d, s: final,
+        n: Math.round(shownSub),
+        off: (-((i * 15 + 1) * period - tick / 2)).toFixed(2),
+        dash: ticks(Math.round((14 * shownSub) / 100)),
+        lit: isFocus ? band(final) : ink,
+        val: isFocus ? band(final) : 'var(--text)',
+        lbl: isFocus ? band(final) : 'var(--text-3)',
+        w: isFocus ? 600 : 400
+      };
+      if (isFocus) glow = { c: band(final), dash: item.dash, off: item.off };
+      return item;
+    });
+    const actions = {
+      resume: { lead: 'Tailor your resume to', em: 'one JD', note: '8 min · usually +4 to 6', href: 'A02-Resume-Input.dc.html' },
+      interview: { lead: 'Take a 10-minute', em: 'technical mock', note: '10 min · usually +5 to 8', href: 'A06-Interview-Setup.dc.html' },
+      communication: { lead: 'Record your', em: '60-second intro', note: '2 min · usually +3 to 5', href: 'C01-Intro-Recorder.dc.html' },
+      presence: { lead: 'Check your', em: 'interview look', note: '2 min · usually +3 to 5', href: 'C03-Presence-Camera.dc.html' }
+    };
+    const focus = q[defs.findIndex((d) => d.key === focusKey)];
+    return {
+      shown: shown,
+      delta: this.props.delta ?? '+4 this week',
+      themeClass: light ? 'light' : '',
+      trackDash: ticks(14),
+      qRes: q[0], qInt: q[1], qCom: q[2], qPre: q[3],
+      subs: q,
+      glow: glow,
+      oppText: focus ? 'Biggest lift · ' + focus.label : 'Every area is ready',
+      action: focusKey ? actions[focusKey] : { lead: 'Share your', em: 'scorecard', note: '1 min', href: 'A10-Scorecard.dc.html' }
+    };
+  }
+}
+</script>
+</body>
+</html>

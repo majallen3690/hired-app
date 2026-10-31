@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Presence check result</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./hired.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,200..800;1,200..800&amp;family=Geist+Mono:wght@400;500;600&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..700,0..1,-50..200&amp;display=block">
+<style>
+body{margin:0}
+a{color:inherit}
+</style>
+</helmet>
+<div class="screen" style="width: 390px; height: 1180px; font-family: 'Hanken Grotesk', sans-serif">
+  <div class="aurora" aria-hidden="true">
+    <span class="blob signal" style="width: 340px; height: 340px; left: 140px; top: -60px; opacity: 0.4"></span>
+    <span class="blob heat" style="width: 340px; height: 340px; left: -120px; top: 120px; animation-delay: -6s"></span>
+    <span class="blob pink" style="width: 260px; height: 260px; left: 180px; top: 760px; opacity: 0.35; animation-delay: -10s"></span>
+  </div>
+  <svg class="grain" aria-hidden="true"><filter id="grainU"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#grainU)"></rect></svg>
+
+  <main class="safe col" style="gap: 16px">
+    <header class="row rise" style="justify-content: space-between">
+      <a class="icon-btn" href="C03-Presence-Camera.dc.html" aria-label="Back"><span class="ms">arrow_back</span></a>
+      <span style="font-size: 15px; font-weight: 600">Interview look</span>
+      <button class="icon-btn" type="button" aria-label="Share"><span class="ms">ios_share</span></button>
+    </header>
+
+    <section class="row rise" style="gap: 16px; align-items: stretch">
+      <div role="img" aria-label="Your photo" class="glass" style="width: 132px; height: 168px; flex: none; border-radius: 18px; overflow: hidden; padding: 4px">
+        <div style="position: relative; width: 100%; height: 100%; border-radius: 16px; overflow: hidden; background: radial-gradient(120% 90% at 50% 30%, #4A372C, #1C1410 75%)"><span class="ms fill" aria-hidden="true" style="position: absolute; left: 50%; top: 64%; transform: translate(-50%, -50%); width: 170px; height: 170px; font-size: 170px; color: rgba(255, 226, 205, 0.22)">person</span></div>
+      </div>
+      <div class="col" style="flex: 1; justify-content: center; gap: 4px">
+        <span class="label">Presence</span>
+        <span class="num heat-text" style="font-size: 96px; line-height: 88px">81</span>
+        <span class="tag ok" style="align-self: flex-start; height: 28px; font-size: 12px"><span class="ms" style="font-size: 16px">verified</span>Interview ready</span>
+      </div>
+    </section>
+
+    <section class="glass col rise" style="padding: 18px; gap: 16px; animation-delay: 120ms" aria-label="Breakdown">
+      <h2 class="h2" style="font-size: 18px">Breakdown</h2>
+      <sc-for list="{{parts}}" as="p" hint-placeholder-count="4">
+        <div class="col" style="gap: 8px">
+          <div class="row" style="justify-content: space-between"><span class="row" style="gap: 8px; font-weight: 600"><span class="ms" style="font-size: 20px; color: var(--text-2)">{{p.icon}}</span>{{p.label}}</span><span class="num" style="font-size: 22px; color: {{p.color}}">{{p.v}}</span></div>
+          <span class="bar"><i style="width: {{p.v}}%; background: {{p.color}}"></i></span>
+          <span class="small" style="color: var(--text-3)">{{p.note}}</span>
+        </div>
+      </sc-for>
+    </section>
+
+    <section class="col rise" style="gap: 10px; animation-delay: 240ms" aria-label="Three fixes">
+      <h2 class="h2" style="font-size: 18px; padding: 6px 4px 0">Three quick fixes</h2>
+      <div class="glass thin row" style="border-radius: 16px; padding: 14px; gap: 12px"><span class="row" style="width: 40px; height: 40px; border-radius: 12px; justify-content: center; flex: none; background: rgba(255, 194, 74, 0.14); color: var(--warn)"><span class="ms">wb_sunny</span></span><span class="small" style="color: var(--text)">Face a window. The light from your left leaves half your face in shadow.</span></div>
+      <div class="glass thin row" style="border-radius: 16px; padding: 14px; gap: 12px"><span class="row" style="width: 40px; height: 40px; border-radius: 12px; justify-content: center; flex: none; background: rgba(255, 255, 255, 0.08)"><span class="ms">wallpaper</span></span><span class="small" style="color: var(--text)">Move away from the shelf. A plain wall keeps attention on you.</span></div>
+      <div class="glass thin row" style="border-radius: 16px; padding: 14px; gap: 12px"><span class="row" style="width: 40px; height: 40px; border-radius: 12px; justify-content: center; flex: none; background: rgba(124, 227, 139, 0.14); color: var(--ok)"><span class="ms">checkroom</span></span><span class="small" style="color: var(--text)">The navy shirt works. Iron the collar and you are set.</span></div>
+    </section>
+  </main>
+
+  <div class="fade-bottom" aria-hidden="true"></div>
+  <div class="dock">
+    <a class="btn btn-glass" href="C03-Presence-Camera.dc.html" style="padding: 0 20px"><span class="ms">photo_camera</span>Retake</a>
+    <a class="btn btn-heat" href="A01-Home.dc.html" style="flex: 1"><span class="ms">check</span>Save to my score</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const band = (v) => (v >= 75 ? 'var(--ok)' : v >= 50 ? 'var(--warn)' : 'var(--bad)');
+    const parts = [
+      { label: 'Attire', icon: 'checkroom', v: 84, note: 'Collared shirt, solid colour, fits well' },
+      { label: 'Grooming', icon: 'face', v: 80, note: 'Neat hair, nothing distracting' },
+      { label: 'Light and background', icon: 'light_mode', v: 68, note: 'Side light, busy shelf behind you' },
+      { label: 'Expression', icon: 'sentiment_satisfied', v: 86, note: 'Relaxed, natural smile' }
+    ].map((p) => Object.assign({}, p, { color: band(p.v) }));
+    return { parts: parts };
+  }
+}
+</script>
+</body>
+</html>

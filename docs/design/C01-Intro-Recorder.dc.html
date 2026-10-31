@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Self-intro recorder</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./hired.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,200..800;1,200..800&amp;family=Geist+Mono:wght@400;500;600&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..700,0..1,-50..200&amp;display=block">
+<style>
+body{margin:0}
+a{color:inherit}
+</style>
+</helmet>
+<div class="screen" style="width: 390px; height: 844px; font-family: 'Hanken Grotesk', sans-serif">
+  <div class="aurora" aria-hidden="true">
+    <span class="blob heat" style="width: 380px; height: 380px; left: 6px; top: 110px; opacity: 0.4"></span>
+    <span class="blob pink" style="width: 260px; height: 260px; left: 200px; top: 300px; animation-delay: -5s"></span>
+  </div>
+  <svg class="grain" aria-hidden="true"><filter id="grainQ"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#grainQ)"></rect></svg>
+
+  <header class="row rise" style="position: absolute; left: 20px; right: 20px; top: 58px; justify-content: space-between">
+    <a class="icon-btn" href="A01-Home.dc.html" aria-label="Close"><span class="ms">close</span></a>
+    <span class="row" style="gap: 8px; font-size: 15px; font-weight: 600"><span class="pulse" style="width: 8px; height: 8px; border-radius: 999px; background: var(--bad)"></span>Recording</span>
+    <button class="icon-btn" type="button" aria-label="Tips"><span class="ms">tips_and_updates</span></button>
+  </header>
+
+  <p class="body" style="position: absolute; left: 32px; right: 32px; top: 120px; text-align: center">Who you are, what you have built, and why this role.</p>
+
+  <div style="position: absolute; left: 65px; top: 176px; width: 260px; height: 260px">
+    <svg width="260" height="260" viewBox="0 0 260 260" style="position: absolute; left: 0; top: 0; overflow: visible" role="img" aria-label="{{secs}} seconds left">
+      <defs>
+        <linearGradient id="heatQ" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color: var(--heat-1)"></stop><stop offset="1" style="stop-color: var(--heat-2)"></stop></linearGradient>
+        <filter id="glowQ" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="10"></feGaussianBlur></filter>
+      </defs>
+      <g transform="rotate(-90 130 130)" fill="none" stroke-width="16">
+        <circle cx="130" cy="130" r="112" style="stroke: var(--track)" stroke-dasharray="{{trackDash}}" stroke-dashoffset="1.7"></circle>
+        <circle cx="130" cy="130" r="112" style="stroke: var(--heat-1)" stroke-dasharray="{{litDash}}" stroke-dashoffset="1.7"></circle>
+      </g>
+    </svg>
+    <div class="col" style="position: absolute; inset: 0; align-items: center; justify-content: center; gap: 2px">
+      <span class="num" style="font-size: 80px; line-height: 80px">0:{{secsPad}}</span>
+      <span class="small" style="color: var(--text-3)">of 60 seconds</span>
+      <div class="wave" style="color: var(--heat-1); height: 28px; margin-top: 10px" aria-hidden="true"><i style="animation-delay: -0.2s"></i><i style="animation-delay: -0.6s"></i><i style="animation-delay: -0.4s"></i><i style="animation-delay: -0.9s"></i><i style="animation-delay: -0.1s"></i><i style="animation-delay: -0.7s"></i><i style="animation-delay: -0.3s"></i></div>
+    </div>
+  </div>
+
+  <section class="glass col rise d2" style="position: absolute; left: 16px; right: 16px; top: 466px; padding: 16px 18px; gap: 8px; border-radius: 18px" aria-live="polite">
+    <span class="label">Live transcript</span>
+    <p style="margin: 0; font-size: 16px; line-height: 24px; font-weight: 600">Hi, I'm Ishita, a final-year CSE student at PES University. <span style="color: var(--warn); text-decoration: underline wavy rgba(255, 194, 74, 0.7)">Um,</span> I like building things people use every day, <span style="color: var(--warn); text-decoration: underline wavy rgba(255, 194, 74, 0.7)">like</span> our campus attendance app<span class="pulse">|</span></p>
+  </section>
+
+  <div class="row" style="position: absolute; left: 16px; right: 16px; top: 632px; gap: 8px">
+    <span class="glass thin pill row" style="flex: 1; height: 40px; justify-content: center; gap: 6px; font-size: 13px; font-weight: 600"><span class="ms" style="font-size: 17px; color: var(--warn)">chat_bubble</span>2 fillers</span>
+    <span class="glass thin pill row" style="flex: 1; height: 40px; justify-content: center; gap: 6px; font-size: 13px; font-weight: 600"><span class="ms" style="font-size: 17px; color: var(--ok)">speed</span>138 wpm</span>
+    <span class="glass thin pill row" style="flex: 1; height: 40px; justify-content: center; gap: 6px; font-size: 13px; font-weight: 600"><span class="ms" style="font-size: 17px">pause</span>1.8 s pause</span>
+  </div>
+
+  <div class="row" style="position: absolute; left: 0; right: 0; bottom: 40px; justify-content: center; gap: 36px">
+    <button class="icon-btn" type="button" aria-label="Start over" style="width: 56px; height: 56px"><span class="ms">restart_alt</span></button>
+    <a href="C02-Intro-Result.dc.html" aria-label="Stop and score" style="width: 88px; height: 88px; border-radius: 999px; display: flex; align-items: center; justify-content: center; background: var(--heat-1); box-shadow: 0 0 0 6px rgba(255, 138, 76, 0.14)"><span style="width: 30px; height: 30px; border-radius: 9px; background: var(--on-heat)"></span></a>
+    <button class="icon-btn" type="button" aria-label="Pause" style="width: 56px; height: 56px"><span class="ms">pause</span></button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    this.setState({ s: 42 });
+    this.timer = setInterval(() => {
+      const s = (this.state && this.state.s) ?? 42;
+      this.setState({ s: s <= 1 ? 42 : s - 1 });
+    }, 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+  renderVals() {
+    const s = (this.state && this.state.s) ?? 42;
+    // One tick per second: the dial empties as the minute runs out
+    const period = (2 * Math.PI * 112) / 60;
+    const tick = 3.4;
+    const gap = (period - tick).toFixed(3);
+    let lit = '';
+    for (let i = 0; i < s; i++) lit += tick + ' ' + gap + ' ';
+    return {
+      secs: s,
+      secsPad: String(s).padStart(2, '0'),
+      trackDash: tick + ' ' + gap,
+      litDash: lit + '0 900'
+    };
+  }
+}
+</script>
+</body>
+</html>

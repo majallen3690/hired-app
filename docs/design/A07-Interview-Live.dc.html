@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mock interview, live</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./hired.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,200..800;1,200..800&amp;family=Geist+Mono:wght@400;500;600&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..700,0..1,-50..200&amp;display=block">
+<style>
+body{margin:0}
+a{color:inherit}
+</style>
+</helmet>
+<div class="screen" style="width: 390px; height: 844px; font-family: 'Hanken Grotesk', sans-serif; background: #070605">
+  <div class="aurora" aria-hidden="true">
+    <span class="blob signal" style="width: 420px; height: 420px; left: -20px; top: 90px; opacity: {{signalGlow}}; transition: opacity 0.8s ease"></span>
+    <span class="blob heat" style="width: 300px; height: 300px; left: 150px; top: 520px; opacity: {{heatGlow}}; transition: opacity 0.8s ease; animation-delay: -6s"></span>
+    <span class="blob pink" style="width: 220px; height: 220px; left: -100px; top: 640px; opacity: 0.25; animation-delay: -12s"></span>
+  </div>
+  <svg class="grain" aria-hidden="true"><filter id="grainG"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#grainG)"></rect></svg>
+
+  <div class="row" style="position: absolute; top: 52px; left: 0; right: 0; justify-content: center">
+    <div class="row" style="height: 40px; padding: 0 16px 0 12px; gap: 10px; border-radius: 999px; background: rgba(0, 0, 0, 0.72); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08); font-size: 13px; font-weight: 600" role="status">
+      <span class="pulse" style="width: 8px; height: 8px; border-radius: 999px; background: var(--bad)"></span>
+      <span>Live</span>
+      <span class="num" style="font-size: 15px; font-weight: 600; color: var(--text-2)">{{clock}}</span>
+      <span style="width: 1px; height: 16px; background: rgba(255, 255, 255, 0.16)"></span>
+      <span style="color: var(--text-2)">Question 2 of 5</span>
+    </div>
+  </div>
+
+  <figure class="glass" style="position: absolute; right: 16px; top: 108px; width: 96px; height: 128px; margin: 0; border-radius: 16px; overflow: hidden; z-index: 3" aria-label="Your camera, face detected">
+    <div style="position: absolute; inset: 3px; border-radius: 19px; background: radial-gradient(circle at 50% 38%, #3A2C24, #120D0A 72%); overflow: hidden">
+      <span class="ms fill" aria-hidden="true" style="position: absolute; left: 50%; top: 58%; transform: translate(-50%, -50%); font-size: 96px; width: 96px; height: 96px; color: rgba(255, 220, 200, 0.22)">person</span>
+      <span aria-hidden="true" style="position: absolute; left: 24px; top: 22px; width: 44px; height: 54px; border-radius: 10px; box-shadow: inset 0 0 0 1.5px rgba(79, 240, 210, 0.85)"></span>
+    </div>
+    <figcaption class="tag signal" style="position: absolute; left: 6px; bottom: 6px; height: 20px; padding: 0 6px; font-size: 9.5px; background: rgba(7, 6, 5, 0.7)">Eye contact {{eye}}%</figcaption>
+  </figure>
+
+  <section class="col" style="position: absolute; left: 0; right: 0; top: 150px; align-items: center; gap: 22px" aria-label="Interviewer">
+    <div class="orb" style="transform: scale({{orbScale}}); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)">
+      <span class="halo" style="inset: -8px"></span>
+      <span class="halo" style="inset: -8px; animation-delay: 1.2s"></span>
+      <span class="core"></span>
+      <span class="lens"></span>
+    </div>
+    <div class="col" style="align-items: center; gap: 8px">
+      <div class="wave" style="color: {{waveColor}}" aria-hidden="true">
+        <i style="animation-delay: -0.1s"></i><i style="animation-delay: -0.5s"></i><i style="animation-delay: -0.3s"></i><i style="animation-delay: -0.8s"></i><i style="animation-delay: -0.2s"></i><i style="animation-delay: -0.6s"></i><i style="animation-delay: -0.4s"></i><i style="animation-delay: -0.9s"></i><i style="animation-delay: -0.15s"></i><i style="animation-delay: -0.7s"></i><i style="animation-delay: -0.35s"></i><i style="animation-delay: -0.55s"></i>
+      </div>
+      <span class="small" style="font-weight: 600; color: var(--text-2)">{{stateLabel}}</span>
+    </div>
+  </section>
+
+  <section class="glass col rise d2" style="position: absolute; left: 16px; right: 16px; top: 486px; padding: 16px 18px; gap: 8px; border-radius: 18px" aria-live="polite">
+    <span class="label" style="color: {{speakerColor}}">{{speaker}}</span>
+    <sc-if value="{{asking}}" hint-placeholder-val="{{true}}">
+      <p style="margin: 0; font-size: 17px; line-height: 25px; font-weight: 600">You built a campus attendance app. How did you stop students losing check-ins when the network dropped?</p>
+    </sc-if>
+    <sc-if value="{{answering}}" hint-placeholder-val="{{false}}">
+      <p style="margin: 0; font-size: 17px; line-height: 25px; font-weight: 600; color: var(--text-2)">So we cached each check-in locally first, <span style="color: var(--warn); text-decoration: underline wavy rgba(255, 194, 74, 0.7)">basically</span> in a Firestore offline queue, and synced it when the phone came back online<span class="pulse">|</span></p>
+    </sc-if>
+  </section>
+
+  <div class="row" style="position: absolute; left: 16px; right: 16px; top: 650px; gap: 8px">
+    <div class="glass thin col" style="flex: 1; border-radius: 14px; padding: 10px 12px; gap: 2px"><span class="label" style="font-size: 10px">Fillers</span><span class="row" style="align-items: baseline; gap: 4px"><span class="num" style="font-size: 24px; line-height: 26px">{{fillers}}</span><span class="small" style="font-size: 11px">basically ×2</span></span></div>
+    <div class="glass thin col" style="flex: 1; border-radius: 14px; padding: 10px 12px; gap: 2px"><span class="label" style="font-size: 10px">Pace</span><span class="row" style="align-items: baseline; gap: 4px"><span class="num" style="font-size: 24px; line-height: 26px; color: var(--ok)">{{pace}}</span><span class="small" style="font-size: 11px">wpm</span></span></div>
+    <div class="glass thin col" style="flex: 1; border-radius: 14px; padding: 10px 12px; gap: 2px"><span class="label" style="font-size: 10px">Eye contact</span><span class="row" style="align-items: baseline; gap: 4px"><span class="num" style="font-size: 24px; line-height: 26px">{{eye}}</span><span class="small" style="font-size: 11px">%</span></span></div>
+  </div>
+
+  <div class="row" style="position: absolute; left: 20px; right: 20px; bottom: 34px; gap: 12px">
+    <button class="icon-btn" type="button" aria-label="Mute microphone" style="width: 60px; height: 60px"><span class="ms" style="font-size: 26px">mic</span></button>
+    <button class="icon-btn" type="button" aria-label="Hide captions" style="width: 60px; height: 60px"><span class="ms" style="font-size: 26px">closed_caption</span></button>
+    <a class="btn" href="A08-Interview-Report.dc.html" style="flex: 1; height: 60px; color: #FFFFFF; background: linear-gradient(118deg, #FF4D4D, #E8243C); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 14px 30px rgba(232, 36, 60, 0.35)"><span class="ms fill">call_end</span>End</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    this.setState({ t: 192 });
+    this.timer = setInterval(() => {
+      const t = ((this.state && this.state.t) || 192) + 1;
+      this.setState({ t: t });
+    }, 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+  renderVals() {
+    const t = (this.state && this.state.t) || 192;
+    // Alternate every 6 s between the interviewer asking and the candidate answering
+    const answering = Math.floor((t - 192) / 6) % 2 === 1;
+    const mm = Math.floor(t / 60);
+    const ss = String(t % 60).padStart(2, '0');
+    const drift = Math.sin(t / 3);
+    return {
+      clock: '0' + mm + ':' + ss,
+      asking: !answering,
+      answering: answering,
+      speaker: answering ? 'You · live transcript' : 'Interviewer',
+      speakerColor: answering ? 'var(--heat-1)' : 'var(--signal)',
+      stateLabel: answering ? 'Listening to you' : 'Interviewer is speaking',
+      waveColor: answering ? 'var(--heat-1)' : 'var(--signal)',
+      orbScale: answering ? 0.86 : 1,
+      signalGlow: answering ? 0.32 : 0.72,
+      heatGlow: answering ? 0.7 : 0.35,
+      fillers: answering ? 3 : 2,
+      pace: Math.round(140 + drift * 6),
+      eye: Math.round(80 + drift * 4)
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Onboarding: the promise</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./hired.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,200..800;1,200..800&amp;family=Geist+Mono:wght@400;500;600&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..700,0..1,-50..200&amp;display=block">
+<style>
+body{margin:0}
+a{color:inherit}
+</style>
+</helmet>
+<div class="screen" style="width: 390px; height: 844px; font-family: 'Hanken Grotesk', sans-serif">
+  <div class="aurora" aria-hidden="true">
+    <span class="blob heat" style="width: 400px; height: 400px; left: -10px; top: 90px; opacity: 0.4"></span>
+    <span class="blob pink" style="width: 280px; height: 280px; left: 180px; top: 20px; animation-delay: -4s"></span>
+  </div>
+  <svg class="grain" aria-hidden="true"><filter id="grainL"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#grainL)"></rect></svg>
+
+  <a class="btn btn-ghost btn-sm" href="B05-Sign-In.dc.html" style="position: absolute; right: 12px; top: 52px">Skip</a>
+
+  <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 110px; height: 400px">
+    <div class="glass col" style="position: absolute; left: 75px; top: 40px; width: 240px; height: 280px; border-radius: 20px; align-items: center; justify-content: center; transform: rotate(-4deg)">
+      <svg width="170" height="170" viewBox="0 0 170 170">
+        <g transform="rotate(-90 85 85)" fill="none" stroke-width="12">
+          <circle cx="85" cy="85" r="72" style="stroke: var(--track)" stroke-dasharray="{{track}}" stroke-dashoffset="{{q0.off}}"></circle>
+          <circle cx="85" cy="85" r="72" style="stroke: var(--track)" stroke-dasharray="{{track}}" stroke-dashoffset="{{q1.off}}"></circle>
+          <circle cx="85" cy="85" r="72" style="stroke: var(--track)" stroke-dasharray="{{track}}" stroke-dashoffset="{{q2.off}}"></circle>
+          <circle cx="85" cy="85" r="72" style="stroke: var(--track)" stroke-dasharray="{{track}}" stroke-dashoffset="{{q3.off}}"></circle>
+          <circle cx="85" cy="85" r="72" style="stroke: var(--text)" stroke-dasharray="{{q0.dash}}" stroke-dashoffset="{{q0.off}}"></circle>
+          <circle cx="85" cy="85" r="72" style="stroke: var(--warn)" stroke-dasharray="{{q1.dash}}" stroke-dashoffset="{{q1.off}}"></circle>
+          <circle cx="85" cy="85" r="72" style="stroke: var(--text)" stroke-dasharray="{{q2.dash}}" stroke-dashoffset="{{q2.off}}"></circle>
+          <circle cx="85" cy="85" r="72" style="stroke: var(--text)" stroke-dasharray="{{q3.dash}}" stroke-dashoffset="{{q3.off}}"></circle>
+        </g>
+        <text x="85" y="101" text-anchor="middle" style="font-family: 'Hanken Grotesk', sans-serif; font-weight: 300; font-size: 50px; fill: var(--text); letter-spacing: -2px">62</text>
+      </svg>
+      <span class="label" style="margin-top: 10px">Readiness</span>
+    </div>
+    <span class="glass thin pill row rise" style="position: absolute; left: 22px; top: 16px; height: 40px; padding: 0 14px 0 10px; gap: 6px; font-size: 13px; font-weight: 600; transform: rotate(-6deg); animation-delay: 0.3s"><span class="ms" style="font-size: 18px; color: var(--heat-1)">description</span>Resume 74</span>
+    <span class="glass thin pill row rise" style="position: absolute; right: 18px; top: 120px; height: 40px; padding: 0 14px 0 10px; gap: 6px; font-size: 13px; font-weight: 600; transform: rotate(5deg); animation-delay: 0.6s"><span class="ms" style="font-size: 18px; color: var(--ok)">trending_up</span>+6 after a mock</span>
+    <span class="glass thin pill row rise" style="position: absolute; left: 40px; top: 312px; height: 40px; padding: 0 14px 0 10px; gap: 6px; font-size: 13px; font-weight: 600; transform: rotate(3deg); animation-delay: 0.9s"><span class="ms" style="font-size: 18px; color: var(--signal)">mic</span>Next: a 10-minute mock</span>
+  </div>
+
+  <div class="col" style="position: absolute; left: 24px; right: 24px; bottom: 40px; gap: 22px">
+    <div class="col" style="gap: 10px">
+      <h1 class="h1" style="font-size: 38px; line-height: 41px">One number for <em>how ready</em> you are.</h1>
+      <p class="body" style="font-size: 16px; line-height: 24px">Hired turns your resume, interviews and presence into a score, then shows you the fastest way to raise it.</p>
+    </div>
+    <div class="row" style="justify-content: space-between">
+      <span class="row" style="gap: 6px" aria-label="Page 1 of 3"><span style="width: 24px; height: 6px; border-radius: 999px; background: var(--text)"></span><span style="width: 6px; height: 6px; border-radius: 999px; background: var(--text-3)"></span><span style="width: 6px; height: 6px; border-radius: 999px; background: var(--text-3)"></span></span>
+      <a class="btn btn-heat" href="B03-Onboarding-Score.dc.html">Next<span class="ms">arrow_forward</span></a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const period = (2 * Math.PI * 72) / 60;
+    const tick = 2.6;
+    const pair = tick + ' ' + (period - tick).toFixed(3) + ' ';
+    const ticks = (n) => { let out = ''; for (let i = 0; i < n; i++) out += pair; return out + '0 900'; };
+    const q = [74, 50, 62, 66].map((s, i) => ({
+      off: (-((i * 15 + 1) * period - tick / 2)).toFixed(2),
+      dash: ticks(Math.round((14 * s) / 100))
+    }));
+    return { track: ticks(14), q0: q[0], q1: q[1], q2: q[2], q3: q[3] };
+  }
+}
+</script>
+</body>
+</html>

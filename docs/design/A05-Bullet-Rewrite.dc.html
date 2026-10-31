@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rewrite a bullet</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./hired.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,200..800;1,200..800&amp;family=Geist+Mono:wght@400;500;600&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..700,0..1,-50..200&amp;display=block">
+<style>
+body{margin:0}
+a{color:inherit}
+</style>
+</helmet>
+<div class="screen" style="width: 390px; height: 844px; font-family: 'Hanken Grotesk', sans-serif">
+  <div class="aurora" aria-hidden="true">
+    <span class="blob heat" style="width: 380px; height: 380px; left: 6px; top: 20px"></span>
+    <span class="blob pink" style="width: 260px; height: 260px; left: 210px; top: 240px; animation-delay: -4s"></span>
+  </div>
+
+  <div class="col" aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 70px; align-items: center; gap: 8px; opacity: 0.6; transform: scale(0.94)">
+    <span class="num" style="font-size: 92px; line-height: 92px">71%</span>
+    <span class="h2">A good fit, with four gaps</span>
+  </div>
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(6, 4, 3, 0.55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px)"></div>
+
+  <section class="glass col rise d2" role="dialog" aria-label="Rewrite bullet" style="position: absolute; left: 0; right: 0; top: 136px; bottom: 0; border-radius: 20px 36px 0 0; padding: 10px 20px 30px; gap: 16px">
+    <span style="align-self: center; width: 40px; height: 5px; border-radius: 999px; background: var(--text-3)"></span>
+    <div class="row" style="justify-content: space-between">
+      <h1 class="h2" style="font-size: 22px">Rewrite this bullet</h1>
+      <a class="icon-btn" href="A04-Resume-Result.dc.html" aria-label="Close" style="width: 38px; height: 38px"><span class="ms" style="font-size: 20px">close</span></a>
+    </div>
+
+    <div class="col" style="gap: 6px">
+      <span class="label">Before</span>
+      <p class="body" style="color: var(--text-3); text-decoration: line-through; text-decoration-color: rgba(255, 99, 99, 0.6)">Worked on a college attendance app using Flutter and Firebase.</p>
+    </div>
+
+    <div class="seg" style="background: rgba(255, 255, 255, 0.05); box-shadow: inset 0 0 0 1px var(--hair)" role="tablist" aria-label="Rewrite options">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+        <button class="{{t.cls}}" type="button" role="tab" aria-selected="{{t.on}}" onClick="{{t.pick}}">{{t.label}}</button>
+      </sc-for>
+    </div>
+
+    <div style="padding: 1px; border-radius: 25px; background: linear-gradient(130deg, rgba(255, 122, 47, 0.9), rgba(255, 61, 110, 0.4) 50%, rgba(255, 255, 255, 0.08))">
+      <div class="solid col" style="border-radius: 18px; padding: 18px; gap: 14px">
+        <span class="label" style="color: var(--heat-1)">After · {{opt.angle}}</span>
+        <p class="rise" style="margin: 0; font-size: 18px; line-height: 28px; font-weight: 600">
+          <sc-for list="{{opt.parts}}" as="p" hint-placeholder-count="5"><sc-if value="{{p.plain}}" hint-placeholder-val="{{true}}"><span>{{p.t}}</span></sc-if><sc-if value="{{p.add}}" hint-placeholder-val="{{false}}"><span style="background: linear-gradient(transparent 62%, rgba(255, 122, 47, 0.42) 62%)">{{p.t}}</span></sc-if><sc-if value="{{p.ph}}" hint-placeholder-val="{{false}}"><span style="padding: 1px 7px; border-radius: 8px; color: var(--warn); background: rgba(255, 194, 74, 0.12); box-shadow: inset 0 0 0 1px rgba(255, 194, 74, 0.55)">{{p.t}}</span></sc-if></sc-for>
+        </p>
+        <div class="row" style="gap: 6px; flex-wrap: wrap">
+          <span class="small" style="color: var(--text-3)">Uses from the JD</span>
+          <sc-for list="{{opt.keys}}" as="k" hint-placeholder-count="2"><span class="tag signal">{{k}}</span></sc-for>
+        </div>
+      </div>
+    </div>
+
+    <p class="row small" style="margin: 0; gap: 8px; align-items: flex-start"><span class="ms" style="font-size: 18px; color: var(--warn)">info</span>Fill the yellow placeholders with your real numbers. Hired never guesses them.</p>
+
+    <div class="row" style="gap: 10px; margin-top: auto">
+      <button class="btn btn-glass" type="button" style="padding: 0 20px"><span class="ms">refresh</span>Again</button>
+      <a class="btn btn-heat" href="A04-Resume-Result.dc.html" style="flex: 1"><span class="ms">check</span>Use this</a>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const sel = (this.state && this.state.sel) || 0;
+    const P = (t) => ({ t: t, plain: true, add: false, ph: false });
+    const A = (t) => ({ t: t, plain: false, add: true, ph: false });
+    const H = (t) => ({ t: t, plain: false, add: false, ph: true });
+    const options = [
+      { angle: 'impact first', keys: ['Firebase', 'impact'], parts: [A('Built'), P(' a Flutter and Firebase attendance app used by '), H('[X] students'), P(', '), A('cutting roll-call from '), H('[Y]'), A(' to '), H('[Z] minutes'), P('.')] },
+      { angle: 'technical depth', keys: ['offline sync', 'Firebase'], parts: [A('Designed'), P(' offline-first attendance sync on Firebase that '), A('keeps every check-in when the network drops'), P(', across '), H('[X] daily check-ins'), P('.')] },
+      { angle: 'ownership', keys: ['ownership', 'mobile'], parts: [A('Owned'), P(' the Flutter app end to end: UI, Firestore data model and '), A('push reminders'), P(' for '), H('[X] users'), P('.')] }
+    ];
+    const tabs = options.map((o, i) => ({
+      label: 'Option ' + (i + 1),
+      on: i === sel ? 'true' : 'false',
+      cls: i === sel ? 'on' : '',
+      pick: () => this.setState({ sel: i })
+    }));
+    return { tabs: tabs, opt: options[sel] };
+  }
+}
+</script>
+</body>
+</html>

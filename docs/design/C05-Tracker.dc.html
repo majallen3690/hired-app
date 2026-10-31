@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Applications tracker</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./hired.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,200..800;1,200..800&amp;family=Geist+Mono:wght@400;500;600&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..700,0..1,-50..200&amp;display=block">
+<style>
+body{margin:0}
+a{color:inherit}
+</style>
+</helmet>
+<div class="screen" style="width: 390px; height: 844px; font-family: 'Hanken Grotesk', sans-serif">
+  <div class="aurora" aria-hidden="true">
+    <span class="blob signal" style="width: 300px; height: 300px; left: 180px; top: -80px; opacity: 0.4"></span>
+    <span class="blob heat" style="width: 320px; height: 320px; left: -160px; top: 300px; opacity: 0.5; animation-delay: -7s"></span>
+  </div>
+  <svg class="grain" aria-hidden="true"><filter id="grainV"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#grainV)"></rect></svg>
+
+  <main class="safe col" style="gap: 14px">
+    <header class="row rise" style="justify-content: space-between">
+      <div class="col" style="gap: 2px"><span class="small" style="color: var(--text-3)">8 companies</span><h1 class="h1">Applications</h1></div>
+      <button class="icon-btn" type="button" aria-label="Add application" style="width: 48px; height: 48px; color: var(--on-heat); background: var(--heat-1); box-shadow: 0 10px 24px rgba(255, 74, 90, 0.35)"><span class="ms" style="font-size: 26px">add</span></button>
+    </header>
+
+    <div class="row" style="gap: 6px; margin: 0 -20px; padding: 0 20px; overflow: hidden" role="tablist" aria-label="Filter by stage">
+      <sc-for list="{{filters}}" as="f" hint-placeholder-count="6"><button type="button" role="tab" aria-selected="{{f.on}}" class="{{f.cls}}" onClick="{{f.pick}}" style="height: 34px; font-size: 13px">{{f.label}}<span style="opacity: 0.6">{{f.count}}</span></button></sc-for>
+    </div>
+
+    <div class="glass row" style="padding: 12px 12px 12px 14px; gap: 12px; border-radius: 18px; background: linear-gradient(155deg, rgba(255, 194, 74, 0.20), rgba(255, 255, 255, 0.04) 70%)">
+      <span class="row" style="width: 40px; height: 40px; border-radius: 999px; justify-content: center; flex: none; background: rgba(255, 194, 74, 0.18); color: var(--warn)"><span class="ms fill">notifications_active</span></span>
+      <span class="col" style="flex: 1; gap: 1px"><span style="font-size: 14px; font-weight: 600">Follow up with Swiggy today</span><span class="small">5 days since you applied</span></span>
+      <button class="btn btn-glass btn-sm" type="button" style="height: 36px; padding: 0 14px; font-size: 13px">Draft</button>
+    </div>
+
+    <ul class="col" style="margin: 0; padding: 0; list-style: none; gap: 8px">
+      <sc-for list="{{apps}}" as="a" hint-placeholder-count="6">
+        <li class="glass thin row" style="border-radius: 16px; padding: 11px 12px; gap: 12px">
+          <span class="row" style="width: 42px; height: 42px; border-radius: 14px; justify-content: center; flex: none; font-family: 'Geist Mono', monospace; font-weight: 500; font-size: 17px; background: {{a.tileBg}}; color: {{a.tileFg}}">{{a.initial}}</span>
+          <span class="col" style="flex: 1; min-width: 0; gap: 1px"><span style="font-size: 14px; font-weight: 600">{{a.company}}</span><span class="small" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{a.role}} · {{a.when}}</span></span>
+          <span class="tag" style="color: {{a.stageFg}}; background: {{a.stageBg}}">{{a.stage}}</span>
+        </li>
+      </sc-for>
+    </ul>
+  </main>
+
+  <div class="fade-bottom" aria-hidden="true"></div>
+  <nav class="tabbar glass" aria-label="Main">
+    <a class="tab" href="A01-Home.dc.html"><span class="ms">home</span>Home</a>
+    <a class="tab" href="A02-Resume-Input.dc.html"><span class="ms">description</span>Resume</a>
+    <a class="tab" href="A06-Interview-Setup.dc.html"><span class="ms">mic</span>Interview</a>
+    <a class="tab on" href="C05-Tracker.dc.html" aria-current="page"><span class="ms">work</span>Tracker</a>
+    <a class="tab" href="C07-Progress.dc.html"><span class="ms">insights</span>Progress</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const sel = (this.state && this.state.f) || 'All';
+    const stages = {
+      Wishlist: ['var(--text-2)', 'rgba(255, 255, 255, 0.06)'],
+      Applied: ['var(--text)', 'rgba(255, 255, 255, 0.12)'],
+      OA: ['var(--warn)', 'rgba(255, 194, 74, 0.14)'],
+      Interview: ['var(--signal)', 'rgba(79, 240, 210, 0.14)'],
+      Offer: ['var(--ok)', 'rgba(124, 227, 139, 0.14)'],
+      Rejected: ['var(--bad)', 'rgba(255, 99, 99, 0.12)']
+    };
+    const tiles = [
+      ['rgba(255, 255, 255, 0.08)', '#F3F2EF']
+    ];
+    const data = [
+      ['Zoho', 'Member Technical Staff', 'Interview', 'tomorrow 10:30'],
+      ['Razorpay', 'SDE-1, Payments', 'OA', 'due Sunday'],
+      ['Juspay', 'Product Engineer', 'Offer', 'reply by 6 Nov'],
+      ['Swiggy', 'Software Engineer I', 'Applied', '5 days ago'],
+      ['Freshworks', 'Software Engineer', 'Applied', '3 days ago'],
+      ['Atlassian', 'Graduate SDE', 'OA', 'result pending'],
+      ['Google', 'Software Engineer, Early career', 'Wishlist', 'saved'],
+      ['PhonePe', 'SDE-1', 'Rejected', 'after OA']
+    ];
+    const all = data.map((d, i) => ({
+      company: d[0], role: d[1], stage: d[2], when: d[3], initial: d[0][0],
+      tileBg: tiles[i % tiles.length][0], tileFg: tiles[i % tiles.length][1],
+      stageFg: stages[d[2]][0], stageBg: stages[d[2]][1]
+    }));
+    const names = ['All', 'Applied', 'OA', 'Interview', 'Offer', 'Wishlist', 'Rejected'];
+    const filters = names.map((n) => ({
+      label: n + ' ',
+      count: n === 'All' ? all.length : all.filter((a) => a.stage === n).length,
+      on: n === sel ? 'true' : 'false',
+      cls: n === sel ? 'chip on' : 'chip',
+      pick: () => this.setState({ f: n })
+    }));
+    return { filters: filters, apps: sel === 'All' ? all.slice(0, 6) : all.filter((a) => a.stage === sel) };
+  }
+}
+</script>
+</body>
+</html>

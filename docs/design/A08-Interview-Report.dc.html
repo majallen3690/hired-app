@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Interview report</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./hired.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,200..800;1,200..800&amp;family=Geist+Mono:wght@400;500;600&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..700,0..1,-50..200&amp;display=block">
+<style>
+body{margin:0}
+a{color:inherit}
+</style>
+</helmet>
+<div class="screen" style="width: 390px; height: 1680px; font-family: 'Hanken Grotesk', sans-serif">
+  <div class="aurora" aria-hidden="true">
+    <span class="blob heat" style="width: 400px; height: 400px; left: -40px; top: -40px"></span>
+    <span class="blob signal" style="width: 300px; height: 300px; left: 200px; top: 420px; opacity: 0.35; animation-delay: -6s"></span>
+    <span class="blob pink" style="width: 300px; height: 300px; left: -160px; top: 1050px; opacity: 0.4; animation-delay: -10s"></span>
+  </div>
+  <svg class="grain" aria-hidden="true"><filter id="grainH"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#grainH)"></rect></svg>
+
+  <main class="safe col" style="gap: 14px">
+    <header class="row rise" style="justify-content: space-between">
+      <a class="icon-btn" href="A09-Home-After.dc.html" aria-label="Close report"><span class="ms">close</span></a>
+      <span style="font-size: 15px; font-weight: 600">Technical round · Razorpay</span>
+      <button class="icon-btn" type="button" aria-label="Share report"><span class="ms">ios_share</span></button>
+    </header>
+
+    <section class="col rise" style="gap: 6px; padding: 10px 4px 4px" aria-label="Overall">
+      <span class="row" style="gap: 10px; align-items: flex-end">
+        <span class="num heat-text" style="font-size: 120px; line-height: 104px">66</span>
+        <span class="col" style="gap: 6px; padding-bottom: 10px">
+          <span class="tag ok" style="height: 28px; font-size: 12px"><span class="ms" style="font-size: 16px">arrow_upward</span>16 since last mock</span>
+          <span class="small">Interview score</span>
+        </span>
+      </span>
+      <h1 class="h1" style="font-size: 26px; line-height: 31px">Clear thinking. <em>Land your results.</em></h1>
+      <span class="small" style="color: var(--text-3)">12 min 04 s · 5 questions · today, 18:42</span>
+    </section>
+
+    <section class="rise" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; animation-delay: 120ms" aria-label="Rubric">
+      <sc-for list="{{rubric}}" as="r" hint-placeholder-count="4">
+        <div class="glass thin col" style="border-radius: 16px; padding: 14px; gap: 8px">
+          <span class="small" style="font-weight: 600">{{r.label}}</span>
+          <span class="row" style="align-items: baseline; gap: 3px"><span class="num" style="font-size: 30px; line-height: 30px">{{r.v}}</span><span class="small" style="color: var(--text-3)">/ 5</span></span>
+          <span class="row" style="gap: 4px" aria-hidden="true"><sc-for list="{{r.dots}}" as="d" hint-placeholder-count="5"><span style="flex: 1; height: 5px; border-radius: 999px; background: {{d}}"></span></sc-for></span>
+        </div>
+      </sc-for>
+    </section>
+
+    <section class="glass col rise" style="padding: 16px 14px 12px; gap: 10px; animation-delay: 240ms" aria-label="Pace and eye contact over the session">
+      <div class="row" style="justify-content: space-between; padding: 0 4px">
+        <h2 class="h2" style="font-size: 18px">How you sounded</h2>
+        <span class="row small" style="gap: 10px"><span class="row" style="gap: 5px"><span style="width: 14px; height: 3px; border-radius: 2px; background: var(--heat-1)"></span>Pace</span><span class="row" style="gap: 5px"><span style="width: 14px; height: 3px; border-radius: 2px; background: var(--signal)"></span>Eye contact</span></span>
+      </div>
+      <svg width="334" height="176" viewBox="0 0 334 176" role="img" aria-label="Pace peaked at 162 words per minute during question 2, then settled near 140. Eye contact rose from 72 to 86 percent.">
+        <defs>
+          <linearGradient id="paceFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color: var(--heat-1); stop-opacity: 0.35"></stop><stop offset="1" style="stop-color: var(--heat-1); stop-opacity: 0"></stop></linearGradient>
+        </defs>
+        <rect x="24" y="16" width="304" height="124" rx="10" style="fill: rgba(255, 255, 255, 0.03)"></rect>
+        <g style="stroke: rgba(255, 255, 255, 0.12)" stroke-dasharray="3 4">
+          <line x1="30" y1="16" x2="30" y2="140"></line>
+          <line x1="88.4" y1="16" x2="88.4" y2="140"></line>
+          <line x1="154.1" y1="16" x2="154.1" y2="140"></line>
+          <line x1="214.9" y1="16" x2="214.9" y2="140"></line>
+          <line x1="273.3" y1="16" x2="273.3" y2="140"></line>
+        </g>
+        <g text-anchor="middle" font-size="10" font-weight="700" style="fill: var(--text-3); font-family: Geist, sans-serif">
+          <text x="30" y="160">Q1</text>
+          <text x="88.4" y="160">Q2</text>
+          <text x="154.1" y="160">Q3</text>
+          <text x="214.9" y="160">Q4</text>
+          <text x="273.3" y="160">Q5</text>
+        </g>
+        <path d="{{paceArea}}" style="fill: url(#paceFill)"></path>
+        <path d="{{pacePath}}" fill="none" style="stroke: var(--heat-1)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></path>
+        <path d="{{eyePath}}" fill="none" style="stroke: var(--signal)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></path>
+        <circle cx="{{peak.x}}" cy="{{peak.y}}" r="5" style="fill: var(--heat-1); stroke: #0B0907" stroke-width="2"></circle>
+        <text x="{{peak.x}}" y="{{peak.ty}}" text-anchor="middle" font-size="10.5" font-weight="800" style="fill: var(--text); font-family: Geist, sans-serif">162 wpm, a bit fast</text>
+        <text x="20" y="22" text-anchor="end" font-size="9" style="fill: var(--text-3); font-family: Geist, sans-serif">fast</text>
+        <text x="20" y="140" text-anchor="end" font-size="9" style="fill: var(--text-3); font-family: Geist, sans-serif">slow</text>
+      </svg>
+    </section>
+
+    <section class="col rise" style="gap: 10px; animation-delay: 360ms" aria-label="Question by question">
+      <h2 class="h2" style="font-size: 18px; padding: 6px 4px 0">Question by question</h2>
+      <div class="glass thin row" style="border-radius: 16px; padding: 14px 16px; gap: 12px"><span class="num" style="font-size: 15px; color: var(--text-3); width: 22px">Q1</span><span style="flex: 1; font-weight: 600; font-size: 14px">Walk me through your resume</span><span class="tag ok">4.2</span></div>
+
+      <div style="padding: 1px; border-radius: 25px; background: linear-gradient(130deg, rgba(255, 122, 47, 0.85), rgba(255, 255, 255, 0.08) 60%)">
+        <div class="solid col" style="border-radius: 18px; padding: 16px; gap: 12px">
+          <div class="row" style="gap: 12px; align-items: flex-start"><span class="num" style="font-size: 15px; color: var(--heat-1); width: 22px; padding-top: 2px">Q2</span><span style="flex: 1; font-weight: 600; font-size: 15px; line-height: 21px">How did you stop check-ins being lost offline?</span><span class="tag warn">3.4</span></div>
+          <div class="row" style="gap: 6px; padding-left: 34px">
+            <span class="tag ok">S</span><span class="tag ok">T</span><span class="tag ok">A</span><span class="tag bad"><span class="ms" style="font-size: 13px">close</span>R</span>
+            <span class="small" style="margin-left: 4px">Result missing</span>
+          </div>
+          <div class="col" style="gap: 4px; padding-left: 34px"><span class="label" style="color: var(--ok)">Worked</span><span class="small" style="color: var(--text)">Named the offline queue and the sync trigger clearly.</span></div>
+          <div class="col" style="gap: 4px; padding-left: 34px"><span class="label" style="color: var(--warn)">Fix</span><span class="small" style="color: var(--text)">End with the outcome: how many check-ins it saved, or what broke before.</span></div>
+          <button type="button" class="btn btn-glass btn-sm" style="align-self: flex-start; margin-left: 34px; height: 38px; font-size: 13px"><span class="ms" style="font-size: 18px">lightbulb</span>See a model answer</button>
+        </div>
+      </div>
+
+      <div class="glass thin row" style="border-radius: 16px; padding: 14px 16px; gap: 12px"><span class="num" style="font-size: 15px; color: var(--text-3); width: 22px">Q3</span><span style="flex: 1; font-weight: 600; font-size: 14px">Design an expense-split API</span><span class="tag warn">3.6</span></div>
+      <div class="glass thin row" style="border-radius: 16px; padding: 14px 16px; gap: 12px"><span class="num" style="font-size: 15px; color: var(--text-3); width: 22px">Q4</span><span style="flex: 1; font-weight: 600; font-size: 14px">A bug you shipped and fixed</span><span class="tag ok">4.0</span></div>
+      <div class="glass thin row" style="border-radius: 16px; padding: 14px 16px; gap: 12px"><span class="num" style="font-size: 15px; color: var(--text-3); width: 22px">Q5</span><span style="flex: 1; font-weight: 600; font-size: 14px">Why payments, why Razorpay?</span><span class="tag warn">3.1</span></div>
+    </section>
+
+    <section class="col rise" style="gap: 12px; padding: 8px 4px 0; animation-delay: 480ms" aria-label="Top 3 fixes">
+      <h2 class="h2" style="font-size: 18px">Your top 3 fixes</h2>
+      <ol class="col" style="margin: 0; padding: 0; list-style: none; gap: 12px">
+        <li class="row" style="gap: 14px; align-items: flex-start"><span class="num heat-text" style="font-size: 26px; line-height: 22px; width: 18px">1</span><span class="body" style="color: var(--text)">Finish every story with a result, even a rough number.</span></li>
+        <li class="row" style="gap: 14px; align-items: flex-start"><span class="num heat-text" style="font-size: 26px; line-height: 22px; width: 18px">2</span><span class="body" style="color: var(--text)">Slow down when the question gets technical. Aim for 140.</span></li>
+        <li class="row" style="gap: 14px; align-items: flex-start"><span class="num heat-text" style="font-size: 26px; line-height: 22px; width: 18px">3</span><span class="body" style="color: var(--text)">Research Razorpay's products before your "why us" answer.</span></li>
+      </ol>
+    </section>
+  </main>
+
+  <div class="fade-bottom" aria-hidden="true"></div>
+  <div class="dock">
+    <a class="btn btn-glass" href="A06-Interview-Setup.dc.html" style="padding: 0 20px"><span class="ms">replay</span>Again</a>
+    <a class="btn btn-heat" href="A09-Home-After.dc.html" style="flex: 1">See my new score<span class="ms">arrow_forward</span></a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1680}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const pace = [128, 135, 150, 162, 158, 141, 138, 146, 152, 139, 136, 140, 138];
+    const eye = [72, 76, 80, 74, 70, 78, 84, 86, 82, 85, 88, 84, 86];
+    const x0 = 30;
+    const w = 292;
+    const top = 22;
+    const h = 112;
+    const xs = (i) => x0 + (w * i) / (pace.length - 1);
+    const py = (p) => top + h - ((p - 110) / (180 - 110)) * h;
+    const ey = (e) => top + h - ((e - 50) / 50) * h;
+    const line = (arr, fy) => arr.map((v, i) => (i ? 'L' : 'M') + xs(i).toFixed(1) + ' ' + fy(v).toFixed(1)).join(' ');
+    const pacePath = line(pace, py);
+    const paceArea = pacePath + ' L' + xs(pace.length - 1).toFixed(1) + ' 140 L' + x0 + ' 140 Z';
+    const qStarts = [0, 2.4, 5.1, 7.6, 10];
+    const marks = qStarts.map((m, i) => ({ x: (x0 + (w * m) / 12).toFixed(1), label: 'Q' + (i + 1) }));
+    const peak = { x: xs(3).toFixed(1), y: py(162).toFixed(1), ty: (py(162) - 10).toFixed(1) };
+    const dotsFor = (v) => [1, 2, 3, 4, 5].map((n) => (v >= n - 0.25 ? 'linear-gradient(90deg, var(--heat-1), var(--heat-2))' : 'var(--track)'));
+    const rubric = [
+      { label: 'STAR structure', v: '3.6' },
+      { label: 'Clarity', v: '4.1' },
+      { label: 'Relevance', v: '3.9' },
+      { label: 'Depth', v: '3.2' }
+    ].map((r) => ({ label: r.label, v: r.v, dots: dotsFor(parseFloat(r.v)) }));
+    return { pacePath: pacePath, paceArea: paceArea, eyePath: line(eye, ey), marks: marks, peak: peak, rubric: rubric };
+  }
+}
+</script>
+</body>
+</html>

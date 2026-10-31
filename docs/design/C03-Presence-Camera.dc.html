@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Presence check camera</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="./hired.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,200..800;1,200..800&amp;family=Geist+Mono:wght@400;500;600&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..700,0..1,-50..200&amp;display=block">
+<style>
+body{margin:0}
+a{color:inherit}
+</style>
+</helmet>
+<div class="screen" style="width: 390px; height: 844px; font-family: 'Hanken Grotesk', sans-serif; background: #0E0A08">
+  <div aria-label="Front camera preview" role="img" style="position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 38%, #4A372C 0%, #241913 45%, #0E0A08 80%)">
+    <span class="ms fill" aria-hidden="true" style="position: absolute; left: 50%; top: 58%; transform: translate(-50%, -50%); width: 420px; height: 420px; font-size: 420px; color: rgba(255, 226, 205, 0.16)">person</span>
+    <span aria-hidden="true" style="position: absolute; left: 50%; top: 32%; transform: translate(-50%, -50%); width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 210, 170, 0.18), rgba(255, 210, 170, 0) 65%)"></span>
+  </div>
+  <svg class="grain" aria-hidden="true"><filter id="grainT"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence></filter><rect width="100%" height="100%" filter="url(#grainT)"></rect></svg>
+
+  <div aria-hidden="true" style="position: absolute; left: 50%; top: 312px; transform: translate(-50%, -50%); width: 214px; height: 274px; border-radius: 50%; border: 2px dashed rgba(79, 240, 210, 0.9); box-shadow: 0 0 0 9999px rgba(7, 5, 4, 0.38), 0 0 40px rgba(79, 240, 210, 0.25) inset"></div>
+
+  <header class="col" style="position: absolute; left: 16px; right: 16px; top: 54px; gap: 12px">
+    <div class="row" style="justify-content: space-between">
+      <a class="icon-btn" href="A01-Home.dc.html" aria-label="Close"><span class="ms">close</span></a>
+      <span style="font-size: 15px; font-weight: 600">Presence check</span>
+      <button class="icon-btn" type="button" aria-label="Flash off"><span class="ms">flash_off</span></button>
+    </div>
+    <div class="seg glass" style="border-radius: 999px">
+      <sc-for list="{{occasions}}" as="o" hint-placeholder-count="4"><button type="button" class="{{o.cls}}" aria-pressed="{{o.on}}" onClick="{{o.pick}}" style="font-size: 13px">{{o.label}}</button></sc-for>
+    </div>
+  </header>
+
+  <div class="col" style="position: absolute; left: 16px; top: 486px; gap: 8px">
+    <span class="glass thin pill row" style="height: 34px; padding: 0 12px 0 8px; gap: 6px; font-size: 13px; font-weight: 600"><span class="ms fill" style="font-size: 18px; color: var(--ok)">check_circle</span>Face centred</span>
+    <span class="glass thin pill row" style="height: 34px; padding: 0 12px 0 8px; gap: 6px; font-size: 13px; font-weight: 600"><span class="ms fill" style="font-size: 18px; color: var(--ok)">check_circle</span>Good light on your face</span>
+    <span class="glass thin pill row" style="height: 34px; padding: 0 12px 0 8px; gap: 6px; font-size: 13px; font-weight: 600"><span class="ms fill" style="font-size: 18px; color: var(--warn)">error</span>Tilt your head 4° left</span>
+  </div>
+
+  <div class="glass col" style="position: absolute; left: 0; right: 0; bottom: 0; height: 176px; border-radius: 20px 34px 0 0; padding: 18px 28px 0; gap: 14px; align-items: center">
+    <span class="small" style="font-weight: 600; color: var(--text)">{{hint}}</span>
+    <div class="row" style="width: 100%; justify-content: space-between">
+      <button class="icon-btn" type="button" aria-label="Choose from gallery" style="width: 52px; height: 52px"><span class="ms">photo_library</span></button>
+      <a href="C04-Presence-Result.dc.html" aria-label="Take photo" style="width: 82px; height: 82px; border-radius: 999px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 4px #F7F1EC"><span style="width: 64px; height: 64px; border-radius: 999px; background: #F7F1EC"></span></a>
+      <button class="icon-btn" type="button" aria-label="Switch camera" style="width: 52px; height: 52px"><span class="ms">cameraswitch</span></button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const sel = (this.state && this.state.sel) ?? 0;
+    const labels = ['Interview', 'Client', 'LinkedIn', 'Office'];
+    const hints = [
+      'Interview look: we check attire, grooming, light and expression',
+      'Client meeting: smart casual is fine, light matters most',
+      'LinkedIn photo: shoulders up, plain background, real smile',
+      'Office day: neat and comfortable, we check the basics'
+    ];
+    return {
+      hint: hints[sel],
+      occasions: labels.map((l, i) => ({ label: l, on: i === sel ? 'true' : 'false', cls: i === sel ? 'on' : '', pick: () => this.setState({ sel: i }) }))
+    };
+  }
+}
+</script>
+</body>
+</html>
