@@ -1,0 +1,25 @@
+Software Development Engineer I - Payments Platform
+
+About the role
+You will build and operate backend services that process millions of payments every day. You will work in a small team, own features end to end, and ship to production weekly.
+
+What you will do
+- Design and build RESTful microservices in Java and Spring Boot
+- Write clean, tested code and take part in code reviews
+- Model data in PostgreSQL and optimise slow queries
+- Integrate with message queues such as Kafka for event-driven workflows
+- Containerise services with Docker and deploy them on AWS
+- Monitor services in production and help fix incidents
+
+What we are looking for
+- Strong fundamentals in data structures, algorithms and object-oriented design
+- Hands-on experience with Java or Kotlin and SQL
+- Understanding of REST APIs, authentication and basic system design
+- Experience with Git and CI/CD pipelines
+- Evidence of impact: you quantify what you built and improved
+- Good communication and a willingness to learn quickly
+
+Nice to have
+- Experience with Kafka, Redis or other distributed systems tools
+- Knowledge of the payments or fintech domain
+- Contributions to open source projects
