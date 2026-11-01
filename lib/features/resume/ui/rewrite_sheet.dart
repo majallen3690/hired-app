@@ -12,6 +12,8 @@ import '../resume_flow.dart';
 void showRewriteSheet(BuildContext context, {required String bullet}) {
   showModalBottomSheet<void>(
     context: context,
+    useRootNavigator: true,
+    useSafeArea: true,
     isScrollControlled: true,
     backgroundColor: context.hc.ink2,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(HiredRadii.card))),
@@ -73,7 +75,7 @@ class _RewriteSheetState extends ConsumerState<_RewriteSheet> {
     final rewrites = _rewrites;
     return Padding(
       padding: EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.screen, HiredSpace.screen,
-          HiredSpace.screen + MediaQuery.of(context).viewInsets.bottom),
+          HiredSpace.screen + MediaQuery.viewPaddingOf(context).bottom),
       child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
         const SectionLabel('Before'),
         const SizedBox(height: 6),

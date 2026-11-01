@@ -197,10 +197,15 @@ void showEvidence(BuildContext context, String title, String evidence) {
   final c = context.hc;
   showModalBottomSheet<void>(
     context: context,
+    useRootNavigator: true,
+    useSafeArea: true,
     backgroundColor: c.ink2,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(HiredRadii.card))),
-    builder: (_) => Padding(
-      padding: const EdgeInsets.all(HiredSpace.screen),
+    builder: (sheet) => Padding(
+      // useSafeArea leaves the bottom alone, so clear the system navigation bar here.
+      padding: EdgeInsets.fromLTRB(
+          HiredSpace.screen, HiredSpace.screen, HiredSpace.screen,
+          HiredSpace.screen + MediaQuery.viewPaddingOf(sheet).bottom),
       child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
         const SectionLabel('Evidence'),
         const SizedBox(height: HiredSpace.sm),

@@ -25,6 +25,7 @@ class ResumeAi {
           'name': _str(),
           'skills': Schema.array(items: _str()),
           'education': Schema.array(items: _str()),
+          'certifications': Schema.array(items: _str()),
           'experience': Schema.array(
             items: Schema.object(properties: {
               'company': _str(),
@@ -45,8 +46,17 @@ class ResumeAi {
         if ((j['name'] as String).isEmpty) throw const FormatException('no name');
         return j;
       },
+      temperature: 0,
     );
   }
+
+  /// Every string in the parsed resume, flattened, for checking that cited evidence really is there.
+  static String _resumeText(Object? node) => switch (node) {
+        String s => s,
+        List l => l.map(_resumeText).join('\n'),
+        Map m => m.values.map(_resumeText).join('\n'),
+        _ => '',
+      };
 
   Future<MatchResult> match(Map<String, dynamic> resume, String jd) {
     return generateStructured<MatchResult>(
@@ -86,10 +96,11 @@ class ResumeAi {
         },
       ),
       parse: (j) {
-        final r = MatchResult.fromJson(j);
+        final r = MatchResult.fromJson(j).withVerifiedEvidence(_resumeText(resume));
         if (r.requirements.isEmpty) throw const FormatException('no requirements');
         return r;
       },
+      temperature: 0,
     );
   }
 
@@ -97,9 +108,11 @@ class ResumeAi {
   Future<List<Rewrite>> rewrite(String bullet, String jd) {
     return generateStructured<List<Rewrite>>(
       model: AiConfig.fastModel,
-      system: 'Rewrite the resume bullet three different ways. Each: a strong action verb, a quantified result, the '
-          'impact, and relevant keywords from the JD. NEVER invent a number. Where a metric is missing write a '
-          'bracket placeholder like [X%] or [N users] and list it in placeholders.',
+      system: 'Rewrite the resume bullet three different ways. Each: a strong action verb, a quantified result and the '
+          'impact. NEVER invent a number. Where a metric is missing write a bracket placeholder like [X%] or '
+          '[N users] and list it in placeholders. Use a JD keyword only if the original bullet already states it or '
+          'it is a plain synonym of something stated. Never add a technology, tool, domain, employer or scope the '
+          'bullet does not mention: the candidate must be able to say every word in an interview.',
       parts: [TextPart('BULLET:\n$bullet\n\nJOB DESCRIPTION:\n$jd')],
       schema: Schema.object(properties: {
         'rewrites': Schema.array(

@@ -40,6 +40,41 @@ void main() {
     expect(m.semanticScore, 0);
   });
 
+  group('withVerifiedEvidence', () {
+    const resume = 'Built a mobile app for marking class attendance\nWrote SQL queries for monthly reports';
+    MatchResult withEvidence(String? ev, {bool hit = true}) => MatchResult(
+          role: 'x',
+          requirements: [Requirement(skill: 'SQL', required: true, matched: hit, relevance: 0.9, evidence: ev)],
+          rubric: const Rubric(relevance: 50, impact: 50, ats: 50),
+          sections: [SectionFeedback(section: 'Experience', note: 'n', evidence: ev)],
+          fixes: const [],
+        );
+
+    test('keeps a line that is really in the resume, ignoring case and bullets', () {
+      final m = withEvidence('- wrote SQL queries for monthly reports').withVerifiedEvidence(resume);
+      expect(m.requirements.single.matched, isTrue);
+      expect(m.requirements.single.evidence, isNotNull);
+    });
+
+    test('tolerates a line re-joined from list items', () {
+      final m = withEvidence('Wrote SQL queries, for monthly reports').withVerifiedEvidence(
+          'Wrote SQL queries for monthly reports\nBuilt an app');
+      expect(m.requirements.single.matched, isTrue);
+    });
+
+    test('a matched requirement with invented evidence becomes missing', () {
+      final m = withEvidence('Designed Kafka pipelines at scale').withVerifiedEvidence(resume);
+      expect(m.requirements.single.matched, isFalse);
+      expect(m.requirements.single.evidence, isNull);
+      expect(m.requirements.single.relevance, lessThanOrEqualTo(0.3));
+      expect(m.sections.single.evidence, isNull);
+    });
+
+    test('a matched requirement with no evidence becomes missing', () {
+      expect(withEvidence(null).withVerifiedEvidence(resume).requirements.single.matched, isFalse);
+    });
+  });
+
   group('inventsNumbers', () {
     test('keeps numbers from the original', () {
       expect(inventsNumbers('Cut load time by 40%', 'Reduced load time by 40% for [N users]'), isFalse);

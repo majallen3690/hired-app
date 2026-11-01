@@ -4,10 +4,10 @@ class AiConfig {
   const AiConfig._();
 
   /// Parsing, matching, grading, interview evaluation.
-  static const textModel = 'gemini-2.5-flash';
+  static const textModel = 'gemini-3.5-flash';
 
   /// Quick scoring: rewrites, intro, tracker autofill.
-  static const fastModel = 'gemini-2.5-flash-lite';
+  static const fastModel = 'gemini-3.5-flash-lite';
 
   static const liveModel = 'gemini-3.1-flash-live-preview';
   static const liveModelFallback = 'gemini-2.5-flash-native-audio-preview-12-2025';

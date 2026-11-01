@@ -93,6 +93,46 @@ class MatchResult {
   int get overall =>
       (keywordWeight * keywordScore + semanticWeight * semanticScore + rubricWeight * rubricScore).round();
 
+  /// Drops any evidence line that is not actually in the resume. A requirement the model marked matched
+  /// without real evidence becomes missing, so no score ever rests on a line the candidate did not write.
+  MatchResult withVerifiedEvidence(String resumeText) {
+    final haystack = _norm(resumeText);
+    final words = haystack.split(' ').toSet();
+    // A line counts when it is a substring, or when nearly every word of it is in the resume: the model
+    // may join a skills list differently, but a made-up line always brings words the resume never used.
+    String? check(String? line) {
+      if (line == null) return null;
+      final n = _norm(line);
+      if (n.isEmpty) return null;
+      if (haystack.contains(n)) return line;
+      final ws = n.split(' ');
+      return ws.where(words.contains).length / ws.length >= 0.85 ? line : null;
+    }
+
+    return MatchResult(
+      role: role,
+      requirements: [
+        for (final r in requirements)
+          () {
+            final ev = check(r.evidence);
+            return Requirement(
+              skill: r.skill,
+              required: r.required,
+              matched: r.matched && ev != null,
+              relevance: ev == null && r.matched ? r.relevance.clamp(0, 0.3).toDouble() : r.relevance,
+              evidence: ev,
+            );
+          }(),
+      ],
+      rubric: rubric,
+      sections: [for (final s in sections) SectionFeedback(section: s.section, note: s.note, evidence: check(s.evidence))],
+      fixes: fixes,
+    );
+  }
+
+  static String _norm(String s) =>
+      s.toLowerCase().replaceAll(RegExp(r'[^a-z0-9%+#./ ]'), ' ').replaceAll(RegExp(r'\s+'), ' ').trim();
+
   List<Requirement> get matchedSkills => requirements.where((r) => r.matched).toList();
   List<Requirement> get missingSkills => requirements.where((r) => !r.matched).toList();
 
