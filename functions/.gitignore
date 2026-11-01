@@ -1,6 +1,0 @@
-node_modules/
-lib/
-*.keystore
-key.properties
-.env*
-serviceAccount*.json

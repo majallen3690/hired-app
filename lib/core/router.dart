@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/home/home_screen.dart';
+import '../features/resume/ui/analysing_screen.dart';
+import '../features/resume/ui/result_screen.dart';
+import '../features/resume/ui/resume_input_screen.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 import 'widgets/glass.dart';
@@ -94,7 +97,9 @@ final router = GoRouter(
       builder: (context, state, child) => _Shell(location: state.uri.path, child: child),
       routes: [
         GoRoute(path: '/home', builder: (_, __) => const HomeScreen()),
-        GoRoute(path: '/resume', builder: (_, __) => const _Pending('Resume match', 'A02 to A05')),
+        GoRoute(path: '/resume', builder: (_, __) => const ResumeInputScreen()),
+        GoRoute(path: '/resume/analysing', builder: (_, __) => const AnalysingScreen()),
+        GoRoute(path: '/resume/result', builder: (_, __) => const ResultScreen()),
         GoRoute(path: '/interview', builder: (_, __) => const _Pending('Mock interview', 'A06 to A08')),
         GoRoute(path: '/tracker', builder: (_, __) => const _Pending('Applications', 'C05')),
         GoRoute(path: '/progress', builder: (_, __) => const _Pending('Progress', 'C07')),

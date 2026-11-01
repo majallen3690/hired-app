@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "396052814603",
+    "project_id": "hired-aeb6c",
+    "storage_bucket": "hired-aeb6c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396052814603:android:66e8c42eb52d6fe457200e",
+        "android_client_info": {
+          "package_name": "com.hired.hired"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "396052814603-6jhn67bvuf58qcm62e9gkb130o02lm5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSilJG7dK_s9ngq5aGkkXM6aOuek_AoZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "396052814603-6jhn67bvuf58qcm62e9gkb130o02lm5b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
