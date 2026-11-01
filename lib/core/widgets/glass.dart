@@ -29,30 +29,37 @@ class Glass extends StatelessWidget {
       borderRadius: r,
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: onTap,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
             borderRadius: r,
-            child: Ink(
-              decoration: BoxDecoration(
-                borderRadius: r,
-                gradient: LinearGradient(
-                  begin: const Alignment(-0.9, -1),
-                  end: const Alignment(0.6, 1),
-                  colors: [c.glassTop, c.glassBottom],
-                  stops: const [0, 0.62],
-                ),
-                border: Border(
-                  top: BorderSide(color: c.edge),
-                  left: BorderSide(color: c.hair),
-                  right: BorderSide(color: c.hair),
-                  bottom: BorderSide(color: c.hair),
+            gradient: LinearGradient(
+              begin: const Alignment(-0.9, -1),
+              end: const Alignment(0.6, 1),
+              colors: [c.glassTop, c.glassBottom],
+              stops: const [0, 0.62],
+            ),
+            // Uniform colour: Flutter rejects a borderRadius with mixed-colour sides.
+            border: Border.all(color: c.hair),
+          ),
+          child: Stack(
+            children: [
+              Material(
+                type: MaterialType.transparency,
+                child: InkWell(
+                  onTap: onTap,
+                  borderRadius: r,
+                  child: Padding(padding: padding, child: child),
                 ),
               ),
-              padding: padding,
-              child: child,
-            ),
+              // The 1px top highlight, like light catching the glass edge.
+              Positioned(
+                top: 0,
+                left: radius,
+                right: radius,
+                height: 1,
+                child: IgnorePointer(child: ColoredBox(color: c.edge)),
+              ),
+            ],
           ),
         ),
       ),
@@ -70,7 +77,10 @@ class Aurora extends StatefulWidget {
 }
 
 class _AuroraState extends State<Aurora> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(seconds: 18));
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 18),
+  );
 
   @override
   void didChangeDependencies() {
@@ -102,8 +112,20 @@ class _AuroraState extends State<Aurora> with SingleTickerProviderStateMixin {
             final t = Curves.easeInOut.transform(_c.value);
             return Stack(
               children: [
-                _blob(left: 16 + 22 * t, top: 190 - 28 * t, size: 360, color: c.ember, opacity: light ? 0.22 : 0.34),
-                _blob(left: -150 + 14 * t, top: 620, size: 260, color: c.signal, opacity: light ? 0.10 : 0.12),
+                _blob(
+                  left: 16 + 22 * t,
+                  top: 190 - 28 * t,
+                  size: 360,
+                  color: c.ember,
+                  opacity: light ? 0.22 : 0.34,
+                ),
+                _blob(
+                  left: -150 + 14 * t,
+                  top: 620,
+                  size: 260,
+                  color: c.signal,
+                  opacity: light ? 0.10 : 0.12,
+                ),
               ],
             );
           },
@@ -113,7 +135,13 @@ class _AuroraState extends State<Aurora> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _blob({required double left, required double top, required double size, required Color color, required double opacity}) {
+  Widget _blob({
+    required double left,
+    required double top,
+    required double size,
+    required Color color,
+    required double opacity,
+  }) {
     return Positioned(
       left: left,
       top: top,
@@ -126,7 +154,10 @@ class _AuroraState extends State<Aurora> with SingleTickerProviderStateMixin {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: RadialGradient(
-                colors: [color.withValues(alpha: opacity), color.withValues(alpha: 0)],
+                colors: [
+                  color.withValues(alpha: opacity),
+                  color.withValues(alpha: 0),
+                ],
                 stops: const [0, 0.7],
               ),
             ),
