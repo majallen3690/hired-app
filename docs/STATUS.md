@@ -23,6 +23,13 @@
 - Verified on the Pixel 7 emulator with typed answers: greeting by name, resume-grounded questions, scoring, report quotes, replay playback
 - 51 unit tests green
 
+## M10 Progress and scorecard (built and verified on the emulator)
+- Readiness timeline replayed from real results: every resume match plus each scored mock (interview and speaking), so the chart can never disagree with a report
+- Streak (alive through yesterday), seven-day activity dots, counts, best-ever per area, four badges that unlock only from real results
+- Range switch (1 week, 1 month, all time), placement-ready line at 75, empty state from the design
+- Shareable scorecard: 360x640 card in the dark theme, rendered to a 1080x1920 PNG (checked by pulling the file off the device) and handed to the system share sheet
+- 73 unit tests green
+
 ## M7 verification log (Pixel 7 emulator, typed answers)
 - Full five-question run: the interviewer adapts difficulty, asks a final fundamentals question, wraps up on its own
   (`endInterview`), the app scores and opens the report. Score delta vs the previous mock is shown (52, down 18 from 70)
@@ -33,6 +40,7 @@
 - Spoken answers on a real voice (emulator mic): live fillers, pace, measured pauses, echo without earphones
 - Company Mode (Search grounding), Hinglish run, eye contact (camera, belongs to M5)
 - Sending an answer closes the keyboard; keeping it open between answers would be nicer
+- Intros count on Progress is 0 until the self-intro module (M6) exists
 
 ## Environment note
 - The C: drive hit 2 GB free once and the emulator refused to start; keep 10+ GB free before building. `build/app/intermediates` regenerates on the next build

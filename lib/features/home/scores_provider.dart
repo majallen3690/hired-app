@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../core/scoring/readiness.dart';
+import '../progress/data/progress_providers.dart';
 
 /// The latest result per area. An area nobody has measured yet is null and shown as "–", never as a made-up number.
 class MeasuredScores {
@@ -80,6 +81,7 @@ class LatestScores extends Notifier<MeasuredScores> {
   void setResume(int score) {
     state = state.copyWith(resume: score);
     _save();
+    ref.read(resumeEventsProvider.notifier).add(score);
   }
 
   /// Communication is measured from the voice, so it is null when there was too little speech to judge.

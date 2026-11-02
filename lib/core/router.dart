@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../features/home/home_screen.dart';
 import '../features/interview/ui/coach_replay_screen.dart';
+import '../features/progress/ui/progress_screen.dart';
 import '../features/interview/ui/interview_live_screen.dart';
 import '../features/interview/ui/interview_report_screen.dart';
 import '../features/interview/ui/interview_setup_screen.dart';
@@ -134,7 +135,7 @@ final router = GoRouter(
         ),
         GoRoute(
           path: '/progress',
-          builder: (_, __) => const _Pending('Progress', 'C07'),
+          builder: (_, __) => const ProgressScreen(),
         ),
         GoRoute(
           path: '/intro',
