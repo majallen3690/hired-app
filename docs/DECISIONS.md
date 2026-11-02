@@ -28,4 +28,7 @@ Free-tier limits: Gemini Developer API has per-minute and per-day request caps. 
 | Tracker JD autofill (Haiku) | **`gemini-3.5-flash-lite` with responseSchema, then checked against the pasted text in Dart** | Free tier; a field the text does not contain is dropped, not trusted |
 | Tracker "Practise interview for this company" pre-fills Company Mode | **Pre-fills role and company only** | Company Mode (Search grounding) is not built yet |
 | Tracker follow-up "Draft" button | **Banner opens the application; no drafted message** | Reminders and drafting belong with M9 |
+| Reminders: follow-up 5 days after Applied; interview-day plus warm-up 2 h before | **Same, with the interview time set by the user on the application** | Nothing in the app knows an interview time unless the user enters it; no calendar access is requested |
+| Timezone | **`Asia/Kolkata` set as the notification zone; times of day come from the device clock** | Matches the brief; scheduling uses absolute instants, so a device in another zone still fires at its own 10:00 |
+| Exact alarms | **Used only when Android lets the app; otherwise inexact** | `SCHEDULE_EXACT_ALARM` can be refused on Android 14; a slightly late reminder beats none |
 | Intro score | **65% content (clarity, structure, confidence from Gemini, quotes verified) + 35% measured delivery** | Delivery is measured, content is judged; a typed intro is content only |

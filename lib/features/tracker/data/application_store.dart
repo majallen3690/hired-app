@@ -5,7 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../../core/notifications/reminder_service.dart';
 import '../domain/application_models.dart';
+import '../domain/reminder_rules.dart';
 import '../domain/tracker_logic.dart';
 
 /// Every tracked application, kept on the device. The list is loading until the file has been read, so the screen
@@ -31,6 +33,8 @@ class ApplicationsNotifier extends AsyncNotifier<List<JobApplication>> {
 
   Future<void> _set(List<JobApplication> next) async {
     state = AsyncData(next);
+    // The first time a reminder exists is the moment to ask, with the reason in front of the user.
+    if (buildReminders(next, DateTime.now()).isNotEmpty) ReminderService.instance.ensurePermission();
     try {
       await (await _file()).writeAsString(jsonEncode([for (final a in next) a.toJson()]), flush: true);
     } catch (e) {
@@ -76,3 +80,11 @@ final applicationsProvider = AsyncNotifierProvider<ApplicationsNotifier, List<Jo
 final applicationProvider = Provider.family<JobApplication?, String>(
   (ref, id) => (ref.watch(applicationsProvider).asData?.value ?? const []).where((a) => a.id == id).firstOrNull,
 );
+
+/// Keeps the scheduled notifications in step with the applications: any change rebuilds the whole set.
+final reminderSyncProvider = Provider<void>((ref) {
+  ref.listen(applicationsProvider, (_, next) {
+    final apps = next.asData?.value;
+    if (apps != null) ReminderService.instance.sync(buildReminders(apps, DateTime.now()));
+  }, fireImmediately: true);
+});

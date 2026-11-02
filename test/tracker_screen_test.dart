@@ -124,6 +124,40 @@ void main() {
     expect(find.text('Add the job description below to run a match.'), findsNothing);
   });
 
+  testWidgets('an interview time shows the reminders it will send', (tester) async {
+    tester.view.physicalSize = const Size(800, 3000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    // Fixed at 3 pm so the 8 am note always falls before it, whatever time the test runs.
+    final today = DateTime.now();
+    final at = DateTime(today.year, today.month, today.day + 3, 15);
+    final withTime = JobApplication(
+      id: 'Zoho',
+      company: 'Zoho',
+      role: 'MTS',
+      stage: Stage.interview,
+      createdAt: DateTime.now(),
+      stageChangedAt: DateTime.now(),
+      interviewAt: at,
+    );
+    await tester.pumpWidget(host([withTime], const ApplicationDetailScreen(id: 'Zoho')));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(tester.takeException(), isNull);
+    expect(find.text('Reminders'), findsOneWidget);
+    expect(find.text('Warm-up mock'), findsOneWidget);
+    expect(find.text('Interview day'), findsOneWidget);
+  });
+
+  testWidgets('an application with no interview time shows no reminder list, only the way to set one', (tester) async {
+    tester.view.physicalSize = const Size(800, 3000);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(host([app('Zoho', Stage.interview)], const ApplicationDetailScreen(id: 'Zoho')));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('Set date and time'), findsOneWidget);
+    expect(find.text('Reminders'), findsNothing);
+  });
+
   testWidgets('the add screen needs a company before it can save', (tester) async {
     // A tall screen, so the whole lazily built form is on screen.
     tester.view.physicalSize = const Size(800, 3000);

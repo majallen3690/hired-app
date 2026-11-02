@@ -2,22 +2,64 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'core/notifications/reminder_service.dart';
 import 'core/router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_mode_provider.dart';
+import 'features/interview/interview_prefill.dart';
+import 'features/tracker/data/application_store.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await ReminderService.instance.init();
   runApp(const ProviderScope(child: HiredApp()));
 }
 
-class HiredApp extends ConsumerWidget {
+class HiredApp extends ConsumerStatefulWidget {
   const HiredApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HiredApp> createState() => _HiredAppState();
+}
+
+class _HiredAppState extends ConsumerState<HiredApp> {
+  @override
+  void initState() {
+    super.initState();
+    ReminderService.instance.onTap = _open;
+    // A tap that launched the app from closed is handled once the first frame has built the router.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final payload = ReminderService.instance.takeLaunchPayload();
+      if (payload != null) _open(payload);
+    });
+  }
+
+  /// `app:<id>` opens the application; `warmup:<id>` opens a mock interview for it.
+  Future<void> _open(String payload) async {
+    final at = payload.indexOf(':');
+    if (at < 0) return;
+    final kind = payload.substring(0, at);
+    final id = payload.substring(at + 1);
+    final apps = await ref.read(applicationsProvider.future);
+    final app = apps.where((a) => a.id == id).firstOrNull;
+    if (app == null) {
+      router.go('/tracker');
+      return;
+    }
+    if (kind == 'warmup') {
+      ref.read(interviewPrefillProvider.notifier).set(role: app.role, company: app.company);
+      router.go('/interview');
+    } else {
+      router.go('/tracker');
+      router.push('/tracker/$id');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.watch(reminderSyncProvider);
     return MaterialApp.router(
       title: 'Hired',
       debugShowCheckedModeBanner: false,

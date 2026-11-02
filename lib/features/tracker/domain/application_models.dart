@@ -22,6 +22,7 @@ class JobApplication {
     this.jd = '',
     this.skills = const [],
     this.notes = '',
+    this.interviewAt,
   });
 
   final String id;
@@ -36,6 +37,9 @@ class JobApplication {
   final List<String> skills;
   final String notes;
 
+  /// When the interview or online test is, if the user has set it. Drives the interview-day and warm-up reminders.
+  final DateTime? interviewAt;
+
   JobApplication copyWith({
     String? company,
     String? role,
@@ -44,6 +48,8 @@ class JobApplication {
     String? jd,
     List<String>? skills,
     String? notes,
+    DateTime? interviewAt,
+    bool clearInterviewAt = false,
   }) =>
       JobApplication(
         id: id,
@@ -55,6 +61,7 @@ class JobApplication {
         jd: jd ?? this.jd,
         skills: skills ?? this.skills,
         notes: notes ?? this.notes,
+        interviewAt: clearInterviewAt ? null : (interviewAt ?? this.interviewAt),
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,6 +74,7 @@ class JobApplication {
         'jd': jd,
         'skills': skills,
         'notes': notes,
+        'interviewAt': interviewAt?.toUtc().toIso8601String(),
       };
 
   factory JobApplication.fromJson(Map<String, dynamic> j) => JobApplication(
@@ -79,6 +87,7 @@ class JobApplication {
         jd: (j['jd'] as String?) ?? '',
         skills: [for (final s in (j['skills'] as List? ?? const [])) s as String],
         notes: (j['notes'] as String?) ?? '',
+        interviewAt: j['interviewAt'] == null ? null : DateTime.parse(j['interviewAt'] as String),
       );
 }
 

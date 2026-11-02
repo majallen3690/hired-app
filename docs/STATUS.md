@@ -58,6 +58,23 @@
 - Duplicate role at the same company is flagged; applications kept on the device; list shows nothing until the file is read (no empty-state flash)
 - 21 domain unit tests and 8 widget tests, including a real drag between columns
 
+## M9 Reminders (built, see verification below)
+- Rules in Dart (`reminder_rules.dart`): follow-up at 10:00 five calendar days after an application moved to Applied; for an interview or test time set on an application still in play, a note at 8:00 that day and a warm-up mock two hours before
+- Only future reminders are scheduled; the full set is rebuilt from the applications on every change, so a moved, edited or removed application cannot leave a stale reminder
+- Stable notification ids (FNV-1a, not `String.hashCode`, which changes between runs) so old reminders can always be cancelled
+- `flutter_local_notifications` + `timezone` (Asia/Kolkata); exact alarms when the user allows them, otherwise inexact (a little late, never lost); boot receiver restores them after a restart
+- Permission is requested the first time a reminder exists (saving an application as Applied, or setting an interview time), not at launch; the detail screen says when notifications are off
+- Detail screen: pick interview or test date and time, and see the exact reminders this application will send
+- Tapping a notification opens the application, or (warm-up) the interview setup with role and company filled in; also works when the app was closed
+- 20 rule tests, 2 widget tests
+
+## M9 verification log (Pixel 7 emulator, Android 15)
+- Saving a new application as Applied showed Android's notification permission prompt at that moment (not at launch)
+- With exact alarms allowed (`appops` on the emulator), `dumpsys alarm` listed the scheduled notifications at the expected instants: three follow-ups at 7 Nov 10:00 (the three Applied applications, five days after 2 Nov)
+- An interview set about two hours ahead fired its warm-up at 22:35:25 IST as scheduled ("Warm up for Zoho, Your interview is at 12:35 am..."); tapping it opened the interview setup with role and company filled in
+- Date and time pickers on the detail screen set Thu 5 Nov 3:35 pm: the screen listed "Interview day 8:00 am" and "Warm-up mock 1:35 pm", and `dumpsys alarm` showed exactly those two alarms, replacing the old one
+- Not verified: a tap that launches the app from closed (same code path via `getNotificationAppLaunchDetails`, untested), inexact mode (exact was allowed), delivery after a reboot, and behaviour when the user denies the permission beyond the in-screen note
+
 ## M8 verification log (Pixel 7 emulator)
 - Empty state as designed; pasted a 4-line Razorpay job description: "Fill it in" returned Razorpay, "Software Development Engineer I" and Java, Kotlin, PostgreSQL, Kafka, AWS; saved as Applied and survives a restart
 - Five extra applications were written into the emulator's app data as test fixtures (a stale Applied one to get the follow-up nudge); they are not in the repo
