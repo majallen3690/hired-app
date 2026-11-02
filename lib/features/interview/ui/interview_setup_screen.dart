@@ -11,6 +11,7 @@ import '../data/session_store.dart';
 import '../domain/interview_models.dart';
 import '../interview_controller.dart';
 import '../interview_prefill.dart';
+import '../../../core/motion/motion.dart';
 
 class InterviewSetupScreen extends ConsumerStatefulWidget {
   const InterviewSetupScreen({super.key});
@@ -66,7 +67,7 @@ class _State extends ConsumerState<InterviewSetupScreen> {
     }
 
     return SafeArea(
-      child: ListView(
+      child: RevealListView(
         padding: const EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.md, HiredSpace.screen, 120),
         children: [
           Text.rich(TextSpan(style: HiredText.h1.copyWith(color: c.text), children: [

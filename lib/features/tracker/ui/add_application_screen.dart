@@ -11,6 +11,7 @@ import '../data/application_store.dart';
 import '../data/tracker_ai.dart';
 import '../domain/application_models.dart';
 import '../domain/tracker_logic.dart';
+import '../../../core/motion/motion.dart';
 
 const _minJd = 40;
 
@@ -101,7 +102,8 @@ class _State extends ConsumerState<AddApplicationScreen> {
       resizeToAvoidBottomInset: true,
       body: Aurora(
         child: SafeArea(
-          child: ListView(
+          child: RevealListView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.sm, HiredSpace.screen, HiredSpace.xxl),
             children: [
               Row(children: [

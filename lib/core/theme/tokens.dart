@@ -138,7 +138,18 @@ class HiredMotion {
   static const scoreReveal = Duration(milliseconds: 1300);
   static const scoreJump = Duration(milliseconds: 900);
   static const cardRise = Duration(milliseconds: 700);
-  static const press = Duration(milliseconds: 120);
+  static const press = Duration(milliseconds: 90);
+  static const release = Duration(milliseconds: 260);
+  static const quick = Duration(milliseconds: 180);
+  static const tab = Duration(milliseconds: 320);
+  static const reveal = Duration(milliseconds: 460);
+  static const stagger = Duration(milliseconds: 50);
   static const easeOutQuart = Cubic(0.25, 1, 0.5, 1);
   static const easeOutExpo = Cubic(0.16, 1, 0.3, 1);
+
+  /// Strong ease-out for anything entering or responding; the built-in curves are too weak.
+  static const easeOut = Cubic(0.23, 1, 0.32, 1);
+
+  /// iOS sheet curve: fast start, long settle. For things that travel across the screen.
+  static const drawer = Cubic(0.32, 0.72, 0, 1);
 }

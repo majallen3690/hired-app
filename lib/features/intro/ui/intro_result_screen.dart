@@ -15,6 +15,7 @@ import '../data/intro_store.dart';
 import '../domain/intro_analysis.dart';
 import '../domain/intro_models.dart';
 import '../intro_controller.dart';
+import '../../../core/motion/motion.dart';
 
 class IntroResultScreen extends ConsumerStatefulWidget {
   const IntroResultScreen({super.key, required this.id});
@@ -54,7 +55,7 @@ class _State extends ConsumerState<IntroResultScreen> {
       body: Aurora(
         child: SafeArea(
           child: async.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
+            loading: () => const Center(child: DelayedSpinner()),
             error: (e, _) => Center(child: Text('Could not open this intro.', style: HiredText.body.copyWith(color: c.text2))),
             data: (r) {
               if (r == null) {
@@ -78,7 +79,7 @@ class _State extends ConsumerState<IntroResultScreen> {
     final delta = (score != null && previous != null) ? score - previous.score! : null;
     final changes = (previous != null) ? compareIntros(previous, r) : const <IntroChange>[];
 
-    return ListView(
+    return RevealListView(
       padding: const EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.sm, HiredSpace.screen, HiredSpace.xxl),
       children: [
         Row(children: [
@@ -156,7 +157,7 @@ class _State extends ConsumerState<IntroResultScreen> {
         const SizedBox(height: HiredSpace.sm),
         _transcript(c, r),
         const SizedBox(height: HiredSpace.xxl),
-        OutlineAction(label: 'Record another try', icon: Icons.mic_rounded, onPressed: () => context.go('/intro')),
+        OutlineAction(label: 'Record another try', icon: Icons.mic_rounded, onPressed: () => context.pushReplacement('/intro')),
       ],
     );
   }
@@ -317,7 +318,7 @@ class _State extends ConsumerState<IntroResultScreen> {
               style: HiredText.tiny.copyWith(color: c.text3)),
           const SizedBox(height: HiredSpace.lg),
           // The theme's buttons are full width, so they stack instead of sharing a row.
-          PrimaryButton(label: 'Practise this one', icon: Icons.mic_rounded, onPressed: () => context.go('/intro')),
+          PrimaryButton(label: 'Practise this one', icon: Icons.mic_rounded, onPressed: () => context.pushReplacement('/intro')),
           const SizedBox(height: HiredSpace.sm),
           OutlineAction(
             label: 'Copy',

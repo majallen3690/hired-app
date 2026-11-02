@@ -14,6 +14,7 @@ import '../domain/evaluation_models.dart';
 import '../domain/interview_models.dart';
 import '../domain/speech_metrics.dart';
 import 'interview_widgets.dart';
+import '../../../core/motion/motion.dart';
 
 Color _markerColor(HiredPalette c, MarkerKind k) => switch (k) {
       MarkerKind.question => c.signal,
@@ -117,7 +118,7 @@ class _State extends ConsumerState<CoachReplayScreen> {
                   ]),
                 )
               : r == null
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(child: DelayedSpinner())
                   : _body(c, r),
         ),
       ),

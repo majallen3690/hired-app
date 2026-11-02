@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -52,7 +53,13 @@ ThemeData buildHiredTheme(Brightness brightness) {
     scaffoldBackgroundColor: p.ink,
     extensions: [p],
     textTheme: GoogleFonts.hankenGroteskTextTheme(base).apply(bodyColor: p.text, displayColor: p.text),
-    splashFactory: InkRipple.splashFactory,
+    // Press feedback is the instant scale in PressScale; a spreading ripple on top of it only adds noise.
+    splashFactory: NoSplash.splashFactory,
+    // Slide with the previous screen easing back and an edge swipe to return, on every platform.
+    pageTransitionsTheme: const PageTransitionsTheme(builders: {
+      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+    }),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
         backgroundColor: p.ember,

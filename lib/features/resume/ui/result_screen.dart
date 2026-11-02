@@ -9,6 +9,7 @@ import '../../../core/widgets/glass.dart';
 import '../domain/match_models.dart';
 import '../resume_flow.dart';
 import 'rewrite_sheet.dart';
+import '../../../core/motion/motion.dart';
 
 class ResultScreen extends ConsumerWidget {
   const ResultScreen({super.key});
@@ -25,7 +26,7 @@ class ResultScreen extends ConsumerWidget {
     }
 
     return SafeArea(
-      child: ListView(
+      child: RevealListView(
         padding: const EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.md, HiredSpace.screen, 120),
         children: [
           Row(children: [

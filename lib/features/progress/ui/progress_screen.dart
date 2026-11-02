@@ -15,6 +15,7 @@ import '../../resume/resume_flow.dart';
 import '../data/progress_providers.dart';
 import '../domain/progress_models.dart';
 import 'scorecard.dart';
+import '../../../core/motion/motion.dart';
 
 enum _Range { week, month, all }
 
@@ -135,7 +136,7 @@ class _State extends ConsumerState<ProgressScreen> {
     final visible = summary.points.where((p) => p.at.isAfter(cutoff)).toList();
 
     return SafeArea(
-      child: ListView(
+      child: RevealListView(
         padding: const EdgeInsets.fromLTRB(
           HiredSpace.screen,
           HiredSpace.md,

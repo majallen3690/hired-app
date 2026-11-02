@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_pcm_sound/flutter_pcm_sound.dart';
 import 'package:record/record.dart';
 
+import '../../../core/boot.dart';
 import '../../../core/config/ai_config.dart';
 import '../audio/pcm_mixer.dart';
 import '../data/interview_ai.dart';
@@ -116,6 +117,7 @@ class LiveInterviewService {
   /// Tries the main live model, then the fallback, before giving up.
   Future<void> _connect({String? recap}) async {
     Object? lastError;
+    await firebaseReady;
     for (final name in [AiConfig.liveModel, AiConfig.liveModelFallback]) {
       try {
         final model = FirebaseAI.googleAI().liveGenerativeModel(

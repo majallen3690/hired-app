@@ -14,6 +14,7 @@ import '../domain/interview_models.dart';
 import '../domain/speech_metrics.dart';
 import '../interview_controller.dart';
 import 'interview_widgets.dart';
+import '../../../core/motion/motion.dart';
 
 class InterviewReportScreen extends ConsumerStatefulWidget {
   const InterviewReportScreen({super.key, required this.id});
@@ -56,7 +57,7 @@ class _State extends ConsumerState<InterviewReportScreen> {
       body: Aurora(
         child: SafeArea(
           child: async.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
+            loading: () => const Center(child: DelayedSpinner()),
             error: (e, _) => Center(child: Text('Could not open this report.', style: HiredText.body.copyWith(color: c.text2))),
             data: (r) {
               if (r == null) {
@@ -81,7 +82,7 @@ class _State extends ConsumerState<InterviewReportScreen> {
     final score = eval?.interviewScore;
     final delta = (score != null && previous != null) ? score - previous : null;
 
-    return ListView(
+    return RevealListView(
       padding: const EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.sm, HiredSpace.screen, HiredSpace.xxl),
       children: [
         Row(children: [

@@ -8,6 +8,7 @@ import '../../core/theme/tokens.dart';
 import '../../core/widgets/score_widgets.dart';
 import '../../core/widgets/tick_dial.dart';
 import 'scores_provider.dart';
+import '../../core/motion/motion.dart';
 
 class _Action {
   const _Action(this.lead, this.em, this.note, this.route);
@@ -38,6 +39,12 @@ const _corners = <SubScore, Alignment>{
   SubScore.presence: Alignment.topLeft,
 };
 
+/// Tabs switch; any other screen slides over the tabs, so closing it returns to exactly where you were.
+void _open(BuildContext context, String route) {
+  const tabs = {'/home', '/resume', '/interview', '/tracker', '/progress'};
+  tabs.contains(route) ? context.go(route) : context.push(route);
+}
+
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -53,7 +60,7 @@ class HomeScreen extends ConsumerWidget {
     final action = next == null ? null : _actions[next];
 
     return SafeArea(
-      child: ListView(
+      child: RevealListView(
         padding: const EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.md, HiredSpace.screen, 120),
         children: [
           Text('Welcome back', style: HiredText.small.copyWith(color: c.text3)),
@@ -63,7 +70,7 @@ class HomeScreen extends ConsumerWidget {
             TextSpan(text: 'practise?', style: HiredText.h1Em),
           ])),
           const SizedBox(height: 36),
-          _Dial(scores: scores, measured: measured, weakest: weakest, onCorner: (k) => context.go(_actions[k]!.route)),
+          _Dial(scores: scores, measured: measured, weakest: weakest, onCorner: (k) => _open(context, _actions[k]!.route)),
           const SizedBox(height: HiredSpace.xxl),
           if (action != null)
             NextActionCard(
@@ -71,7 +78,7 @@ class HomeScreen extends ConsumerWidget {
               lead: action.lead,
               emphasis: action.em,
               note: action.note,
-              onTap: () => context.go(action.route),
+              onTap: () => _open(context, action.route),
             ),
         ],
       ),

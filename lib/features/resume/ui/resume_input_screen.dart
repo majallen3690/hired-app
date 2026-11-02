@@ -7,6 +7,7 @@ import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/controls.dart';
 import '../../../core/widgets/glass.dart';
 import '../resume_flow.dart';
+import '../../../core/motion/motion.dart';
 
 class ResumeInputScreen extends ConsumerStatefulWidget {
   const ResumeInputScreen({super.key});
@@ -32,7 +33,8 @@ class _State extends ConsumerState<ResumeInputScreen> {
     final jdLen = flow.jd.trim().length;
 
     return SafeArea(
-      child: ListView(
+      child: RevealListView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: const EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.md, HiredSpace.screen, 120),
         children: [
           Text.rich(TextSpan(style: HiredText.h1.copyWith(color: c.text), children: [

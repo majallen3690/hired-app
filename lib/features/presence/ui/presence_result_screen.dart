@@ -13,6 +13,7 @@ import '../domain/presence_models.dart';
 import '../domain/presence_record.dart';
 import '../domain/presence_scoring.dart';
 import '../presence_controller.dart';
+import '../../../core/motion/motion.dart';
 
 const _partIcons = {
   PresencePart.attire: Icons.checkroom_rounded,
@@ -64,7 +65,9 @@ class _State extends ConsumerState<PresenceResultScreen> {
     if (!r.saved) {
       await ref.read(presenceControllerProvider.notifier).delete(r.id);
     }
-    if (mounted) context.go(route);
+    if (!mounted) return;
+    // Retaking swaps this screen for the camera on top of the tabs; anything else returns to a tab.
+    route == '/presence' ? context.pushReplacement(route) : context.go(route);
   }
 
   Future<void> _confirmDelete(PresenceRecord r) async {
@@ -111,7 +114,7 @@ class _State extends ConsumerState<PresenceResultScreen> {
       body: Aurora(
         child: SafeArea(
           child: async.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
+            loading: () => const Center(child: DelayedSpinner()),
             error: (e, _) => Center(
               child: Text(
                 'Could not open this check.',
@@ -137,7 +140,7 @@ class _State extends ConsumerState<PresenceResultScreen> {
     return Column(
       children: [
         Expanded(
-          child: ListView(
+          child: RevealListView(
             padding: const EdgeInsets.fromLTRB(
               HiredSpace.screen,
               HiredSpace.sm,

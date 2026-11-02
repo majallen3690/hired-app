@@ -24,7 +24,13 @@ class ReminderService {
   AndroidFlutterLocalNotificationsPlugin? get _android =>
       _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
 
-  Future<void> init() async {
+  Future<void>? _init;
+
+  /// Safe to call from anywhere, any number of times; the work happens once. Startup does not wait for it, and
+  /// everything below that needs the plugin awaits it first.
+  Future<void> init() => _init ??= _initialise();
+
+  Future<void> _initialise() async {
     try {
       tzdata.initializeTimeZones();
       tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
@@ -51,6 +57,7 @@ class ReminderService {
   }
 
   Future<bool> get allowed async {
+    await init();
     if (!_ready) return false;
     try {
       return await _android?.areNotificationsEnabled() ?? false;
@@ -61,6 +68,7 @@ class ReminderService {
 
   /// Asks for permission at the moment a reminder first matters, not at launch. Android shows its own dialog.
   Future<bool> ensurePermission() async {
+    await init();
     if (!_ready) return false;
     if (await allowed) return true;
     if (_askedThisSession) return false;
@@ -74,6 +82,7 @@ class ReminderService {
 
   /// Replaces every scheduled reminder with [reminders]. Cancelling everything first keeps this idempotent.
   Future<void> sync(List<Reminder> reminders) async {
+    await init();
     if (!_ready) return;
     try {
       await _plugin.cancelAll();

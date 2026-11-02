@@ -16,6 +16,7 @@ import '../domain/application_models.dart';
 import '../domain/reminder_rules.dart';
 import '../domain/tracker_logic.dart';
 import 'tracker_widgets.dart';
+import '../../../core/motion/motion.dart';
 
 /// Matches the resume screen's minimum, so the button is only offered when a match can run.
 const _minJd = 40;
@@ -117,7 +118,7 @@ class _State extends ConsumerState<ApplicationDetailScreen> {
               ? Center(
                   child: loaded
                       ? Text('This application was not found.', style: HiredText.body.copyWith(color: c.text2))
-                      : const CircularProgressIndicator(),
+                      : const DelayedSpinner(),
                 )
               : _body(c, a),
         ),
@@ -133,7 +134,7 @@ class _State extends ConsumerState<ApplicationDetailScreen> {
     final now = DateTime.now();
     final hasJd = _jd!.text.trim().length >= _minJd;
 
-    return ListView(
+    return RevealListView(
       padding: const EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.sm, HiredSpace.screen, HiredSpace.xxl),
       children: [
         Row(children: [

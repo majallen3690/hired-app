@@ -460,7 +460,7 @@ class _State extends ConsumerState<PresenceCameraScreen> with WidgetsBindingObse
         constraints: BoxConstraints(maxWidth: wide ? 330 : 300),
         child: Glass(
           radius: 17,
-          blur: 18,
+          frosted: true,
           padding: const EdgeInsets.fromLTRB(8, 7, 12, 7),
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             Icon(icon, size: 18, color: color),
@@ -472,6 +472,7 @@ class _State extends ConsumerState<PresenceCameraScreen> with WidgetsBindingObse
 
   Widget _dock(HiredPalette c, bool analysing) => Glass(
         radius: 28,
+        frosted: true,
         padding: const EdgeInsets.fromLTRB(28, 16, 28, 20),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Text(_ready ? 'Looking good. Hold still and take the photo.' : _occasion.hint,

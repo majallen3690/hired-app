@@ -75,6 +75,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  # Fonts are bundled (google_fonts reads them from here) so text never waits on the network or swaps face after first paint.
+  assets:
+    - google_fonts/
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

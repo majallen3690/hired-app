@@ -11,6 +11,7 @@ import '../domain/application_models.dart';
 import '../domain/tracker_logic.dart';
 import 'kanban_board.dart';
 import 'tracker_widgets.dart';
+import '../../../core/motion/motion.dart';
 
 enum _View { list, board }
 
@@ -109,10 +110,13 @@ class _State extends ConsumerState<TrackerScreen> {
                       padding: const EdgeInsets.fromLTRB(HiredSpace.screen, 0, HiredSpace.screen, 120),
                       itemCount: shown.length,
                       separatorBuilder: (_, __) => const SizedBox(height: HiredSpace.sm),
-                      itemBuilder: (context, i) => ApplicationRow(
-                        app: shown[i],
-                        now: now,
-                        onTap: () => context.push('/tracker/${shown[i].id}'),
+                      itemBuilder: (context, i) => Reveal(
+                        index: i,
+                        child: ApplicationRow(
+                          app: shown[i],
+                          now: now,
+                          onTap: () => context.push('/tracker/${shown[i].id}'),
+                        ),
                       ),
                     ))
               : KanbanBoard(
@@ -157,7 +161,7 @@ class _State extends ConsumerState<TrackerScreen> {
     );
   }
 
-  Widget _empty(HiredPalette c) => ListView(
+  Widget _empty(HiredPalette c) => RevealListView(
         padding: const EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.md, HiredSpace.screen, 120),
         children: [
           Text('Nothing tracked yet', style: HiredText.small.copyWith(color: c.text3)),

@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+import 'core/boot.dart';
+import 'core/motion/motion.dart';
 import 'core/notifications/reminder_service.dart';
 import 'core/router.dart';
 import 'core/theme/app_theme.dart';
@@ -12,8 +17,12 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await ReminderService.instance.init();
+  // Fonts ship inside the app, so a missing network can never delay or change the first paint.
+  GoogleFonts.config.allowRuntimeFetching = false;
+  // Neither of these is needed to draw the first screen, so the app opens now and they finish behind it.
+  // Gemini calls await `firebaseReady`; reminders await their own init.
+  firebaseReady = Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((_) {});
+  unawaited(ReminderService.instance.init());
   runApp(const ProviderScope(child: HiredApp()));
 }
 
@@ -29,10 +38,11 @@ class _HiredAppState extends ConsumerState<HiredApp> {
   void initState() {
     super.initState();
     ReminderService.instance.onTap = _open;
-    // A tap that launched the app from closed is handled once the first frame has built the router.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    // A tap that launched the app from closed is handled once the plugin has finished starting, which is no
+    // longer on the path to the first frame.
+    ReminderService.instance.init().then((_) {
       final payload = ReminderService.instance.takeLaunchPayload();
-      if (payload != null) _open(payload);
+      if (payload != null && mounted) _open(payload);
     });
   }
 
@@ -66,6 +76,7 @@ class _HiredAppState extends ConsumerState<HiredApp> {
       theme: buildHiredTheme(Brightness.light),
       darkTheme: buildHiredTheme(Brightness.dark),
       themeMode: ref.watch(themeModeProvider),
+      scrollBehavior: const HiredScrollBehavior(),
       routerConfig: router,
     );
   }

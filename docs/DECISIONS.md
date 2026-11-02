@@ -36,3 +36,13 @@ Free-tier limits: Gemini Developer API has per-minute and per-day request caps. 
 | Presence photos | **Kept on the phone, consent before the first send, delete any time, unsaved checks auto-deleted** | A face photo is sensitive; Gemini's free tier may use inputs, so the user is told |
 | Presence "save to my score" | **Nothing counts until saved** | Matches the design; a bad test photo should not move the score |
 | Intro score | **65% content (clarity, structure, confidence from Gemini, quotes verified) + 35% measured delivery** | Delivery is measured, content is judged; a typed intro is content only |
+
+| Brief | Decision | Why |
+|---|---|---|
+| Glass: backdrop blur 28 on every card | **Plain translucent fill on cards; real blur only on the tab bar and camera overlays** | A blur of a smooth gradient looks identical, and a live blur per card is the costliest thing a phone can draw. Cards on a screen: 4 to 8 |
+| Aurora drifts on an 18 s loop | **Same loop, moved by a 10 Hz timer on a pre-painted layer, one shared clock** | The lights travel about 2 px a second; sixty redraws a second made up nearly all the idle cost |
+| Material ripple on tap | **Press-down scale on touch-down, no ripple** | Feedback has to start when the finger lands, not when it lifts |
+| Tabs as separate routes | **Indexed stack that keeps each tab alive** | Switching was a cold rebuild that dropped scroll position and half-typed input |
+| Platform page transitions | **Cupertino slide and edge-swipe back on all platforms** | One interruptible gesture for going back, the same everywhere |
+| Fonts via google_fonts at runtime | **Bundled in `google_fonts/`, runtime fetching off** | No network wait or fallback-font swap on first paint |
+

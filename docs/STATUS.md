@@ -116,6 +116,34 @@
 ## Environment note
 - The C: drive hit 2 GB free once and the emulator refused to start; keep 10+ GB free before building. `build/app/intermediates` regenerates on the next build
 
+## Smoothness pass (built, measured on the emulator)
+Goal: the app should feel like one continuous surface. What changed and why:
+
+| Area | Before | Now |
+|---|---|---|
+| Background | Two lights moved by animating `left`/`top` under a 60px blur, redrawn 60 times a second | Each light is a soft gradient painted once into its own layer; a 10 Hz timer moves the layer. Shared clock, so a screen sliding over another carries the same light. Still under reduced motion; quiet while covered |
+| Cards | A live 28px `BackdropFilter` on every card, over a moving background | Plain translucent fill (a blur of a smooth background changes nothing visible). Real blur only on the tab bar and the camera overlays, where something busy passes underneath |
+| Tabs | Hard cut; each tab rebuilt and lost scroll and typed text on every visit | `StatefulShellRoute.indexedStack`: tabs keep state, switch instantly, the arriving tab settles in over 240 ms; sliding thumb under the active tab |
+| Screens | Platform default | Cupertino slide with parallax and an interruptible edge-swipe back, on every route. Drill-ins use push so closing returns to exactly where you were |
+| Touch | Material ripple on release | Press-down scale on touch-down (not release), spring back, released if the finger slides off so scrolling never leaves a card stuck; reduced motion dims instead of moving |
+| Entrances | Everything appeared at once | Fade-and-rise stagger (50 ms steps, first 8 items only, once per screen) |
+| Controls | Segments and chips snapped | One thumb slides between segments; chips and labels ease colour; haptics on tab, segment, chip and primary actions |
+| Waiting | Spinners flashed on 5 ms local reads | Spinner appears only after 280 ms; analysing steps settle into a tick |
+| Scrolling | Android clamp with glow | Rubber-band physics everywhere, no glow; forms close the keyboard on drag |
+| Startup | White launch window; Google Fonts fetched at runtime; Firebase and notifications awaited before the first frame | Launch window is the app's own ink; fonts bundled in `google_fonts/` with runtime fetching off; Firebase and notifications start behind the first frame and everything that needs them awaits them |
+
+Measured on the Pixel 7 emulator, profile build, app sitting on Home doing nothing (alternating the old and new APK):
+- frames drawn in 6 s: 210-216 before, 61 after
+- app CPU: 73-76% before, about 10% after (the emulator was busier at that point than at my first run, so read the ratio, not the absolute)
+- with reduced motion on, the app draws no frames and uses 0% CPU
+- cold start: no measurable change on the emulator (about 4.1 s for both builds in the same conditions); the font and Firebase changes matter most on a fresh, slow or offline phone, which I cannot reproduce here
+
+Not verified:
+- Real-phone frame times. The emulator draws on the host GPU, so SurfaceFlinger counted 0 janky frames for the old build too: it cannot show the old jank. The blur and animated-layer fixes are structural, known costs, not something I could see fail here
+- Haptics (the emulator has no vibration motor)
+- First launch offline with the bundled fonts, and the system back button across the new nested resume stack
+- Feel: timing and curves are from the animation reference tables and checked in screenshots, not on a thumb. Worth a few minutes on a real phone
+
 ## Known behaviour
 - Match score varies a few points between runs of the same inputs (38 to 46 seen): Gemini re-extracts the
   requirement list each time. Temperature is 0. A fix if it matters for the demo: cache the result per (resume, JD) hash.

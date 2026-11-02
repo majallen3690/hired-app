@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:firebase_ai/firebase_ai.dart';
 
+import '../boot.dart';
+
 /// Structured Gemini call: JSON mime type + response schema, validated by [parse], one retry on failure.
 /// Never parses free text. A thrown [AiException] carries a message that is safe to show the user.
 class AiException implements Exception {
@@ -19,6 +21,7 @@ Future<T> generateStructured<T>({
   required T Function(Map<String, dynamic> json) parse,
   double temperature = 0.2,
 }) async {
+  await firebaseReady;
   final m = FirebaseAI.googleAI().generativeModel(
     model: model,
     systemInstruction: Content.system(system),

@@ -90,14 +90,24 @@ class _Step extends StatelessWidget {
         SizedBox(
           width: 22,
           height: 22,
-          child: done
-              ? Icon(Icons.check_rounded, color: c.ok, size: 22)
-              : active
-                  ? CircularProgressIndicator(strokeWidth: 2, color: c.ember)
-                  : Container(
-                      margin: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: c.track),
-                    ),
+          // The marker changes state as the work moves on: it should settle into a tick, not snap to one.
+          child: AnimatedSwitcher(
+            duration: HiredMotion.quick,
+            switchInCurve: HiredMotion.easeOut,
+            transitionBuilder: (child, a) => FadeTransition(
+              opacity: a,
+              child: ScaleTransition(scale: Tween(begin: 0.6, end: 1.0).animate(a), child: child),
+            ),
+            child: done
+                ? Icon(Icons.check_rounded, key: const ValueKey('done'), color: c.ok, size: 22)
+                : active
+                    ? CircularProgressIndicator(key: const ValueKey('active'), strokeWidth: 2, color: c.ember)
+                    : Container(
+                        key: const ValueKey('waiting'),
+                        margin: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: c.track),
+                      ),
+          ),
         ),
         const SizedBox(width: HiredSpace.md),
         Text(label,
