@@ -44,6 +44,10 @@ dependencies:
   firebase_auth: ^7.0.1
   cloud_firestore: ^7.1.0
   firebase_ai: ^5.1.0
+  record: ^7.1.2
+  path_provider: ^2.1.6
+  flutter_pcm_sound: ^3.3.3
+  just_audio: ^0.10.6
 
 dev_dependencies:
   flutter_test:

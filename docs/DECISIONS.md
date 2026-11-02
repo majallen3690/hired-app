@@ -15,3 +15,10 @@ The brief assumed paid services. The project must be free, so:
 | Billing | **Spark only** | A project with billing attached is treated as paid tier with a prepaid balance of zero, so every call returns 429 |
 
 Free-tier limits: Gemini Developer API has per-minute and per-day request caps. Heavy rehearsal can hit them; the app shows a clear "quota used up" message instead of failing silently.
+
+| Brief | Decision | Why |
+|---|---|---|
+| sherpa-onnx live ASR | **Gemini Live input/output transcription** | Same session, free, no model download; filler and pace maths stay in Dart |
+| ML Kit eye contact in the interview | **Deferred to the presence module (M5)** | The emulator has no real camera; no made-up eye-contact number is shown |
+| Audio playback via flutter_soloud | **flutter_pcm_sound (live) + just_audio (replay)** | flutter_soloud builds native code on the host and breaks `flutter test` without Visual Studio C++ tools |
+| Claude Sonnet `evaluateInterview` | **Gemini `generateContent` with responseSchema** | Free tier; scores computed in Dart, quotes verified against the transcript |

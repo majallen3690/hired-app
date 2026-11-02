@@ -193,7 +193,7 @@ class _Skills extends StatelessWidget {
 }
 
 /// Every score can be traced to the line it came from.
-void showEvidence(BuildContext context, String title, String evidence) {
+void showEvidence(BuildContext context, String title, String evidence, {bool quoted = true}) {
   final c = context.hc;
   showModalBottomSheet<void>(
     context: context,
@@ -211,7 +211,8 @@ void showEvidence(BuildContext context, String title, String evidence) {
         const SizedBox(height: HiredSpace.sm),
         Text(title, style: HiredText.h2.copyWith(color: c.text)),
         const SizedBox(height: HiredSpace.md),
-        Text('“$evidence”', style: HiredText.body.copyWith(color: c.text2, fontStyle: FontStyle.italic)),
+        Text(quoted ? '“$evidence”' : evidence,
+            style: HiredText.body.copyWith(color: c.text2, fontStyle: quoted ? FontStyle.italic : FontStyle.normal)),
         const SizedBox(height: HiredSpace.xl),
       ]),
     ),

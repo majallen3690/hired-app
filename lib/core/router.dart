@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/home/home_screen.dart';
+import '../features/interview/ui/coach_replay_screen.dart';
+import '../features/interview/ui/interview_live_screen.dart';
+import '../features/interview/ui/interview_report_screen.dart';
+import '../features/interview/ui/interview_setup_screen.dart';
 import '../features/resume/ui/analysing_screen.dart';
 import '../features/resume/ui/result_screen.dart';
 import '../features/resume/ui/resume_input_screen.dart';
@@ -122,7 +126,7 @@ final router = GoRouter(
         ),
         GoRoute(
           path: '/interview',
-          builder: (_, __) => const _Pending('Mock interview', 'A06 to A08'),
+          builder: (_, __) => const InterviewSetupScreen(),
         ),
         GoRoute(
           path: '/tracker',
@@ -141,6 +145,16 @@ final router = GoRouter(
           builder: (_, __) => const _Pending('Presence check', 'C03 and C04'),
         ),
       ],
+    ),
+    // Full-screen: no tab bar over a live interview, its report or the replay.
+    GoRoute(path: '/interview/live', builder: (_, __) => const InterviewLiveScreen()),
+    GoRoute(
+      path: '/interview/report/:id',
+      builder: (_, state) => InterviewReportScreen(id: state.pathParameters['id']!),
+    ),
+    GoRoute(
+      path: '/interview/replay/:id',
+      builder: (_, state) => CoachReplayScreen(id: state.pathParameters['id']!),
     ),
   ],
 );

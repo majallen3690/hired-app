@@ -44,10 +44,11 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final c = context.hc;
-    final scores = ref.watch(latestScoresProvider);
+    final measured = ref.watch(latestScoresProvider);
+    final scores = measured.isEmpty ? null : measured.toScores();
     final weakest = scores == null ? null : weakestSubScore(scores);
 
-    // A new account has no scores yet, so the honest first step is the resume.
+    // A new install has no scores yet, so the honest first step is the resume.
     final next = scores == null ? SubScore.resume : weakest;
     final action = next == null ? null : _actions[next];
 
@@ -62,7 +63,7 @@ class HomeScreen extends ConsumerWidget {
             TextSpan(text: 'practise?', style: HiredText.h1Em),
           ])),
           const SizedBox(height: 36),
-          _Dial(scores: scores, weakest: weakest, onCorner: (k) => context.go(_actions[k]!.route)),
+          _Dial(scores: scores, measured: measured, weakest: weakest, onCorner: (k) => context.go(_actions[k]!.route)),
           const SizedBox(height: HiredSpace.xxl),
           if (action != null)
             NextActionCard(
@@ -79,9 +80,10 @@ class HomeScreen extends ConsumerWidget {
 }
 
 class _Dial extends StatelessWidget {
-  const _Dial({required this.scores, required this.weakest, required this.onCorner});
+  const _Dial({required this.scores, required this.measured, required this.weakest, required this.onCorner});
 
   final SubScores? scores;
+  final MeasuredScores measured;
   final SubScore? weakest;
   final ValueChanged<SubScore> onCorner;
 
@@ -109,7 +111,12 @@ class _Dial extends StatelessWidget {
                       Text(s == null ? '–' : '${(readinessScore(s) * e).round()}',
                           style: HiredText.num(80).copyWith(color: c.text)),
                       const SizedBox(height: 2),
-                      Text('readiness', style: HiredText.italic.copyWith(color: c.text3)),
+                      Text(
+                        s == null || measured.measuredCount == 4
+                            ? 'readiness'
+                            : 'readiness · ${measured.measuredCount} of 4',
+                        style: HiredText.italic.copyWith(color: c.text3),
+                      ),
                     ],
                   ),
                 ),
@@ -117,7 +124,7 @@ class _Dial extends StatelessWidget {
               for (final k in SubScore.values)
                 ScoreCorner(
                   label: _labels[k]!,
-                  value: s == null ? null : (s[k] * e).round(),
+                  value: measured[k] == null ? null : (measured[k]! * e).round(),
                   alignment: _corners[k]!,
                   highlight: k == weakest,
                   onTap: () => onCorner(k),

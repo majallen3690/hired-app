@@ -1,9 +1,13 @@
-import 'dart:typed_data';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../core/ai/structured.dart';
+import '../home/scores_provider.dart';
 import 'data/resume_ai.dart';
 import 'domain/match_models.dart';
 
@@ -18,6 +22,7 @@ class ResumeFlow {
     this.resume,
     this.match,
     this.error,
+    this.targetRole,
   });
 
   final FlowStage stage;
@@ -27,6 +32,9 @@ class ResumeFlow {
   final Map<String, dynamic>? resume;
   final MatchResult? match;
   final String? error;
+
+  /// The role from the last match, kept so a mock interview can start from it.
+  final String? targetRole;
 
   bool get canRun => pdf != null && jd.trim().length >= 40;
 
@@ -38,6 +46,7 @@ class ResumeFlow {
     Map<String, dynamic>? resume,
     MatchResult? match,
     String? error,
+    String? targetRole,
     bool clearError = false,
   }) =>
       ResumeFlow(
@@ -48,6 +57,7 @@ class ResumeFlow {
         resume: resume ?? this.resume,
         match: match ?? this.match,
         error: clearError ? null : (error ?? this.error),
+        targetRole: targetRole ?? this.targetRole,
       );
 
   /// Every bullet in the parsed resume, for the tap-to-rewrite list.
@@ -68,7 +78,34 @@ class ResumeFlowNotifier extends Notifier<ResumeFlow> {
   final _ai = const ResumeAi();
 
   @override
-  ResumeFlow build() => const ResumeFlow();
+  ResumeFlow build() {
+    _loadSaved();
+    return const ResumeFlow();
+  }
+
+  Future<File> _savedFile() async => File('${(await getApplicationDocumentsDirectory()).path}/resume.json');
+
+  /// The parsed resume and role survive a restart, so the interview can start without redoing the match.
+  Future<void> _loadSaved() async {
+    try {
+      final f = await _savedFile();
+      if (!await f.exists()) return;
+      final j = jsonDecode(await f.readAsString()) as Map<String, dynamic>;
+      if (state.resume == null) {
+        state = state.copyWith(resume: j['resume'] as Map<String, dynamic>, targetRole: j['role'] as String?);
+      }
+    } catch (e) {
+      debugPrint('Could not read the saved resume: $e');
+    }
+  }
+
+  Future<void> _saveParsed(Map<String, dynamic> resume, String role) async {
+    try {
+      await (await _savedFile()).writeAsString(jsonEncode({'resume': resume, 'role': role}), flush: true);
+    } catch (e) {
+      debugPrint('Could not save the resume: $e');
+    }
+  }
 
   Future<void> pickPdf() async {
     final res = await FilePicker.pickFiles(type: FileType.custom, allowedExtensions: ['pdf'], withData: true);
@@ -95,7 +132,9 @@ class ResumeFlowNotifier extends Notifier<ResumeFlow> {
       final result = await matchFuture;
       state = state.copyWith(stage: FlowStage.writing);
       await Future<void>.delayed(const Duration(milliseconds: 500));
-      state = state.copyWith(stage: FlowStage.done, match: result);
+      state = state.copyWith(stage: FlowStage.done, match: result, targetRole: result.role);
+      ref.read(latestScoresProvider.notifier).setResume(result.overall);
+      _saveParsed(resume, result.role);
     } on AiException catch (e) {
       state = state.copyWith(stage: FlowStage.failed, error: e.message);
     }

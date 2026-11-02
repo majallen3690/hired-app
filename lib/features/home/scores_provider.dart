@@ -1,14 +1,97 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../core/scoring/readiness.dart';
 
-/// Latest result per sub-score. Null until the user has completed something; Firestore feeds this later.
-/// Nothing here is seeded: a new account honestly starts empty.
-class LatestScores extends Notifier<SubScores?> {
-  @override
-  SubScores? build() => null;
+/// The latest result per area. An area nobody has measured yet is null and shown as "–", never as a made-up number.
+class MeasuredScores {
+  const MeasuredScores({this.resume, this.interview, this.communication, this.presence});
 
-  void set(SubScores scores) => state = scores;
+  final int? resume;
+  final int? interview;
+  final int? communication;
+  final int? presence;
+
+  int? operator [](SubScore s) => switch (s) {
+        SubScore.resume => resume,
+        SubScore.interview => interview,
+        SubScore.communication => communication,
+        SubScore.presence => presence,
+      };
+
+  bool get isEmpty => SubScore.values.every((k) => this[k] == null);
+  int get measuredCount => SubScore.values.where((k) => this[k] != null).length;
+
+  /// Unmeasured areas count as zero, so readiness only rises as the user actually does the work.
+  SubScores toScores() =>
+      SubScores(resume: resume ?? 0, interview: interview ?? 0, communication: communication ?? 0, presence: presence ?? 0);
+
+  MeasuredScores copyWith({int? resume, int? interview, int? communication, int? presence}) => MeasuredScores(
+        resume: resume ?? this.resume,
+        interview: interview ?? this.interview,
+        communication: communication ?? this.communication,
+        presence: presence ?? this.presence,
+      );
+
+  Map<String, dynamic> toJson() =>
+      {'resume': resume, 'interview': interview, 'communication': communication, 'presence': presence};
+
+  factory MeasuredScores.fromJson(Map<String, dynamic> j) => MeasuredScores(
+        resume: j['resume'] as int?,
+        interview: j['interview'] as int?,
+        communication: j['communication'] as int?,
+        presence: j['presence'] as int?,
+      );
 }
 
-final latestScoresProvider = NotifierProvider<LatestScores, SubScores?>(LatestScores.new);
+/// Nothing is seeded: a new install honestly starts empty. Scores are kept on the device between launches.
+class LatestScores extends Notifier<MeasuredScores> {
+  @override
+  MeasuredScores build() {
+    _load();
+    return const MeasuredScores();
+  }
+
+  Future<File> _file() async => File('${(await getApplicationDocumentsDirectory()).path}/scores.json');
+
+  Future<void> _load() async {
+    try {
+      final f = await _file();
+      if (await f.exists()) {
+        state = MeasuredScores.fromJson(jsonDecode(await f.readAsString()) as Map<String, dynamic>);
+      }
+    } catch (e) {
+      debugPrint('Could not read saved scores: $e');
+    }
+  }
+
+  Future<void> _save() async {
+    try {
+      await (await _file()).writeAsString(jsonEncode(state.toJson()), flush: true);
+    } catch (e) {
+      debugPrint('Could not save scores: $e');
+    }
+  }
+
+  void setResume(int score) {
+    state = state.copyWith(resume: score);
+    _save();
+  }
+
+  /// Communication is measured from the voice, so it is null when there was too little speech to judge.
+  void setInterview(int interview, int? communication) {
+    state = state.copyWith(interview: interview, communication: communication);
+    _save();
+  }
+
+  void clear() {
+    state = const MeasuredScores();
+    _save();
+  }
+}
+
+final latestScoresProvider = NotifierProvider<LatestScores, MeasuredScores>(LatestScores.new);
