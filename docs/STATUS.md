@@ -30,6 +30,25 @@
 - Shareable scorecard: 360x640 card in the dark theme, rendered to a 1080x1920 PNG (checked by pulling the file off the device) and handed to the system share sheet
 - 73 unit tests green
 
+## M6 Self-intro (built, see verification below)
+- Recorder (`record`, 16 kHz PCM, raw signal) with a 60-tick countdown dial and live level meter; typed fallback
+- Gemini transcribes the WAV with fillers kept (probed with a speech sample), then a second call rates clarity, structure, confidence and who/what/why with verbatim quotes
+- Measured in Dart: words per minute over the time actually speaking, fillers, longest pause (relative level threshold, so a quiet mic works), volume steadiness; guards for silence, under 5 s, under 20 words and a transcript faster than 300 wpm
+- Structure is capped by the who/what/why check; a part whose quote is not in the transcript counts as missing
+- Stronger version uses only facts from the transcript, resume or target role, with `[placeholders]`; a number it invents is rejected and retried
+- Result compares with the last try (what improved, what slipped); saved on the device with the recording
+- A spoken, scored intro sets the speaking score and adds a Progress event; Intros count on Progress is real
+- 29 new unit tests plus a widget test of the result screen (it caught a layout crash the emulator showed only as a blank screen)
+
+## M6 verification log (Pixel 7 emulator)
+- Typed intro, twice: first 53 (no "why"), second 73 with "▲ 20 since last try", "Clarity up from 3 to 4", "Confidence up from 2 to 4"
+- The stronger version reused only facts from the resume (Flutter, Firebase, Brightlabs, the 30% seat-finder figure) and the target role
+- When the typed text was cut off mid-sentence (emulator input limit) the scorer said so and marked "why" missing
+- Recorder: 60-tick dial counts down, level meter and "speak up" hint react to the mic; a silent recording gives "We could not hear you" and nothing is sent to the AI
+- Typed intros leave readiness at 33 (not speaking); Intros on Progress reads 2
+- Transcription prompt probed with a Windows speech sample containing "um", "uh", "basically": returned word for word, fillers kept
+- Not verified: a real voice (the emulator mic is silent), so live pace, filler and pause numbers and the Delivery card come from unit tests only; test with earphones on a phone
+
 ## M7 verification log (Pixel 7 emulator, typed answers)
 - Full five-question run: the interviewer adapts difficulty, asks a final fundamentals question, wraps up on its own
   (`endInterview`), the app scores and opens the report. Score delta vs the previous mock is shown (52, down 18 from 70)
@@ -40,7 +59,6 @@
 - Spoken answers on a real voice (emulator mic): live fillers, pace, measured pauses, echo without earphones
 - Company Mode (Search grounding), Hinglish run, eye contact (camera, belongs to M5)
 - Sending an answer closes the keyboard; keeping it open between answers would be nicer
-- Intros count on Progress is 0 until the self-intro module (M6) exists
 
 ## Environment note
 - The C: drive hit 2 GB free once and the emulator refused to start; keep 10+ GB free before building. `build/app/intermediates` regenerates on the next build

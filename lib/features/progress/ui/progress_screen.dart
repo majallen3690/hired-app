@@ -10,6 +10,7 @@ import '../../../core/widgets/controls.dart';
 import '../../../core/widgets/glass.dart';
 import '../../home/scores_provider.dart';
 import '../../interview/ui/interview_widgets.dart' show MetricTile;
+import '../../intro/data/intro_store.dart';
 import '../../resume/resume_flow.dart';
 import '../data/progress_providers.dart';
 import '../domain/progress_models.dart';
@@ -267,8 +268,12 @@ class _State extends ConsumerState<ProgressScreen> {
                   value: '${summary.resumeMatches}',
                 ),
               ),
-              const Expanded(
-                child: MetricTile(label: 'Intros', value: '0'),
+              Expanded(
+                child: MetricTile(
+                  label: 'Intros',
+                  value:
+                      '${(ref.watch(introsProvider).asData?.value ?? const []).where((i) => i.score != null).length}',
+                ),
               ),
             ],
           ),

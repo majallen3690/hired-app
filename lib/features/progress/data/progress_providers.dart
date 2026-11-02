@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../../core/scoring/readiness.dart';
 import '../../interview/data/session_store.dart';
+import '../../intro/data/intro_store.dart';
 import '../domain/progress_models.dart';
 
 /// Every resume match, kept on the device. Interview results are not stored here: each saved session already holds
@@ -67,7 +68,7 @@ final resumeEventsProvider = NotifierProvider<ResumeEvents, List<ScoreEvent>>(
   ResumeEvents.new,
 );
 
-/// Resume matches plus the interview and speaking score of every scored session.
+/// Resume matches, the interview and speaking score of every scored session, and the score of every spoken intro.
 final scoreEventsProvider = Provider<List<ScoreEvent>>((ref) {
   final resume = ref.watch(resumeEventsProvider);
   final sessions = ref.watch(sessionsProvider).asData?.value ?? const [];
@@ -96,7 +97,18 @@ final scoreEventsProvider = Provider<List<ScoreEvent>>((ref) {
       );
     }
   }
-  return [...resume, ...fromSessions];
+  final intros = ref.watch(introsProvider).asData?.value ?? const [];
+  final fromIntros = [
+    for (final i in intros)
+      if (i.countsAsSpeaking)
+        ScoreEvent(
+          id: '${i.id}-intro',
+          at: i.startedAt.add(Duration(milliseconds: i.durationMs)),
+          area: SubScore.communication,
+          value: i.score!,
+        ),
+  ];
+  return [...resume, ...fromSessions, ...fromIntros];
 });
 
 final progressProvider = Provider<ProgressSummary>(

@@ -90,6 +90,12 @@ class LatestScores extends Notifier<MeasuredScores> {
     _save();
   }
 
+  /// A scored spoken intro measures speaking too, so the latest one sets the speaking score.
+  void setCommunication(int score) {
+    state = state.copyWith(communication: score);
+    _save();
+  }
+
   void clear() {
     state = const MeasuredScores();
     _save();

@@ -22,3 +22,7 @@ Free-tier limits: Gemini Developer API has per-minute and per-day request caps. 
 | ML Kit eye contact in the interview | **Deferred to the presence module (M5)** | The emulator has no real camera; no made-up eye-contact number is shown |
 | Audio playback via flutter_soloud | **flutter_pcm_sound (live) + just_audio (replay)** | flutter_soloud builds native code on the host and breaks `flutter test` without Visual Studio C++ tools |
 | Claude Sonnet `evaluateInterview` | **Gemini `generateContent` with responseSchema** | Free tier; scores computed in Dart, quotes verified against the transcript |
+| Self-intro live transcript (sherpa-onnx) | **Record 60 s, then transcribe the WAV with Gemini; level meter shown while recording** | A second live session would burn free-tier quota, and on-device speech recognition fights the recorder for the microphone. Fillers are kept verbatim (probed) and counted in Dart |
+| Self-intro pause button | **Dropped; restart and stop only** | A paused minute has no meaning for pace; fewer states to get wrong |
+| Typed self-intro | **Added, scored on content only** | Works without a microphone; never counts towards the speaking score or the progress chart |
+| Intro score | **65% content (clarity, structure, confidence from Gemini, quotes verified) + 35% measured delivery** | Delivery is measured, content is judged; a typed intro is content only |

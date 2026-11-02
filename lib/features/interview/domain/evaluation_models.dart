@@ -1,3 +1,4 @@
+import '../../../core/scoring/evidence.dart';
 import 'interview_models.dart';
 
 /// One 1 to 5 rating plus the line from the candidate's answer that justifies it.
@@ -98,19 +99,8 @@ class InterviewEvaluation {
   /// A rating whose quote is not really in the candidate's words is capped at 3 and loses the quote,
   /// so no score rests on something the candidate never said.
   InterviewEvaluation withVerifiedEvidence(String candidateText) {
-    final haystack = _norm(candidateText);
-    final words = haystack.split(' ').toSet();
-    bool found(String? line) {
-      if (line == null) return false;
-      final n = _norm(line);
-      if (n.isEmpty) return false;
-      if (haystack.contains(n)) return true;
-      final ws = n.split(' ');
-      return ws.where(words.contains).length / ws.length >= 0.85;
-    }
-
     Dimension fix(Dimension d) =>
-        found(d.evidence) ? d : Dimension(score: d.score > 3 ? 3 : d.score, evidence: null);
+        quoteIsGrounded(d.evidence, candidateText) ? d : Dimension(score: d.score > 3 ? 3 : d.score, evidence: null);
 
     return InterviewEvaluation(
       headline: headline,
@@ -134,9 +124,6 @@ class InterviewEvaluation {
       ],
     );
   }
-
-  static String _norm(String s) =>
-      s.toLowerCase().replaceAll(RegExp(r'[^a-z0-9%+#./ ]'), ' ').replaceAll(RegExp(r'\s+'), ' ').trim();
 
   Map<String, dynamic> toJson() => {
         'headline': headline,
