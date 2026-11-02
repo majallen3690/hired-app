@@ -5,6 +5,8 @@ import '../features/home/home_screen.dart';
 import '../features/interview/ui/coach_replay_screen.dart';
 import '../features/intro/ui/intro_recorder_screen.dart';
 import '../features/intro/ui/intro_result_screen.dart';
+import '../features/presence/ui/presence_camera_screen.dart';
+import '../features/presence/ui/presence_result_screen.dart';
 import '../features/progress/ui/progress_screen.dart';
 import '../features/tracker/ui/add_application_screen.dart';
 import '../features/tracker/ui/application_detail_screen.dart';
@@ -18,31 +20,6 @@ import '../features/resume/ui/resume_input_screen.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 import 'widgets/glass.dart';
-
-/// Honest placeholder for modules not built yet; replaced screen by screen from docs/design.
-class _Pending extends StatelessWidget {
-  const _Pending(this.title, this.design);
-  final String title;
-  final String design;
-
-  @override
-  Widget build(BuildContext context) => SafeArea(
-    child: Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: HiredText.h1.copyWith(color: context.hc.text)),
-          const SizedBox(height: 8),
-          Text(
-            'Not built yet. Design: $design',
-            style: HiredText.body.copyWith(color: context.hc.text2),
-          ),
-        ],
-      ),
-    ),
-  );
-}
 
 const _tabs = [
   ('/home', 'Home', Icons.home_rounded),
@@ -139,10 +116,6 @@ final router = GoRouter(
           path: '/progress',
           builder: (_, __) => const ProgressScreen(),
         ),
-        GoRoute(
-          path: '/presence',
-          builder: (_, __) => const _Pending('Presence check', 'C03 and C04'),
-        ),
       ],
     ),
     // Full-screen: no tab bar over a live interview, its report or the replay.
@@ -154,6 +127,11 @@ final router = GoRouter(
     GoRoute(
       path: '/tracker/:id',
       builder: (_, state) => ApplicationDetailScreen(id: state.pathParameters['id']!),
+    ),
+    GoRoute(path: '/presence', builder: (_, __) => const PresenceCameraScreen()),
+    GoRoute(
+      path: '/presence/result/:id',
+      builder: (_, state) => PresenceResultScreen(id: state.pathParameters['id']!),
     ),
     GoRoute(path: '/intro', builder: (_, __) => const IntroRecorderScreen()),
     GoRoute(

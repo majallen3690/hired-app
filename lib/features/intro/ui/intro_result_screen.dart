@@ -45,6 +45,8 @@ class _State extends ConsumerState<IntroResultScreen> {
   @override
   Widget build(BuildContext context) {
     final c = context.hc;
+    // The controller disposes itself when nothing listens; "Score it now" calls it after awaits, so keep it alive.
+    ref.watch(introControllerProvider);
     final async = ref.watch(introProvider(widget.id));
     final all = ref.watch(introsProvider).asData?.value ?? const [];
     return Scaffold(

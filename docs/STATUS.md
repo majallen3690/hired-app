@@ -68,6 +68,25 @@
 - Tapping a notification opens the application, or (warm-up) the interview setup with role and company filled in; also works when the app was closed
 - 20 rule tests, 2 widget tests
 
+## M5 Presence check (built, see verification below)
+- Camera screen with the designed live guide: dashed oval (amber until the frame is good, then teal), occasion switch (Interview, Client, LinkedIn, Office), up to three live pills (face centred, light on the face, head level) and the occasion hint
+- ML Kit face detection on every analysed frame (about 4 a second): face count, position and size, head angles, smile, eyes open; brightness of the face and of the background is measured in Dart from the camera's Y plane, with the frame rotation handled (backlit and too dark/bright are told apart)
+- The shutter only sends a photo when exactly one face is in view; with none or several it explains and sends nothing
+- Gemini vision rates attire, grooming, background and expression 1 to 5 with a short "seen" line, plus fix suggestions; it is told never to judge faces, bodies, age, gender or looks, and attire is dropped (not invented) when clothes are not in the photo
+- Score is computed in Dart and is occasion-weighted: attire and grooming are the model's rating; light and background are half measured brightness and half the model's view of the background; expression is half the model's rating, a quarter measured smile and a quarter measured gaze. Every area shows "Seen" (AI) and "Measured" (phone) separately
+- A model that rates an area 5 and also suggests a fix for it is capped at 4 for that area; the three fixes put measured problems first (backlit, dark, too far, looking away), then the model's
+- Consent sheet before the first photo is sent; photos stay on the phone; nothing counts until "Save to my score"; an unsaved check and its photo are deleted on retake or leave; a saved one can be deleted and the score steps back
+- Gallery photos work too (head angles and expression only; position and brightness are not measured for them)
+- Saved checks feed the Presence score on Home and the Progress chart
+- 45 new unit tests and 4 widget tests (scored, failed, saved, no clothes)
+
+## M5 verification log (Pixel 7 emulator)
+- The emulator has no front camera and its back camera is a test pattern with no faces, so the live guide could only be seen reporting "Move your face into the oval"; the camera permission prompt, live preview and ML Kit analysis loop ran; the shutter with no face showed the explanation and sent nothing
+- The consent sheet appeared on first use and gallery picking worked
+- A generated cartoon portrait picked from the gallery was detected by ML Kit (smile 78%, eyes open, facing the camera) and Gemini described the navy sweater, collar, hair, plain grey background and smile; the result screen, breakdown and three fixes rendered as designed. It scored 100 in every area, which is what prompted the cap and the prompt calibration above
+- After the cap and prompt change the same portrait scored 92 (attire 80, expression 90, grooming and background 100). "Save to my score" first hung on "Saving…": the controller was auto-disposed while the screen awaited it. The same flaw sat in the intro result's "Score it now" retry, which had never been exercised. Both result screens now keep their controller alive, with a regression test; after the fix Save returned to Home showing Presence 92 and readiness 47 (3 of 4)
+- Not verified: the live guide with a real face (centring, size, backlight and tilt pills), taking a real photo (`takePicture` after stopping the stream), the front camera, and how generous the model is on real photos. Test on a phone
+
 ## M9 verification log (Pixel 7 emulator, Android 15)
 - Saving a new application as Applied showed Android's notification permission prompt at that moment (not at launch)
 - With exact alarms allowed (`appops` on the emulator), `dumpsys alarm` listed the scheduled notifications at the expected instants: three follow-ups at 7 Nov 10:00 (the three Applied applications, five days after 2 Nov)

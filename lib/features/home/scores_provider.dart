@@ -31,11 +31,12 @@ class MeasuredScores {
   SubScores toScores() =>
       SubScores(resume: resume ?? 0, interview: interview ?? 0, communication: communication ?? 0, presence: presence ?? 0);
 
-  MeasuredScores copyWith({int? resume, int? interview, int? communication, int? presence}) => MeasuredScores(
+  MeasuredScores copyWith({int? resume, int? interview, int? communication, int? presence, bool clearPresence = false}) =>
+      MeasuredScores(
         resume: resume ?? this.resume,
         interview: interview ?? this.interview,
         communication: communication ?? this.communication,
-        presence: presence ?? this.presence,
+        presence: clearPresence ? null : (presence ?? this.presence),
       );
 
   Map<String, dynamic> toJson() =>
@@ -93,6 +94,12 @@ class LatestScores extends Notifier<MeasuredScores> {
   /// A scored spoken intro measures speaking too, so the latest one sets the speaking score.
   void setCommunication(int score) {
     state = state.copyWith(communication: score);
+    _save();
+  }
+
+  /// The latest saved presence check. Null clears it, for when the last saved photo is deleted.
+  void setPresence(int? score) {
+    state = score == null ? state.copyWith(clearPresence: true) : state.copyWith(presence: score);
     _save();
   }
 
