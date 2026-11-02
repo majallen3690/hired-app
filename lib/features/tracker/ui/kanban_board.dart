@@ -7,6 +7,7 @@ import '../../../core/theme/tokens.dart';
 import '../domain/application_models.dart';
 import '../domain/tracker_logic.dart';
 import 'tracker_widgets.dart';
+import '../../../core/motion/motion.dart';
 
 const _columnWidth = 262.0;
 const _edge = 64.0;
@@ -109,7 +110,10 @@ class _Column extends StatelessWidget {
     final color = stageColor(c, stage);
     return DragTarget<String>(
       onWillAcceptWithDetails: (d) => true,
-      onAcceptWithDetails: (d) => onDrop(d.data),
+      onAcceptWithDetails: (d) {
+        Haptics.select();
+        onDrop(d.data);
+      },
       builder: (context, candidates, _) {
         final hovering = candidates.isNotEmpty;
         return AnimatedContainer(
@@ -212,11 +216,14 @@ class _Card extends StatelessWidget {
       data: app.id,
       feedback: _body(context, lifted: true),
       childWhenDragging: Opacity(opacity: 0.3, child: _body(context)),
-      onDragStarted: onDragStart,
+      onDragStarted: () {
+        Haptics.tap();
+        onDragStart();
+      },
       onDragUpdate: (d) => onDragMove(d.globalPosition.dx),
       onDragEnd: (_) => onDragEnd(),
       onDraggableCanceled: (_, __) => onDragEnd(),
-      child: GestureDetector(onTap: onTap, child: _body(context)),
+      child: PressScale(child: GestureDetector(onTap: onTap, child: _body(context))),
     );
   }
 }

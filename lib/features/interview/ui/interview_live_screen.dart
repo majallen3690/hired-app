@@ -12,6 +12,7 @@ import '../domain/interview_models.dart';
 import '../domain/speech_metrics.dart';
 import '../interview_controller.dart';
 import 'interview_widgets.dart';
+import '../../../core/motion/motion.dart';
 
 class InterviewLiveScreen extends ConsumerStatefulWidget {
   const InterviewLiveScreen({super.key});
@@ -102,7 +103,9 @@ class _State extends ConsumerState<InterviewLiveScreen> {
         backgroundColor: c.ink,
         body: Aurora(
           child: SafeArea(
-            child: switch (s.phase) {
+            child: PhaseSwitcher(
+              phase: s.phase == InterviewPhase.live ? 'live-${s.mode}' : s.phase.name,
+              child: switch (s.phase) {
               InterviewPhase.connecting => _busy(
                 c,
                 'Connecting to your interviewer',
@@ -121,7 +124,8 @@ class _State extends ConsumerState<InterviewLiveScreen> {
                     ? _standard(c, s, ctl, elapsed)
                     : _live(c, s, ctl, elapsed),
               _ => const SizedBox.shrink(),
-            },
+              },
+            ),
           ),
         ),
       ),

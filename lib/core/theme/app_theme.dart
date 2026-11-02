@@ -60,6 +60,25 @@ ThemeData buildHiredTheme(Brightness brightness) {
       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     }),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: p.ink2,
+      modalBackgroundColor: p.ink2,
+      surfaceTintColor: Colors.transparent,
+      modalBarrierColor: Colors.black.withValues(alpha: brightness == Brightness.dark ? 0.55 : 0.32),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(HiredRadii.card))),
+    ),
+    dialogTheme: DialogThemeData(
+      backgroundColor: p.ink2,
+      surfaceTintColor: Colors.transparent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(HiredRadii.card)),
+    ),
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: p.ink3,
+      contentTextStyle: HiredText.body.copyWith(color: p.text),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(HiredRadii.button)),
+      insetPadding: const EdgeInsets.fromLTRB(16, 0, 16, 104),
+    ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
         backgroundColor: p.ember,

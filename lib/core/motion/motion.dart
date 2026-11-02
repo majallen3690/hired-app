@@ -16,6 +16,9 @@ class Haptics {
   /// Moving a selection: a tab, a segment, a chip.
   static void select() => _fire(HapticFeedback.selectionClick);
 
+  /// A score has landed.
+  static void success() => _fire(HapticFeedback.mediumImpact);
+
   static void _fire(Future<void> Function() f) {
     // A device with no vibrator, or a test with no platform, must never turn a tap into an error.
     unawaited(f().catchError((_) {}));
@@ -50,13 +53,16 @@ class _PressScaleState extends State<PressScale> with SingleTickerProviderStateM
     super.dispose();
   }
 
+  // A pointer can outlive the widget it landed on (a dragged card is rebuilt under the finger), so every handler
+  // checks it is still mounted before touching the controller.
   void _down(PointerDownEvent e) {
-    if (!widget.enabled) return;
+    if (!mounted || !widget.enabled) return;
     _start = e.position;
     _c.forward();
   }
 
   void _move(PointerMoveEvent e) {
+    if (!mounted) return;
     final s = _start;
     if (s != null && (e.position - s).distance > kTouchSlop) {
       _start = null;
@@ -65,6 +71,7 @@ class _PressScaleState extends State<PressScale> with SingleTickerProviderStateM
   }
 
   void _up(PointerEvent e) {
+    if (!mounted) return;
     _start = null;
     _c.reverse();
   }
@@ -248,4 +255,69 @@ class HiredScrollBehavior extends MaterialScrollBehavior {
 
   @override
   Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) => child;
+}
+
+/// Sheets rise with the same long-settle curve as the tab thumb and leave a little faster than they arrive.
+final hiredSheetMotion = AnimationStyle(
+  duration: const Duration(milliseconds: 380),
+  curve: HiredMotion.drawer,
+  reverseDuration: const Duration(milliseconds: 260),
+  reverseCurve: Curves.easeInCubic,
+);
+
+/// A progress bar that fills from empty to its value the first time it shows, and glides when the value changes.
+class AnimatedBar extends StatelessWidget {
+  const AnimatedBar({
+    super.key,
+    required this.value,
+    required this.color,
+    required this.backgroundColor,
+    this.minHeight = 4,
+  });
+
+  final double value;
+  final Color color;
+  final Color backgroundColor;
+  final double minHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    final reduce = MediaQuery.disableAnimationsOf(context);
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: value.clamp(0.0, 1.0)),
+      duration: reduce ? Duration.zero : const Duration(milliseconds: 800),
+      curve: HiredMotion.easeOutExpo,
+      builder: (_, v, __) =>
+          LinearProgressIndicator(value: v, minHeight: minHeight, backgroundColor: backgroundColor, color: color),
+    );
+  }
+}
+
+/// Swaps between whole-screen states (connecting, live, wrapping up) with a short fade and settle instead of a
+/// cut. It keeps the tight constraints a screen expects, which a plain AnimatedSwitcher would loosen.
+class PhaseSwitcher extends StatelessWidget {
+  const PhaseSwitcher({super.key, required this.phase, required this.child});
+
+  /// Changes whenever the screen moves to a different state.
+  final Object phase;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final reduce = MediaQuery.disableAnimationsOf(context);
+    return AnimatedSwitcher(
+      duration: reduce ? Duration.zero : const Duration(milliseconds: 320),
+      switchInCurve: HiredMotion.easeOut,
+      switchOutCurve: Curves.easeIn,
+      layoutBuilder: (current, previous) => Stack(
+        fit: StackFit.expand,
+        children: [...previous, if (current != null) current],
+      ),
+      transitionBuilder: (child, a) => FadeTransition(
+        opacity: a,
+        child: ScaleTransition(scale: Tween(begin: 0.985, end: 1.0).animate(a), child: child),
+      ),
+      child: KeyedSubtree(key: ValueKey(phase), child: child),
+    );
+  }
 }

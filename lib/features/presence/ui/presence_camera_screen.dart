@@ -17,6 +17,7 @@ import '../../interview/ui/interview_widgets.dart' show Orb;
 import '../domain/framing.dart';
 import '../domain/presence_models.dart';
 import '../presence_controller.dart';
+import '../../../core/motion/motion.dart';
 
 /// The most a gallery photo may weigh before it is refused; it is sent inline to the model.
 const _maxPhotoBytes = 12 * 1024 * 1024;
@@ -247,6 +248,7 @@ class _State extends ConsumerState<PresenceCameraScreen> with WidgetsBindingObse
     final ok = await showModalBottomSheet<bool>(
       context: context,
       useRootNavigator: true,
+      sheetAnimationStyle: hiredSheetMotion,
       useSafeArea: true,
       backgroundColor: c.ink2,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(HiredRadii.card))),

@@ -258,6 +258,7 @@ class _State extends ConsumerState<PresenceResultScreen> {
                 const SectionLabel('Presence'),
                 if (score != null) ...[
                   TweenAnimationBuilder<double>(
+                    onEnd: Haptics.success,
                     tween: Tween(begin: 0, end: score.toDouble()),
                     duration: MediaQuery.of(context).disableAnimations
                         ? Duration.zero
@@ -322,7 +323,7 @@ class _State extends ConsumerState<PresenceResultScreen> {
           const SizedBox(height: HiredSpace.sm),
           ClipRRect(
             borderRadius: BorderRadius.circular(2),
-            child: LinearProgressIndicator(
+            child: AnimatedBar(
               value: p.value / 100,
               minHeight: 4,
               backgroundColor: c.track,

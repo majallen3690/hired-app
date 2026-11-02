@@ -97,6 +97,7 @@ class _State extends ConsumerState<InterviewReportScreen> {
         if (score != null) ...[
           Center(
             child: TweenAnimationBuilder<double>(
+              onEnd: Haptics.success,
               tween: Tween(begin: 0, end: score.toDouble()),
               duration: MediaQuery.of(context).disableAnimations ? Duration.zero : HiredMotion.scoreReveal,
               curve: HiredMotion.easeOutQuart,

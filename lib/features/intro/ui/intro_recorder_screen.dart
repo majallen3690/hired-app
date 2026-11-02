@@ -13,6 +13,7 @@ import '../data/intro_store.dart';
 import '../domain/intro_analysis.dart';
 import '../intro_controller.dart';
 import 'countdown_ring.dart';
+import '../../../core/motion/motion.dart';
 
 class IntroRecorderScreen extends ConsumerStatefulWidget {
   const IntroRecorderScreen({super.key});
@@ -63,12 +64,19 @@ class _State extends ConsumerState<IntroRecorderScreen> {
         resizeToAvoidBottomInset: true,
         body: Aurora(
           child: SafeArea(
-            child: switch (s.phase) {
-              IntroPhase.recording => _recording(c, s, ctl),
-              IntroPhase.transcribing || IntroPhase.scoring => _busy(c, s),
-              IntroPhase.failed => _failed(c, s, ctl),
-              IntroPhase.idle => _typing ? _typingView(c, s, ctl) : _idle(c, s, ctl),
-            },
+            child: PhaseSwitcher(
+              phase: switch (s.phase) {
+                IntroPhase.transcribing || IntroPhase.scoring => 'busy',
+                IntroPhase.idle => _typing ? 'typing' : 'idle',
+                _ => s.phase.name,
+              },
+              child: switch (s.phase) {
+                IntroPhase.recording => _recording(c, s, ctl),
+                IntroPhase.transcribing || IntroPhase.scoring => _busy(c, s),
+                IntroPhase.failed => _failed(c, s, ctl),
+                IntroPhase.idle => _typing ? _typingView(c, s, ctl) : _idle(c, s, ctl),
+              },
+            ),
           ),
         ),
       ),

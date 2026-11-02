@@ -8,11 +8,13 @@ import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/controls.dart';
 import '../domain/match_models.dart';
 import '../resume_flow.dart';
+import '../../../core/motion/motion.dart';
 
 void showRewriteSheet(BuildContext context, {required String bullet}) {
   showModalBottomSheet<void>(
     context: context,
     useRootNavigator: true,
+    sheetAnimationStyle: hiredSheetMotion,
     useSafeArea: true,
     isScrollControlled: true,
     backgroundColor: context.hc.ink2,

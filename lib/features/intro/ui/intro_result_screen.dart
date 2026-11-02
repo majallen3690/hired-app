@@ -96,6 +96,7 @@ class _State extends ConsumerState<IntroResultScreen> {
         if (e != null && score != null) ...[
           Center(
             child: TweenAnimationBuilder<double>(
+              onEnd: Haptics.success,
               tween: Tween(begin: 0, end: score.toDouble()),
               duration: MediaQuery.of(context).disableAnimations ? Duration.zero : HiredMotion.scoreReveal,
               curve: HiredMotion.easeOutQuart,
@@ -178,7 +179,7 @@ class _State extends ConsumerState<IntroResultScreen> {
               const SizedBox(height: 6),
               ClipRRect(
                 borderRadius: BorderRadius.circular(2),
-                child: LinearProgressIndicator(value: value / 5, minHeight: 4, backgroundColor: c.track, color: c.band(value * 20)),
+                child: AnimatedBar(value: value / 5, minHeight: 4, backgroundColor: c.track, color: c.band(value * 20)),
               ),
               if (note != null) ...[
                 const SizedBox(height: 6),

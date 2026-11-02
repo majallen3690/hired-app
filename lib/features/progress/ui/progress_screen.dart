@@ -42,6 +42,7 @@ class _State extends ConsumerState<ProgressScreen> {
     showModalBottomSheet<void>(
       context: context,
       useRootNavigator: true,
+      sheetAnimationStyle: hiredSheetMotion,
       useSafeArea: true,
       isScrollControlled: true,
       backgroundColor: context.hc.ink2,

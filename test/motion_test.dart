@@ -49,6 +49,16 @@ void main() {
       await g.up();
     });
 
+    testWidgets('survives being removed while a finger is still down on it', (tester) async {
+      await tester.pumpWidget(host(const PressScale(child: SizedBox(width: 120, height: 60))));
+      final g = await tester.startGesture(tester.getCenter(find.byType(PressScale)));
+      await tester.pump();
+      await tester.pumpWidget(host(const SizedBox()));
+      await g.moveBy(const Offset(0, 60));
+      await g.up();
+      expect(tester.takeException(), isNull);
+    });
+
     testWidgets('does nothing while disabled', (tester) async {
       await tester.pumpWidget(host(const PressScale(enabled: false, child: SizedBox(width: 120, height: 60))));
       final g = await tester.startGesture(tester.getCenter(find.byType(PressScale)));
@@ -192,4 +202,67 @@ void main() {
       await tester.pumpWidget(const SizedBox());
     });
   });
+
+  group('AnimatedBar', () {
+    double fill(WidgetTester tester) => tester.widget<LinearProgressIndicator>(find.byType(LinearProgressIndicator)).value!;
+
+    testWidgets('fills from empty the first time and glides to a new value', (tester) async {
+      Widget bar(double v) =>
+          host(SizedBox(width: 200, child: AnimatedBar(value: v, color: Colors.green, backgroundColor: Colors.grey)));
+      await tester.pumpWidget(bar(0.8));
+      expect(fill(tester), 0.0);
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(fill(tester), inExclusiveRange(0.0, 0.8));
+      await tester.pump(const Duration(seconds: 1));
+      expect(fill(tester), closeTo(0.8, 0.001));
+
+      await tester.pumpWidget(bar(0.3));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(fill(tester), inExclusiveRange(0.3, 0.8));
+      await tester.pump(const Duration(seconds: 1));
+      expect(fill(tester), closeTo(0.3, 0.001));
+    });
+
+    testWidgets('is already full under reduced motion', (tester) async {
+      await tester.pumpWidget(host(
+        SizedBox(width: 200, child: AnimatedBar(value: 0.6, color: Colors.green, backgroundColor: Colors.grey)),
+        reduce: true,
+      ));
+      expect(fill(tester), closeTo(0.6, 0.001));
+    });
+  });
+
+  group('PhaseSwitcher', () {
+    testWidgets('fades between states, keeps the screen full-size, and drops the old one when done', (tester) async {
+      Widget at(String phase) => host(SizedBox(
+            width: 300,
+            height: 500,
+            child: PhaseSwitcher(phase: phase, child: Column(children: [Text('state $phase'), const Spacer()])),
+          ));
+      await tester.pumpWidget(at('a'));
+      await tester.pumpWidget(at('b'));
+      await tester.pump(const Duration(milliseconds: 100));
+      // Both are on screen mid-change.
+      expect(find.text('state a'), findsOneWidget);
+      expect(find.text('state b'), findsOneWidget);
+      // Tight constraints survive: the Spacer would throw if the child were given unbounded height.
+      expect(tester.takeException(), isNull);
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text('state a'), findsNothing);
+      expect(find.text('state b'), findsOneWidget);
+    });
+
+    testWidgets('does not animate when the state has not changed', (tester) async {
+      Widget at(String label) => host(SizedBox(
+            width: 300,
+            height: 500,
+            child: PhaseSwitcher(phase: 'live', child: Text(label)),
+          ));
+      await tester.pumpWidget(at('one'));
+      await tester.pumpWidget(at('two'));
+      expect(find.text('one'), findsNothing);
+      expect(find.text('two'), findsOneWidget);
+    });
+  });
 }
+

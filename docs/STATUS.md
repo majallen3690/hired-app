@@ -144,6 +144,14 @@ Not verified:
 - First launch offline with the bundled fonts, and the system back button across the new nested resume stack
 - Feel: timing and curves are from the animation reference tables and checked in screenshots, not on a thumb. Worth a few minutes on a real phone
 
+
+Second polish round (verified on the emulator unless noted):
+- score bars fill from empty and the number counts up, with a soft haptic when a score lands (haptic not verifiable here)
+- sheets rise on the same long-settle curve; sheets, dialogs and toasts share one theme (toast floats above the tab bar)
+- interview and intro-recorder states fade and settle instead of cutting (tests only; not driven end to end on the emulator)
+- tracker board: lifted card, drop highlight and haptics on lift and drop; dragging works on the new build
+- bug found by the existing board test and fixed: a press-feedback wrapper threw if its card was rebuilt under the finger mid-drag
+
 ## Known behaviour
 - Match score varies a few points between runs of the same inputs (38 to 46 seen): Gemini re-extracts the
   requirement list each time. Temperature is 0. A fix if it matters for the demo: cache the result per (resume, JD) hash.

@@ -37,6 +37,7 @@ class ResultScreen extends ConsumerWidget {
           const SizedBox(height: HiredSpace.lg),
           Center(
             child: TweenAnimationBuilder<double>(
+              onEnd: Haptics.success,
               tween: Tween(begin: 0, end: m.overall.toDouble()),
               duration: MediaQuery.of(context).disableAnimations ? Duration.zero : HiredMotion.scoreReveal,
               curve: HiredMotion.easeOutQuart,
@@ -142,7 +143,7 @@ class _Component extends StatelessWidget {
       const SizedBox(height: 6),
       ClipRRect(
         borderRadius: BorderRadius.circular(2),
-        child: LinearProgressIndicator(
+        child: AnimatedBar(
           value: value / 100,
           minHeight: 4,
           backgroundColor: c.track,
@@ -199,6 +200,7 @@ void showEvidence(BuildContext context, String title, String evidence, {bool quo
   showModalBottomSheet<void>(
     context: context,
     useRootNavigator: true,
+    sheetAnimationStyle: hiredSheetMotion,
     useSafeArea: true,
     backgroundColor: c.ink2,
     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(HiredRadii.card))),
