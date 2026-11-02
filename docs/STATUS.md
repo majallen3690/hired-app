@@ -23,15 +23,19 @@
 - Verified on the Pixel 7 emulator with typed answers: greeting by name, resume-grounded questions, scoring, report quotes, replay playback
 - 51 unit tests green
 
+## M7 verification log (Pixel 7 emulator, typed answers)
+- Full five-question run: the interviewer adapts difficulty, asks a final fundamentals question, wraps up on its own
+  (`endInterview`), the app scores and opens the report. Score delta vs the previous mock is shown (52, down 18 from 70)
+- The evaluator flagged off-topic answers honestly instead of inflating the score
+- Compact layout while typing, neutral project chips, pause windows (spoken turns only) and the replay header all verified
+
 ## Not yet verified (M7)
 - Spoken answers on a real voice (emulator mic): live fillers, pace, measured pauses, echo without earphones
-- Full five-question run to the interviewer's own `endInterview`
-- On-device check of the last UI fixes (compact layout while typing, pause windows, replay header)
-- Company Mode (Search grounding), Hinglish run, adaptive difficulty beyond the tool call, eye contact (camera, M5)
+- Company Mode (Search grounding), Hinglish run, eye contact (camera, belongs to M5)
+- Sending an answer closes the keyboard; keeping it open between answers would be nicer
 
-## Environment warning
-- The C: drive dropped to 2 GB free and RAM to about 1 GB; the emulator then crashed and refuses to start (needs disk space). Free space, close memory-heavy apps, then restart: `emulator -avd Pixel7_API35 -no-snapshot-save -gpu auto`
-- `build/app/intermediates` was deleted to free 2 GB; the next build regenerates it
+## Environment note
+- The C: drive hit 2 GB free once and the emulator refused to start; keep 10+ GB free before building. `build/app/intermediates` regenerates on the next build
 
 ## Known behaviour
 - Match score varies a few points between runs of the same inputs (38 to 46 seen): Gemini re-extracts the
