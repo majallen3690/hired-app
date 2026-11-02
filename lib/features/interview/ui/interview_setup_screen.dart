@@ -10,6 +10,7 @@ import '../../resume/resume_flow.dart';
 import '../data/session_store.dart';
 import '../domain/interview_models.dart';
 import '../interview_controller.dart';
+import '../interview_prefill.dart';
 
 class InterviewSetupScreen extends ConsumerStatefulWidget {
   const InterviewSetupScreen({super.key});
@@ -26,6 +27,19 @@ class _State extends ConsumerState<InterviewSetupScreen> {
   var _level = Difficulty.real;
   var _lang = InterviewLang.english;
   var _roleFilled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final prefill = ref.read(interviewPrefillProvider);
+    if (prefill != null) {
+      _role.text = prefill.role;
+      _company.text = prefill.company;
+      _roleFilled = true;
+      // A provider cannot be changed while the widget tree is being built.
+      Future.microtask(() => ref.read(interviewPrefillProvider.notifier).clear());
+    }
+  }
 
   @override
   void dispose() {

@@ -25,4 +25,7 @@ Free-tier limits: Gemini Developer API has per-minute and per-day request caps. 
 | Self-intro live transcript (sherpa-onnx) | **Record 60 s, then transcribe the WAV with Gemini; level meter shown while recording** | A second live session would burn free-tier quota, and on-device speech recognition fights the recorder for the microphone. Fillers are kept verbatim (probed) and counted in Dart |
 | Self-intro pause button | **Dropped; restart and stop only** | A paused minute has no meaning for pace; fewer states to get wrong |
 | Typed self-intro | **Added, scored on content only** | Works without a microphone; never counts towards the speaking score or the progress chart |
+| Tracker JD autofill (Haiku) | **`gemini-3.5-flash-lite` with responseSchema, then checked against the pasted text in Dart** | Free tier; a field the text does not contain is dropped, not trusted |
+| Tracker "Practise interview for this company" pre-fills Company Mode | **Pre-fills role and company only** | Company Mode (Search grounding) is not built yet |
+| Tracker follow-up "Draft" button | **Banner opens the application; no drafted message** | Reminders and drafting belong with M9 |
 | Intro score | **65% content (clarity, structure, confidence from Gemini, quotes verified) + 35% measured delivery** | Delivery is measured, content is judged; a typed intro is content only |

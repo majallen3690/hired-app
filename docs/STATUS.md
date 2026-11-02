@@ -49,6 +49,23 @@
 - Transcription prompt probed with a Windows speech sample containing "um", "uh", "basically": returned word for word, fillers kept
 - Not verified: a real voice (the emulator mic is silent), so live pace, filler and pause numbers and the Delivery card come from unit tests only; test with earphones on a phone
 
+## M8 Application tracker (built, see verification below)
+- Six stages (Wishlist, Applied, OA, Interview, Offer, Rejected); list view with stage filters and a board with long-press drag and drop between columns (the board scrolls itself when a card is held at the screen edge)
+- Paste a job description and Gemini fills company, role and 5 to 8 skills; `verifyAutofill` drops any company, role or skill the pasted text does not contain, so nothing is shown as read from it when it was guessed
+- Follow-up nudge derived from the data: Applied for 5 days with no move; moving stage clears it (notifications come with M9)
+- Detail screen: stage chips (also the no-drag way to move), editable company, role, notes and job description, saved as you type
+- Cross-links: "Run resume match for this job" pre-fills the job description and runs on the saved parsed resume (no need to pick the PDF again); "Practise interview for this company" pre-fills role and company in the interview setup
+- Duplicate role at the same company is flagged; applications kept on the device; list shows nothing until the file is read (no empty-state flash)
+- 21 domain unit tests and 8 widget tests, including a real drag between columns
+
+## M8 verification log (Pixel 7 emulator)
+- Empty state as designed; pasted a 4-line Razorpay job description: "Fill it in" returned Razorpay, "Software Development Engineer I" and Java, Kotlin, PostgreSQL, Kafka, AWS; saved as Applied and survives a restart
+- Five extra applications were written into the emulator's app data as test fixtures (a stale Applied one to get the follow-up nudge); they are not in the repo
+- List: urgency order (interview, offer, applied, wishlist, rejected), stage filters with counts, "Follow up with Swiggy, 6 days since you applied"
+- Board: real long-press drag moved Google from Wishlist to Applied and it persisted; holding a card at the right edge scrolled the board to Rejected; dropping in the gutter beside a column cancels
+- "Practise interview for Razorpay" opened the setup with role and company filled in
+- "Run resume match for this job" opened the resume screen with the job description filled in and "Saved resume" selected (no PDF needed); the match ran to a 50% result with matched and missing chips
+
 ## M7 verification log (Pixel 7 emulator, typed answers)
 - Full five-question run: the interviewer adapts difficulty, asks a final fundamentals question, wraps up on its own
   (`endInterview`), the app scores and opens the report. Score delta vs the previous mock is shown (52, down 18 from 70)

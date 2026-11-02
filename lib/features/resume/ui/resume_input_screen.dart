@@ -51,11 +51,13 @@ class _State extends ConsumerState<ResumeInputScreen> {
             padding: const EdgeInsets.symmetric(horizontal: HiredSpace.lg, vertical: 14),
             child: Row(
               children: [
-                Icon(flow.pdf == null ? Icons.upload_file_rounded : Icons.description_rounded,
-                    color: flow.pdf == null ? c.text2 : c.ember),
+                Icon(flow.pdf == null && flow.resume == null ? Icons.upload_file_rounded : Icons.description_rounded,
+                    color: flow.pdf == null && flow.resume == null ? c.text2 : c.ember),
                 const SizedBox(width: HiredSpace.md),
                 Expanded(
-                  child: Text(flow.pdfName ?? 'Choose a PDF',
+                  child: Text(
+                      flow.pdfName ??
+                          (flow.resume == null ? 'Choose a PDF' : 'Saved resume · tap to replace'),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: HiredText.body.copyWith(color: c.text, fontWeight: FontWeight.w500)),

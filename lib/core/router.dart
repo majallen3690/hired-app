@@ -6,6 +6,9 @@ import '../features/interview/ui/coach_replay_screen.dart';
 import '../features/intro/ui/intro_recorder_screen.dart';
 import '../features/intro/ui/intro_result_screen.dart';
 import '../features/progress/ui/progress_screen.dart';
+import '../features/tracker/ui/add_application_screen.dart';
+import '../features/tracker/ui/application_detail_screen.dart';
+import '../features/tracker/ui/tracker_screen.dart';
 import '../features/interview/ui/interview_live_screen.dart';
 import '../features/interview/ui/interview_report_screen.dart';
 import '../features/interview/ui/interview_setup_screen.dart';
@@ -131,10 +134,7 @@ final router = GoRouter(
           path: '/interview',
           builder: (_, __) => const InterviewSetupScreen(),
         ),
-        GoRoute(
-          path: '/tracker',
-          builder: (_, __) => const _Pending('Applications', 'C05'),
-        ),
+        GoRoute(path: '/tracker', builder: (_, __) => const TrackerScreen()),
         GoRoute(
           path: '/progress',
           builder: (_, __) => const ProgressScreen(),
@@ -147,6 +147,14 @@ final router = GoRouter(
     ),
     // Full-screen: no tab bar over a live interview, its report or the replay.
     GoRoute(path: '/interview/live', builder: (_, __) => const InterviewLiveScreen()),
+    GoRoute(
+      path: '/tracker/add',
+      builder: (_, state) => AddApplicationScreen(manual: state.uri.queryParameters['manual'] == '1'),
+    ),
+    GoRoute(
+      path: '/tracker/:id',
+      builder: (_, state) => ApplicationDetailScreen(id: state.pathParameters['id']!),
+    ),
     GoRoute(path: '/intro', builder: (_, __) => const IntroRecorderScreen()),
     GoRoute(
       path: '/intro/result/:id',

@@ -36,7 +36,8 @@ class ResumeFlow {
   /// The role from the last match, kept so a mock interview can start from it.
   final String? targetRole;
 
-  bool get canRun => pdf != null && jd.trim().length >= 40;
+  /// The parsed resume is saved on the device, so a new match can run without choosing the PDF again.
+  bool get canRun => (pdf != null || resume != null) && jd.trim().length >= 40;
 
   ResumeFlow copyWith({
     FlowStage? stage,
