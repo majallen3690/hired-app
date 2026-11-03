@@ -3,15 +3,14 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-
+import '../../../core/storage/app_dir.dart';
 import '../domain/intro_models.dart';
 
 /// Every scored intro is kept on the device: one JSON file and, for a spoken one, the recording.
 /// Reopening a result and comparing with the last try needs no network.
 class IntroStore {
   Future<Directory> _dir() async {
-    final base = await getApplicationDocumentsDirectory();
+    final base = await AppDir.root();
     final d = Directory('${base.path}/intros');
     if (!await d.exists()) await d.create(recursive: true);
     return d;

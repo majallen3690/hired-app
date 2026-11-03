@@ -3,9 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-
 import '../../../core/scoring/readiness.dart';
+import '../../../core/storage/app_dir.dart';
 import '../../interview/data/session_store.dart';
 import '../../intro/data/intro_store.dart';
 import '../../presence/data/presence_store.dart';
@@ -20,7 +19,7 @@ class ResumeEvents extends Notifier<List<ScoreEvent>> {
     return const [];
   }
 
-  Future<Directory> _dir() => getApplicationDocumentsDirectory();
+  Future<Directory> _dir() => AppDir.root();
 
   Future<void> _load() async {
     try {

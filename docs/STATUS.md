@@ -152,6 +152,15 @@ Second polish round (verified on the emulator unless noted):
 - tracker board: lifted card, drop highlight and haptics on lift and drop; dragging works on the new build
 - bug found by the existing board test and fixed: a press-feedback wrapper threw if its card was rebuilt under the finger mid-drag
 
+## Demo mode (built, waiting on Gemini access to generate its data)
+- Settings screen (profile, appearance with persisted theme, delete my data, version tap x7 unlocks the demo section)
+- Storage root (`AppDir`) lets demo data live in its own folder; a switch restarts every provider; Home and Settings carry a "Demo data" tag
+- Seeder, WAV amplitude analysis, authored script, generated recordings, forge harness; sample-JD chips on the resume screen in demo mode
+- 16 new tests (231 total), analyzer clean. Verified on the emulator: Settings layout, seven taps unlock, switch fails safely with no fixtures
+- BLOCKED: every Gemini call returns "Firebase App Check token is invalid" (checked with the raw error from the app and with curl).
+  Needs the user: Firebase console -> App Check -> APIs -> Firebase AI Logic -> Unenforce. Then run the forge (docs/DEMO.md)
+- Not verified: the seeded persona on screen, Coach Replay on the synthetic audio, reminders for the two upcoming interviews
+
 ## Known behaviour
 - Match score varies a few points between runs of the same inputs (38 to 46 seen): Gemini re-extracts the
   requirement list each time. Temperature is 0. A fix if it matters for the demo: cache the result per (resume, JD) hash.

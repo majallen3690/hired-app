@@ -8,6 +8,7 @@ import '../features/intro/ui/intro_result_screen.dart';
 import '../features/presence/ui/presence_camera_screen.dart';
 import '../features/presence/ui/presence_result_screen.dart';
 import '../features/progress/ui/progress_screen.dart';
+import '../features/settings/settings_screen.dart';
 import '../features/tracker/ui/add_application_screen.dart';
 import '../features/tracker/ui/application_detail_screen.dart';
 import '../features/tracker/ui/tracker_screen.dart';
@@ -249,6 +250,7 @@ final router = GoRouter(
       path: '/tracker/:id',
       builder: (_, state) => ApplicationDetailScreen(id: state.pathParameters['id']!),
     ),
+    GoRoute(path: '/settings', builder: (_, __) => const SettingsScreen()),
     GoRoute(path: '/presence', builder: (_, __) => const PresenceCameraScreen()),
     GoRoute(
       path: '/presence/result/:id',

@@ -1,0 +1,16 @@
+Flipkart - Software Development Engineer 1
+
+Sample job description written for the Hired demo.
+
+Work on catalogue and search services that serve millions of shoppers during sale days.
+
+You will
+- Write production Java services and review teammates' code
+- Design APIs and databases that stay fast under heavy load
+- Debug performance problems using logs and metrics
+
+You bring
+- Excellent data structures, algorithms and problem solving
+- Java, SQL and a good grasp of object-oriented design
+- Basic system design: caching, indexing, load balancing
+- Ownership: you finish what you start and measure the result

@@ -1,0 +1,17 @@
+Swiggy - Software Development Engineer 1 (Backend)
+
+Sample job description written for the Hired demo.
+
+Join the delivery platform team that matches orders to delivery partners in real time.
+
+Responsibilities
+- Build and run backend services in Kotlin or Java with Spring Boot
+- Design REST APIs and event-driven workflows with Kafka
+- Model data in MySQL and cache hot paths in Redis
+- Deploy on AWS and watch the dashboards when something slows down
+
+Requirements
+- Solid data structures and algorithms
+- Hands-on projects with a backend language and a SQL database
+- Comfort with Git, code reviews and writing tests
+- You can explain a trade-off you made and the numbers behind it

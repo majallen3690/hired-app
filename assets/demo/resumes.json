@@ -1,0 +1,111 @@
+{
+  "note": "Three versions of the demo persona's resume, in the parsed form ResumeAi.parse returns. v1 is the text of sample_resume.pdf. v2 and v3 are what she wrote after the app's feedback: the same facts, with the numbers she had and the stack the job asks for.",
+  "v1": {
+    "name": "Ishita Rao",
+    "skills": ["Java", "Python", "C++", "SQL", "Flutter", "Dart", "Firebase", "REST APIs", "Git", "Data Structures and Algorithms", "OOP"],
+    "education": ["PES University, Bengaluru - B.Tech Computer Science and Engineering, 2023-2027, CGPA 8.4"],
+    "certifications": ["Google Associate Android Developer (in progress)", "NPTEL Data Structures and Algorithms"],
+    "experience": [
+      {
+        "company": "Brightlabs Pvt Ltd",
+        "role": "Software Intern",
+        "bullets": [
+          "Fixed bugs in the company's internal dashboard written in Java",
+          "Wrote SQL queries for monthly reports",
+          "Participated in daily stand-ups and code reviews"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Campus Attendance App",
+        "tech": ["Flutter", "Firebase"],
+        "bullets": [
+          "Built a mobile app for marking class attendance with QR codes",
+          "Worked on the backend using Firebase and made the login screen",
+          "Helped the team test the app with students"
+        ]
+      },
+      {
+        "name": "Library Seat Finder",
+        "tech": ["Python", "SQL"],
+        "bullets": [
+          "Created a web tool that shows free seats in the college library",
+          "Reduced time students spend searching for a seat by 30%"
+        ]
+      }
+    ]
+  },
+  "v2": {
+    "name": "Ishita Rao",
+    "skills": ["Java", "Python", "C++", "SQL", "PostgreSQL", "Flutter", "Dart", "Firebase", "REST APIs", "Git", "Data Structures and Algorithms", "OOP"],
+    "education": ["PES University, Bengaluru - B.Tech Computer Science and Engineering, 2023-2027, CGPA 8.4"],
+    "certifications": ["Google Associate Android Developer (in progress)", "NPTEL Data Structures and Algorithms"],
+    "experience": [
+      {
+        "company": "Brightlabs Pvt Ltd",
+        "role": "Software Intern",
+        "bullets": [
+          "Fixed 12 bugs in the company's internal dashboard written in Java and Spring Boot",
+          "Wrote SQL queries for monthly reports that the finance team used every month",
+          "Took part in daily stand-ups and code reviews"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Campus Attendance App",
+        "tech": ["Flutter", "Firebase"],
+        "bullets": [
+          "Built a QR attendance app used by about 400 students across 6 classes",
+          "Replaced polling with Firestore snapshot listeners so the live scan count updates in under a second",
+          "Built the login, the backend and the teacher dashboard"
+        ]
+      },
+      {
+        "name": "Library Seat Finder",
+        "tech": ["Python", "PostgreSQL"],
+        "bullets": [
+          "Built a web tool that shows free library seats in real time",
+          "Reduced the time students spend searching for a seat by 30%"
+        ]
+      }
+    ]
+  },
+  "v3": {
+    "name": "Ishita Rao",
+    "skills": ["Java", "Spring Boot", "Python", "C++", "SQL", "PostgreSQL", "Kafka", "JUnit", "Docker", "Flutter", "Dart", "Firebase", "REST APIs", "Git", "Data Structures and Algorithms", "OOP"],
+    "education": ["PES University, Bengaluru - B.Tech Computer Science and Engineering, 2023-2027, CGPA 8.4"],
+    "certifications": ["AWS Certified Cloud Practitioner", "Google Associate Android Developer (in progress)", "NPTEL Data Structures and Algorithms"],
+    "experience": [
+      {
+        "company": "Brightlabs Pvt Ltd",
+        "role": "Software Intern",
+        "bullets": [
+          "Built a Kafka consumer in Java that processed about 5,000 order events a day in staging, with retry and dead-letter handling",
+          "Fixed 12 bugs in the internal Spring Boot dashboard and wrote 40 JUnit tests, raising coverage of the orders module from 52% to 81%",
+          "Wrote PostgreSQL queries for monthly reports that cut report preparation from 2 hours to 15 minutes"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Campus Attendance App",
+        "tech": ["Flutter", "Firebase", "Dart"],
+        "bullets": [
+          "Built a QR attendance app used by about 400 students across 6 classes",
+          "Replaced Firestore polling with scoped snapshot listeners, so the live scan count updates in under 1 second and battery drain fell by about a third in tests",
+          "Removed duplicate attendance records with Firestore transactions and idempotency keys, and added a test that fires 20 parallel scans"
+        ]
+      },
+      {
+        "name": "Library Seat Finder",
+        "tech": ["Python", "PostgreSQL"],
+        "bullets": [
+          "Built a web tool showing free library seats in real time, reducing the time students spend searching for a seat by 30%",
+          "Cut seat map load time from 900 ms to 80 ms on 200,000 rows using a composite index and a latest-status summary table"
+        ]
+      }
+    ]
+  }
+}

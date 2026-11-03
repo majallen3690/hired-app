@@ -3,14 +3,13 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-
+import '../../../core/storage/app_dir.dart';
 import '../domain/presence_record.dart';
 
 /// Photos and their results stay on the device. Nothing here is uploaded except the one photo sent for analysis.
 class PresenceStore {
   Future<Directory> _dir() async {
-    final base = await getApplicationDocumentsDirectory();
+    final base = await AppDir.root();
     final d = Directory('${base.path}/presence');
     if (!await d.exists()) await d.create(recursive: true);
     return d;

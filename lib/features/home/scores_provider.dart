@@ -3,9 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-
 import '../../core/scoring/readiness.dart';
+import '../../core/storage/app_dir.dart';
 import '../progress/data/progress_providers.dart';
 
 /// The latest result per area. An area nobody has measured yet is null and shown as "–", never as a made-up number.
@@ -58,7 +57,7 @@ class LatestScores extends Notifier<MeasuredScores> {
     return const MeasuredScores();
   }
 
-  Future<File> _file() async => File('${(await getApplicationDocumentsDirectory()).path}/scores.json');
+  Future<File> _file() async => File('${(await AppDir.root()).path}/scores.json');
 
   Future<void> _load() async {
     try {

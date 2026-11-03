@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_ai/firebase_ai.dart';
+import 'package:flutter/foundation.dart' show debugPrint;
 
 import '../boot.dart';
 
@@ -45,6 +46,8 @@ Future<T> generateStructured<T>({
     } on TypeError catch (e) {
       lastError = e;
     } on FirebaseAIException catch (e) {
+      // The user sees the friendly line; a developer needs the real reason (quota, App Check, retired model).
+      debugPrint('Gemini request failed ($model): ${e.message}');
       throw AiException(_friendly(e.message));
     }
   }

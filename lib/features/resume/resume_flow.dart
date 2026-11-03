@@ -4,9 +4,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-
 import '../../core/ai/structured.dart';
+import '../../core/storage/app_dir.dart';
 import '../home/scores_provider.dart';
 import 'data/resume_ai.dart';
 import 'domain/match_models.dart';
@@ -84,7 +83,7 @@ class ResumeFlowNotifier extends Notifier<ResumeFlow> {
     return const ResumeFlow();
   }
 
-  Future<File> _savedFile() async => File('${(await getApplicationDocumentsDirectory()).path}/resume.json');
+  Future<File> _savedFile() async => File('${(await AppDir.root()).path}/resume.json');
 
   /// The parsed resume and role survive a restart, so the interview can start without redoing the match.
   Future<void> _loadSaved() async {

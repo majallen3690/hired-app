@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/storage/app_dir.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/controls.dart';
@@ -23,6 +25,13 @@ class _State extends ConsumerState<ResumeInputScreen> {
   void dispose() {
     _jd.dispose();
     super.dispose();
+  }
+
+  Future<void> _useSample(String key) async {
+    final text = (await rootBundle.loadString('assets/demo/jds/$key.txt')).trim();
+    if (!mounted) return;
+    _jd.text = text;
+    ref.read(resumeFlowProvider.notifier).setJd(text);
   }
 
   @override
@@ -71,6 +80,14 @@ class _State extends ConsumerState<ResumeInputScreen> {
           const SizedBox(height: HiredSpace.xl),
           const SectionLabel('Job description'),
           const SizedBox(height: HiredSpace.sm),
+          // In demo mode, one tap fills a sample job so a match can run without typing on stage.
+          if (AppDir.demo) ...[
+            Wrap(spacing: HiredSpace.sm, runSpacing: HiredSpace.sm, children: [
+              for (final (key, label) in const [('razorpay', 'Razorpay'), ('zoho', 'Zoho'), ('swiggy', 'Swiggy')])
+                HiredChip(label: label, icon: Icons.work_outline_rounded, onTap: () => _useSample(key)),
+            ]),
+            const SizedBox(height: HiredSpace.sm),
+          ],
           TextField(
             controller: _jd,
             onChanged: notifier.setJd,

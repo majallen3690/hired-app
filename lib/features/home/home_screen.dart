@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/scoring/readiness.dart';
+import '../../core/storage/app_dir.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/tokens.dart';
+import '../../core/widgets/controls.dart';
 import '../../core/widgets/score_widgets.dart';
 import '../../core/widgets/tick_dial.dart';
 import 'scores_provider.dart';
@@ -63,12 +65,22 @@ class HomeScreen extends ConsumerWidget {
       child: RevealListView(
         padding: const EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.md, HiredSpace.screen, 120),
         children: [
-          Text('Welcome back', style: HiredText.small.copyWith(color: c.text3)),
-          const SizedBox(height: HiredSpace.xs),
-          Text.rich(TextSpan(style: HiredText.h1.copyWith(color: c.text), children: [
-            const TextSpan(text: 'Ready to '),
-            TextSpan(text: 'practise?', style: HiredText.h1Em),
-          ])),
+          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('Welcome back', style: HiredText.small.copyWith(color: c.text3)),
+                const SizedBox(height: HiredSpace.xs),
+                Text.rich(TextSpan(style: HiredText.h1.copyWith(color: c.text), children: [
+                  const TextSpan(text: 'Ready to '),
+                  TextSpan(text: 'practise?', style: HiredText.h1Em),
+                ])),
+              ]),
+            ),
+            // Always say when the numbers on screen belong to the sample persona rather than the user.
+            if (AppDir.demo)
+              const Padding(padding: EdgeInsets.only(top: 12, right: HiredSpace.xs), child: Tag('Demo data', tone: TagTone.signal)),
+            IconAction(icon: Icons.settings_rounded, label: 'Settings', onPressed: () => context.push('/settings')),
+          ]),
           const SizedBox(height: 36),
           _Dial(scores: scores, measured: measured, weakest: weakest, onCorner: (k) => _open(context, _actions[k]!.route)),
           const SizedBox(height: HiredSpace.xxl),

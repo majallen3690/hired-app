@@ -3,9 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-
 import '../../../core/notifications/reminder_service.dart';
+import '../../../core/storage/app_dir.dart';
 import '../domain/application_models.dart';
 import '../domain/reminder_rules.dart';
 import '../domain/tracker_logic.dart';
@@ -27,7 +26,7 @@ class ApplicationsNotifier extends AsyncNotifier<List<JobApplication>> {
     return const [];
   }
 
-  Future<File> _file() async => File('${(await getApplicationDocumentsDirectory()).path}/applications.json');
+  Future<File> _file() async => File('${(await AppDir.root()).path}/applications.json');
 
   List<JobApplication> get _now => state.asData?.value ?? const [];
 

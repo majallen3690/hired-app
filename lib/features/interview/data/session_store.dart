@@ -3,15 +3,14 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart';
-
+import '../../../core/storage/app_dir.dart';
 import '../domain/evaluation_models.dart';
 
 /// Saves every finished session on the device: one JSON file and, for live sessions, one WAV.
 /// Reopening a past report and its Coach Replay needs no network.
 class SessionStore {
   Future<Directory> _dir() async {
-    final base = await getApplicationDocumentsDirectory();
+    final base = await AppDir.root();
     final d = Directory('${base.path}/sessions');
     if (!await d.exists()) await d.create(recursive: true);
     return d;

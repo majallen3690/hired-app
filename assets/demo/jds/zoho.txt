@@ -1,0 +1,12 @@
+Zoho Corporation - Member Technical Staff (Software Developer)
+
+Sample job description written for the Hired demo.
+
+You will design and build features for Zoho's cloud products, from the data model to the screen. Freshers from the 2027 batch are welcome.
+
+What we expect
+- Strong problem solving with data structures and algorithms
+- Good command of C++ or Java and object-oriented design
+- Working knowledge of SQL and relational databases
+- Curiosity about how the web works: HTTP, REST, caching
+- Clear communication and the habit of writing readable code

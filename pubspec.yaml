@@ -78,6 +78,9 @@ flutter:
   # Fonts are bundled (google_fonts reads them from here) so text never waits on the network or swaps face after first paint.
   assets:
     - google_fonts/
+    - assets/demo/
+    - assets/demo/audio/
+    - assets/demo/jds/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -46,3 +46,7 @@ Free-tier limits: Gemini Developer API has per-minute and per-day request caps. 
 | Platform page transitions | **Cupertino slide and edge-swipe back on all platforms** | One interruptible gesture for going back, the same everywhere |
 | Fonts via google_fonts at runtime | **Bundled in `google_fonts/`, runtime fetching off** | No network wait or fallback-font swap on first paint |
 
+| Demo data mixed into the user's data | **Separate `demo/` folder; a switch in Settings repoints every store and restarts the providers** | Real results are never touched and come back exactly when demo mode is off |
+| Demo scores typed by hand | **Authored inputs only; the app's own pipelines produce every rating, transcript and measurement** (`lib/dev/demo_forge.dart`) | Same rule as the real app: no number without evidence behind it |
+| Demo recordings | **Scripted lines spoken by Windows voices, timestamps taken from the audio actually produced** (`tool/demo/`) | Coach Replay plays real audio offline; pauses and fillers are measured, not placed |
+| Presence in the demo persona | **Left unmeasured** | It is the one check worth doing live on stage, and Home then points straight at it |

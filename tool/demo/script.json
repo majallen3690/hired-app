@@ -1,0 +1,103 @@
+{
+  "note": "Authored inputs for demo mode: what the persona says. Voices are synthetic (Windows SAPI). Everything downstream (transcripts of the intros, speech measurements, ratings, scores) is produced by the app's real code and Gemini, see lib/dev/demo_forge.dart.",
+  "interviewerVoice": "Microsoft David Desktop",
+  "candidateVoice": "Microsoft Zira Desktop",
+  "sessions": [
+    {
+      "id": "demo-s1",
+      "daysAgo": 19,
+      "hour": 17,
+      "candidateRate": -1,
+      "config": {
+        "role": "Software Development Engineer I",
+        "company": "",
+        "style": "product",
+        "round": "hr",
+        "difficulty": "warmup",
+        "language": "english",
+        "questionCount": 4
+      },
+      "turns": [
+        { "who": "interviewer", "text": "Hi Ishita, thanks for joining. To start, tell me about the project you are proudest of." },
+        { "who": "candidate", "text": "Um, so, I think my proudest project is the Campus Attendance App. It is basically an app for our college, uh, where teachers can mark attendance with a QR code. I built it using Flutter and Firebase. Actually, it was a team project, so, you know, I did the, um, the mobile app part mostly. People liked it." },
+        { "who": "interviewer", "text": "What was the hardest problem you faced while building it?" },
+        { "who": "candidate", "text": "Uh, the hardest was, I mean, the real time part. Like showing the teacher who has scanned and who has not. It was not working at first. Basically I searched a lot of videos and, um, I somehow fixed it after some days." },
+        { "who": "interviewer", "text": "Tell me about a time you disagreed with a teammate." },
+        { "who": "candidate", "text": "Um, [[pause 4.6]] okay, so once in our final project, my teammate wanted to use a different database. I did not agree, but, you know, we just went with his idea in the end. It was fine." },
+        { "who": "interviewer", "text": "Why do you want to work as a software engineer?" },
+        { "who": "candidate", "text": "Because, uh, I like coding and I want to learn. Companies like yours have a good, um, learning environment. Actually I also want a good salary, basically, so that is why." },
+        { "who": "interviewer", "text": "Thank you Ishita, that is all from my side." }
+      ]
+    },
+    {
+      "id": "demo-s2",
+      "daysAgo": 10,
+      "hour": 18,
+      "candidateRate": 0,
+      "config": {
+        "role": "Software Development Engineer I",
+        "company": "Razorpay",
+        "style": "product",
+        "round": "technical",
+        "difficulty": "real",
+        "language": "english",
+        "questionCount": 4
+      },
+      "turns": [
+        { "who": "interviewer", "text": "Hi Ishita. I saw the Campus Attendance App on your resume. How did the teacher's screen update live as students scanned?" },
+        { "who": "candidate", "text": "Teachers needed to see the count of students who had scanned change instantly. At first the app polled Firestore every few seconds, which made the screen laggy and drained the battery. So I switched to a Firestore snapshot listener scoped to the active class session, and added a small local cache. After that the count updated in under a second, and battery drain in our tests dropped by about a third. Um, if I did it again I would add proper load testing." },
+        { "who": "interviewer", "text": "You built Library Seat Finder with Python and SQL. How did you design the tables, and what would break at scale?" },
+        { "who": "candidate", "text": "I kept one table for seat events with a seat id, a student id, a status and a timestamp, and indexed seat id plus timestamp, because the main screen asks for the latest status of every seat. At around 200,000 rows, loading the seat map took about 900 milliseconds, so I added a composite index and a small summary table, and it dropped to roughly 80. At real scale I would worry about the single database and about write bursts at exam time, so I would look at read replicas and caching the seat map." },
+        { "who": "interviewer", "text": "Explain the difference between a HashMap and a TreeMap, and when you would pick each." },
+        { "who": "candidate", "text": "A HashMap gives average constant time lookups and inserts using hashing, but it has no ordering. A TreeMap keeps keys sorted using a red black tree, so operations are logarithmic, and you get range queries, like all keys between two values. I would use a HashMap by default, and a TreeMap when I need sorted iteration, like a leaderboard, [[pause 4.3]] sorry, or finding the nearest key to a value." },
+        { "who": "interviewer", "text": "What happens when you type a URL into a browser and press enter?" },
+        { "who": "candidate", "text": "First the browser checks its cache, then DNS resolves the domain to an IP address. Then it opens a TCP connection, and for https there is a TLS handshake. It sends an HTTP request, the server responds, and the browser renders the page. Um, I am less sure about what happens inside the load balancer, that part I have only read about." },
+        { "who": "interviewer", "text": "Good, thank you Ishita. That is all from me." }
+      ]
+    },
+    {
+      "id": "demo-s3",
+      "daysAgo": 2,
+      "hour": 19,
+      "candidateRate": 0,
+      "config": {
+        "role": "Software Development Engineer I",
+        "company": "Razorpay",
+        "style": "product",
+        "round": "technical",
+        "difficulty": "tough",
+        "language": "english",
+        "questionCount": 4
+      },
+      "turns": [
+        { "who": "interviewer", "text": "Hi Ishita. Tell me about a time something you built failed in front of real users, and what you did." },
+        { "who": "candidate", "text": "During a live class, our Campus Attendance App started marking some students present twice. About 400 students were using it across six classes. My task was to fix it before the next day's lectures. I found that two scans within a second created two writes, because I was not using transactions. I moved marking into a Firestore transaction with a duplicate check, and added an idempotency key per student and session. Duplicates dropped to zero over the next week, and I wrote a test that fires 20 parallel scans so it cannot come back unnoticed." },
+        { "who": "interviewer", "text": "Since this is a payments company, how would you design an API so that a payment is never charged twice when the client retries?" },
+        { "who": "candidate", "text": "I would use an idempotency key. The client sends a unique key with every payment request. The server stores that key together with the result of the first attempt, in the same database transaction as the charge. If the same key arrives again, it returns the stored result instead of charging again. Keys expire after some time, say 24 hours, and the same key with a different payload is rejected as an error." },
+        { "who": "interviewer", "text": "Your Library Seat Finder query got much faster. Walk me through how you found the bottleneck." },
+        { "who": "candidate", "text": "I turned on slow query logging in Postgres and saw the seat map took about 900 milliseconds. Then I ran explain analyze. It was a sequential scan over roughly 200,000 rows, because the only index was on seat id. I added a composite index on seat id and timestamp, and a small table holding the latest status of each seat. The query dropped to around 80 milliseconds. I measured each change separately, so I knew which one actually helped." },
+        { "who": "interviewer", "text": "Last one. Tell me about a time you had to learn something quickly." },
+        { "who": "candidate", "text": "Before my internship at Brightlabs I had never used Kafka. My mentor gave me one week to build a consumer for order events. I read the documentation, built a small producer and consumer demo that same evening, and shipped the real consumer in six days. It processed about 5,000 events a day in staging, and I documented the retry logic for the next intern." },
+        { "who": "interviewer", "text": "Thank you Ishita. That is all from my side." }
+      ]
+    }
+  ],
+  "intros": [
+    {
+      "id": "demo-i1",
+      "daysAgo": 14,
+      "hour": 20,
+      "rate": 0,
+      "target": "Software Development Engineer I",
+      "text": "Hi, um, my name is Ishita Rao and I am a final year B.Tech student in computer science, uh, at PES University in Bengaluru. I like, you know, programming and I have done some projects in Flutter and Python. Basically I made an attendance app for my college and also a library seat tool. Um, I did an internship also. I am a hard worker and I learn fast. Thank you for this opportunity."
+    },
+    {
+      "id": "demo-i2",
+      "daysAgo": 5,
+      "hour": 21,
+      "rate": 0,
+      "target": "Software Development Engineer I at Razorpay",
+      "text": "Hello, I am Ishita Rao, a final year computer science student at PES University in Bengaluru. I enjoy building backend systems that people actually use. I built a Campus Attendance App that 400 students used across six classes, and Library Seat Finder, where I cut a slow query from 900 milliseconds to 80. At my Brightlabs internship I built a Kafka consumer in Java that handled about 5,000 events a day. I want to join Razorpay as an SDE one because payments is a place where correctness matters, and I like that kind of problem. Thank you."
+    }
+  ]
+}

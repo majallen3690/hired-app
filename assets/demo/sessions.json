@@ -1,0 +1,215 @@
+[
+ {
+  "id": "demo-s1",
+  "daysAgo": 19,
+  "hour": 17,
+  "config": {
+   "role": "Software Development Engineer I",
+   "company": "",
+   "style": "product",
+   "round": "hr",
+   "difficulty": "warmup",
+   "language": "english",
+   "questionCount": 4
+  },
+  "durationMs": 112365,
+  "turns": [
+   {
+    "speaker": "interviewer",
+    "text": "Hi Ishita, thanks for joining. To start, tell me about the project you are proudest of.",
+    "startMs": 1500,
+    "endMs": 8615
+   },
+   {
+    "speaker": "candidate",
+    "text": "Um, so, I think my proudest project is the Campus Attendance App. It is basically an app for our college, uh, where teachers can mark attendance with a QR code. I built it using Flutter and Firebase. Actually, it was a team project, so, you know, I did the, um, the mobile app part mostly. People liked it.",
+    "startMs": 9715,
+    "endMs": 36770
+   },
+   {
+    "speaker": "interviewer",
+    "text": "What was the hardest problem you faced while building it?",
+    "startMs": 37470,
+    "endMs": 41075
+   },
+   {
+    "speaker": "candidate",
+    "text": "Uh, the hardest was, I mean, the real time part. Like showing the teacher who has scanned and who has not. It was not working at first. Basically I searched a lot of videos and, um, I somehow fixed it after some days.",
+    "startMs": 42175,
+    "endMs": 60665
+   },
+   {
+    "speaker": "interviewer",
+    "text": "Tell me about a time you disagreed with a teammate.",
+    "startMs": 61365,
+    "endMs": 64940
+   },
+   {
+    "speaker": "candidate",
+    "text": "Um, okay, so once in our final project, my teammate wanted to use a different database. I did not agree, but, you know, we just went with his idea in the end. It was fine.",
+    "startMs": 66040,
+    "endMs": 86770
+   },
+   {
+    "speaker": "interviewer",
+    "text": "Why do you want to work as a software engineer?",
+    "startMs": 87470,
+    "endMs": 90965
+   },
+   {
+    "speaker": "candidate",
+    "text": "Because, uh, I like coding and I want to learn. Companies like yours have a good, um, learning environment. Actually I also want a good salary, basically, so that is why.",
+    "startMs": 92065,
+    "endMs": 107325
+   },
+   {
+    "speaker": "interviewer",
+    "text": "Thank you Ishita, that is all from my side.",
+    "startMs": 108025,
+    "endMs": 111565
+   }
+  ]
+ },
+ {
+  "id": "demo-s2",
+  "daysAgo": 10,
+  "hour": 18,
+  "config": {
+   "role": "Software Development Engineer I",
+   "company": "Razorpay",
+   "style": "product",
+   "round": "technical",
+   "difficulty": "real",
+   "language": "english",
+   "questionCount": 4
+  },
+  "durationMs": 159480,
+  "turns": [
+   {
+    "speaker": "interviewer",
+    "text": "Hi Ishita. I saw the Campus Attendance App on your resume. How did the teacher's screen update live as students scanned?",
+    "startMs": 1500,
+    "endMs": 10330
+   },
+   {
+    "speaker": "candidate",
+    "text": "Teachers needed to see the count of students who had scanned change instantly. At first the app polled Firestore every few seconds, which made the screen laggy and drained the battery. So I switched to a Firestore snapshot listener scoped to the active class session, and added a small local cache. After that the count updated in under a second, and battery drain in our tests dropped by about a third. Um, if I did it again I would add proper load testing.",
+    "startMs": 11430,
+    "endMs": 40710
+   },
+   {
+    "speaker": "interviewer",
+    "text": "You built Library Seat Finder with Python and SQL. How did you design the tables, and what would break at scale?",
+    "startMs": 41410,
+    "endMs": 49600
+   },
+   {
+    "speaker": "candidate",
+    "text": "I kept one table for seat events with a seat id, a student id, a status and a timestamp, and indexed seat id plus timestamp, because the main screen asks for the latest status of every seat. At around 200,000 rows, loading the seat map took about 900 milliseconds, so I added a composite index and a small summary table, and it dropped to roughly 80. At real scale I would worry about the single database and about write bursts at exam time, so I would look at read replicas and caching the seat map.",
+    "startMs": 50700,
+    "endMs": 84290
+   },
+   {
+    "speaker": "interviewer",
+    "text": "Explain the difference between a HashMap and a TreeMap, and when you would pick each.",
+    "startMs": 84990,
+    "endMs": 90330
+   },
+   {
+    "speaker": "candidate",
+    "text": "A HashMap gives average constant time lookups and inserts using hashing, but it has no ordering. A TreeMap keeps keys sorted using a red black tree, so operations are logarithmic, and you get range queries, like all keys between two values. I would use a HashMap by default, and a TreeMap when I need sorted iteration, like a leaderboard, sorry, or finding the nearest key to a value.",
+    "startMs": 91430,
+    "endMs": 121905
+   },
+   {
+    "speaker": "interviewer",
+    "text": "What happens when you type a URL into a browser and press enter?",
+    "startMs": 122605,
+    "endMs": 127090
+   },
+   {
+    "speaker": "candidate",
+    "text": "First the browser checks its cache, then DNS resolves the domain to an IP address. Then it opens a TCP connection, and for https there is a TLS handshake. It sends an HTTP request, the server responds, and the browser renders the page. Um, I am less sure about what happens inside the load balancer, that part I have only read about.",
+    "startMs": 128190,
+    "endMs": 153520
+   },
+   {
+    "speaker": "interviewer",
+    "text": "Good, thank you Ishita. That is all from me.",
+    "startMs": 154220,
+    "endMs": 158680
+   }
+  ]
+ },
+ {
+  "id": "demo-s3",
+  "daysAgo": 2,
+  "hour": 19,
+  "config": {
+   "role": "Software Development Engineer I",
+   "company": "Razorpay",
+   "style": "product",
+   "round": "technical",
+   "difficulty": "tough",
+   "language": "english",
+   "questionCount": 4
+  },
+  "durationMs": 161015,
+  "turns": [
+   {
+    "speaker": "interviewer",
+    "text": "Hi Ishita. Tell me about a time something you built failed in front of real users, and what you did.",
+    "startMs": 1500,
+    "endMs": 8805
+   },
+   {
+    "speaker": "candidate",
+    "text": "During a live class, our Campus Attendance App started marking some students present twice. About 400 students were using it across six classes. My task was to fix it before the next day's lectures. I found that two scans within a second created two writes, because I was not using transactions. I moved marking into a Firestore transaction with a duplicate check, and added an idempotency key per student and session. Duplicates dropped to zero over the next week, and I wrote a test that fires 20 parallel scans so it cannot come back unnoticed.",
+    "startMs": 9905,
+    "endMs": 46905
+   },
+   {
+    "speaker": "interviewer",
+    "text": "Since this is a payments company, how would you design an API so that a payment is never charged twice when the client retries?",
+    "startMs": 47605,
+    "endMs": 55705
+   },
+   {
+    "speaker": "candidate",
+    "text": "I would use an idempotency key. The client sends a unique key with every payment request. The server stores that key together with the result of the first attempt, in the same database transaction as the charge. If the same key arrives again, it returns the stored result instead of charging again. Keys expire after some time, say 24 hours, and the same key with a different payload is rejected as an error.",
+    "startMs": 56805,
+    "endMs": 83985
+   },
+   {
+    "speaker": "interviewer",
+    "text": "Your Library Seat Finder query got much faster. Walk me through how you found the bottleneck.",
+    "startMs": 84685,
+    "endMs": 91360
+   },
+   {
+    "speaker": "candidate",
+    "text": "I turned on slow query logging in Postgres and saw the seat map took about 900 milliseconds. Then I ran explain analyze. It was a sequential scan over roughly 200,000 rows, because the only index was on seat id. I added a composite index on seat id and timestamp, and a small table holding the latest status of each seat. The query dropped to around 80 milliseconds. I measured each change separately, so I knew which one actually helped.",
+    "startMs": 92460,
+    "endMs": 124225
+   },
+   {
+    "speaker": "interviewer",
+    "text": "Last one. Tell me about a time you had to learn something quickly.",
+    "startMs": 124925,
+    "endMs": 130130
+   },
+   {
+    "speaker": "candidate",
+    "text": "Before my internship at Brightlabs I had never used Kafka. My mentor gave me one week to build a consumer for order events. I read the documentation, built a small producer and consumer demo that same evening, and shipped the real consumer in six days. It processed about 5,000 events a day in staging, and I documented the retry logic for the next intern.",
+    "startMs": 131230,
+    "endMs": 155520
+   },
+   {
+    "speaker": "interviewer",
+    "text": "Thank you Ishita. That is all from my side.",
+    "startMs": 156220,
+    "endMs": 160215
+   }
+  ]
+ }
+]

@@ -1,0 +1,15 @@
+Freshworks - Associate Software Engineer
+
+Sample job description written for the Hired demo.
+
+Help build customer-support software used by thousands of businesses.
+
+What you will do
+- Build features across web services and the product UI
+- Write unit tests and fix bugs reported by customers
+- Work with REST APIs, JSON and a SQL database
+
+What we look for
+- Java or JavaScript, plus Git
+- Understanding of REST APIs and relational databases
+- Willingness to learn quickly and ask good questions

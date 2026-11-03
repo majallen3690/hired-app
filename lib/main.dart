@@ -5,12 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'core/app_epoch.dart';
 import 'core/boot.dart';
 import 'core/motion/motion.dart';
 import 'core/notifications/reminder_service.dart';
 import 'core/router.dart';
+import 'core/storage/app_dir.dart';
+import 'core/storage/app_prefs.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_mode_provider.dart';
+import 'dev/demo_forge.dart';
 import 'features/interview/interview_prefill.dart';
 import 'features/tracker/data/application_store.dart';
 import 'firebase_options.dart';
@@ -19,11 +23,25 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Fonts ship inside the app, so a missing network can never delay or change the first paint.
   GoogleFonts.config.allowRuntimeFetching = false;
+  // A few bytes of settings: which data folder to open and which theme to draw the first frame in.
+  await AppPrefs.load();
+  AppDir.demo = AppPrefs.demoOn;
   // Neither of these is needed to draw the first screen, so the app opens now and they finish behind it.
   // Gemini calls await `firebaseReady`; reminders await their own init.
   firebaseReady = Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((_) {});
   unawaited(ReminderService.instance.init());
-  runApp(const ProviderScope(child: HiredApp()));
+  if (forgeDemo) unawaited(runDemoForge());
+  runApp(const AppRoot());
+}
+
+class AppRoot extends StatelessWidget {
+  const AppRoot({super.key});
+
+  @override
+  Widget build(BuildContext context) => ValueListenableBuilder<int>(
+        valueListenable: appEpoch,
+        builder: (_, epoch, __) => ProviderScope(key: ValueKey(epoch), child: const HiredApp()),
+      );
 }
 
 class HiredApp extends ConsumerStatefulWidget {
