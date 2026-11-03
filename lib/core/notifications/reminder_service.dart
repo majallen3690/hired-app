@@ -24,6 +24,9 @@ class ReminderService {
   AndroidFlutterLocalNotificationsPlugin? get _android =>
       _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
 
+  IOSFlutterLocalNotificationsPlugin? get _ios =>
+      _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+
   Future<void>? _init;
 
   /// Safe to call from anywhere, any number of times; the work happens once. Startup does not wait for it, and
@@ -35,7 +38,15 @@ class ReminderService {
       tzdata.initializeTimeZones();
       tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
       await _plugin.initialize(
-        settings: const InitializationSettings(android: AndroidInitializationSettings('@mipmap/ic_launcher')),
+        // iOS would otherwise ask for permission at launch; it is asked for when a reminder first matters instead.
+        settings: const InitializationSettings(
+          android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+          iOS: DarwinInitializationSettings(
+            requestAlertPermission: false,
+            requestBadgePermission: false,
+            requestSoundPermission: false,
+          ),
+        ),
         onDidReceiveNotificationResponse: (r) {
           final payload = r.payload;
           if (payload != null) onTap?.call(payload);
@@ -60,6 +71,7 @@ class ReminderService {
     await init();
     if (!_ready) return false;
     try {
+      if (_ios != null) return (await _ios!.checkPermissions())?.isEnabled ?? false;
       return await _android?.areNotificationsEnabled() ?? false;
     } catch (_) {
       return false;
@@ -74,6 +86,7 @@ class ReminderService {
     if (_askedThisSession) return false;
     _askedThisSession = true;
     try {
+      if (_ios != null) return await _ios!.requestPermissions(alert: true, badge: true, sound: true) ?? false;
       return await _android?.requestNotificationsPermission() ?? false;
     } catch (_) {
       return false;
@@ -103,6 +116,7 @@ class ReminderService {
               importance: Importance.high,
               priority: Priority.high,
             ),
+            iOS: const DarwinNotificationDetails(presentAlert: true, presentSound: true),
           ),
           androidScheduleMode: mode,
           payload: r.payload,
