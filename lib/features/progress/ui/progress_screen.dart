@@ -14,6 +14,8 @@ import '../../intro/data/intro_store.dart';
 import '../../resume/resume_flow.dart';
 import '../data/progress_providers.dart';
 import '../domain/progress_models.dart';
+import '../domain/progress_report.dart';
+import 'progress_report_widgets.dart';
 import 'scorecard.dart';
 import '../../../core/motion/motion.dart';
 
@@ -129,6 +131,7 @@ class _State extends ConsumerState<ProgressScreen> {
         : now.difference(summary.since!).inDays;
     final delta = summary.delta;
     final last7 = activityLast7(events.map((e) => e.at), now);
+    final report = buildProgressReport(events, readiness: summary.current);
     final cutoff = switch (_range) {
       _Range.week => now.subtract(const Duration(days: 7)),
       _Range.month => now.subtract(const Duration(days: 30)),
@@ -278,6 +281,56 @@ class _State extends ConsumerState<ProgressScreen> {
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: HiredSpace.xl),
+          const SectionLabel('Your report'),
+          const SizedBox(height: HiredSpace.sm),
+          Glass(
+            padding: const EdgeInsets.fromLTRB(HiredSpace.lg, HiredSpace.md, HiredSpace.lg, HiredSpace.md),
+            child: Column(
+              children: [
+                SizedBox(height: 250, child: AreaRadar(report: report)),
+                const SizedBox(height: HiredSpace.lg),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(width: 14, height: 3, decoration: BoxDecoration(color: c.ember, borderRadius: BorderRadius.circular(2))),
+                    const SizedBox(width: 6),
+                    Text('You', style: HiredText.tiny.copyWith(color: c.text3)),
+                    const SizedBox(width: HiredSpace.lg),
+                    Container(width: 14, height: 3, decoration: BoxDecoration(color: c.ok.withValues(alpha: 0.6), borderRadius: BorderRadius.circular(2))),
+                    const SizedBox(width: 6),
+                    Text('Placement-ready ($readyThreshold)', style: HiredText.tiny.copyWith(color: c.text3)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: HiredSpace.md),
+          FocusCard(report: report),
+          const SizedBox(height: HiredSpace.md),
+          Glass(
+            padding: const EdgeInsets.symmetric(horizontal: HiredSpace.lg, vertical: HiredSpace.sm),
+            child: Column(children: [
+              for (var i = 0; i < report.areas.length; i++) ...[
+                if (i > 0) Divider(height: 1, color: c.hair),
+                AreaRow(area: report.areas[i]),
+              ],
+            ]),
+          ),
+          const SizedBox(height: HiredSpace.xl),
+          const SectionLabel('Last 14 days'),
+          const SizedBox(height: HiredSpace.sm),
+          Glass(
+            padding: const EdgeInsets.fromLTRB(HiredSpace.lg, HiredSpace.lg, HiredSpace.lg, HiredSpace.md),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ActivityBars(counts: activityCounts(events.map((e) => e.at), now)),
+                const SizedBox(height: HiredSpace.sm),
+                Text('Each bar is a day; taller means more results measured.', style: HiredText.tiny.copyWith(color: c.text3)),
+              ],
+            ),
           ),
           const SizedBox(height: HiredSpace.xl),
           const SectionLabel('Best ever'),

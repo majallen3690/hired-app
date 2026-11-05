@@ -12,6 +12,8 @@ import '../domain/interview_models.dart';
 import '../interview_controller.dart';
 import '../interview_prefill.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/storage/app_prefs.dart';
+import '../../../core/storage/app_dir.dart';
 
 class InterviewSetupScreen extends ConsumerStatefulWidget {
   const InterviewSetupScreen({super.key});
@@ -39,6 +41,9 @@ class _State extends ConsumerState<InterviewSetupScreen> {
       _roleFilled = true;
       // A provider cannot be changed while the widget tree is being built.
       Future.microtask(() => ref.read(interviewPrefillProvider.notifier).clear());
+    } else if (AppPrefs.targetRole.isNotEmpty && !AppDir.demo) {
+      _role.text = AppPrefs.targetRole;
+      _roleFilled = true;
     }
   }
 

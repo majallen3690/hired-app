@@ -8,6 +8,12 @@ import 'package:hired/features/settings/settings_screen.dart';
 
 var _now = DateTime(2026);
 
+/// The screen has grown past the default test viewport, so give it a phone-sized one.
+Future<void> tallPhone(WidgetTester tester) async {
+  await tester.binding.setSurfaceSize(const Size(400, 1800));
+  addTearDown(() => tester.binding.setSurfaceSize(null));
+}
+
 Widget app() => ProviderScope(
       child: MaterialApp.router(
         theme: buildHiredTheme(Brightness.dark),
@@ -22,6 +28,7 @@ void main() {
   });
 
   testWidgets('seven quick taps on the version number unlock the demo section', (tester) async {
+    await tallPhone(tester);
     await tester.pumpWidget(app());
     await tester.pumpAndSettle();
     expect(find.text('Demo mode'), findsNothing);
@@ -39,6 +46,7 @@ void main() {
   });
 
   testWidgets('slow taps never unlock it', (tester) async {
+    await tallPhone(tester);
     await tester.pumpWidget(app());
     await tester.pumpAndSettle();
     for (var i = 0; i < demoUnlockTaps + 2; i++) {
@@ -51,6 +59,7 @@ void main() {
   });
 
   testWidgets('appearance can be switched and own data can be deleted from here', (tester) async {
+    await tallPhone(tester);
     await tester.pumpWidget(app());
     await tester.pumpAndSettle();
     expect(find.text('Dark'), findsOneWidget);

@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/scoring/readiness.dart';
 import '../../core/storage/app_dir.dart';
+import '../../core/storage/app_prefs.dart';
+import '../resume/resume_flow.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/widgets/controls.dart';
@@ -68,7 +70,7 @@ class HomeScreen extends ConsumerWidget {
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Welcome back', style: HiredText.small.copyWith(color: c.text3)),
+                Text(_greeting((ref.watch(resumeFlowProvider).resume?['name'] as String?)), style: HiredText.small.copyWith(color: c.text3)),
                 const SizedBox(height: HiredSpace.xs),
                 Text.rich(TextSpan(style: HiredText.h1.copyWith(color: c.text), children: [
                   const TextSpan(text: 'Ready to '),
@@ -154,4 +156,14 @@ class _Dial extends StatelessWidget {
       },
     );
   }
+}
+
+
+/// "Good evening, Ishita" when the name is known, otherwise "Welcome back".
+String _greeting(String? resumeName) {
+  final h = DateTime.now().hour;
+  final part = h < 5 ? 'Good evening' : (h < 12 ? 'Good morning' : (h < 17 ? 'Good afternoon' : 'Good evening'));
+  final fromResume = resumeName?.trim().split(RegExp(r'\s+')).first;
+  final name = AppDir.demo ? fromResume : (AppPrefs.firstName ?? (fromResume == null || fromResume.isEmpty ? null : fromResume));
+  return name == null ? 'Welcome back' : '$part, $name';
 }

@@ -16,6 +16,7 @@ import '../domain/intro_analysis.dart';
 import '../domain/intro_models.dart';
 import '../intro_controller.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/widgets/skeleton.dart';
 
 class IntroResultScreen extends ConsumerStatefulWidget {
   const IntroResultScreen({super.key, required this.id});
@@ -55,7 +56,7 @@ class _State extends ConsumerState<IntroResultScreen> {
       body: Aurora(
         child: SafeArea(
           child: async.when(
-            loading: () => const Center(child: DelayedSpinner()),
+            loading: () => const Padding(padding: EdgeInsets.all(HiredSpace.screen), child: SkeletonCards(count: 3)),
             error: (e, _) => Center(child: Text('Could not open this intro.', style: HiredText.body.copyWith(color: c.text2))),
             data: (r) {
               if (r == null) {

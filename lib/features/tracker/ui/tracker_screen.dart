@@ -12,6 +12,7 @@ import '../domain/tracker_logic.dart';
 import 'kanban_board.dart';
 import 'tracker_widgets.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/widgets/skeleton.dart';
 
 enum _View { list, board }
 
@@ -32,7 +33,7 @@ class _State extends ConsumerState<TrackerScreen> {
     final async = ref.watch(applicationsProvider);
     return SafeArea(
       child: async.when(
-        loading: () => const SizedBox.shrink(),
+        loading: () => const Padding(padding: EdgeInsets.fromLTRB(HiredSpace.screen, HiredSpace.xxl, HiredSpace.screen, 0), child: SkeletonCards(count: 5)),
         error: (e, _) => Center(child: Text('Could not open your applications.', style: HiredText.body.copyWith(color: c.text2))),
         data: (apps) => apps.isEmpty ? _empty(c) : _content(c, apps),
       ),

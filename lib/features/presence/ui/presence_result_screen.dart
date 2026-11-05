@@ -14,6 +14,7 @@ import '../domain/presence_record.dart';
 import '../domain/presence_scoring.dart';
 import '../presence_controller.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/widgets/skeleton.dart';
 
 const _partIcons = {
   PresencePart.attire: Icons.checkroom_rounded,
@@ -114,7 +115,7 @@ class _State extends ConsumerState<PresenceResultScreen> {
       body: Aurora(
         child: SafeArea(
           child: async.when(
-            loading: () => const Center(child: DelayedSpinner()),
+            loading: () => const Padding(padding: EdgeInsets.all(HiredSpace.screen), child: SkeletonCards(count: 3)),
             error: (e, _) => Center(
               child: Text(
                 'Could not open this check.',

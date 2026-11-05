@@ -12,6 +12,7 @@ import '../../core/theme/theme_mode_provider.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/widgets/controls.dart';
 import '../../core/widgets/glass.dart';
+import '../auth/auth_service.dart';
 import '../demo/demo_mode.dart';
 import '../resume/resume_flow.dart';
 
@@ -74,6 +75,31 @@ class _State extends ConsumerState<SettingsScreen> {
     }
   }
 
+  Future<void> _accountAction() async {
+    final router = GoRouter.of(context);
+    if (!AppPrefs.signedIn) {
+      // A guest becomes a member by going back through sign-in.
+      await session.leaveGuest();
+      router.go('/sign-in');
+      return;
+    }
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Sign out?'),
+        content: const Text('Your resume, mocks and applications stay on this phone. You can sign back in any time.'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Sign out')),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    setState(() => _busy = true);
+    await session.signOut();
+    router.go('/sign-in');
+  }
+
   Future<void> _deleteData() async {
     final ok = await showDialog<bool>(
       context: context,
@@ -97,7 +123,7 @@ class _State extends ConsumerState<SettingsScreen> {
   Widget build(BuildContext context) {
     final c = context.hc;
     final demo = AppDir.demo;
-    final name = (ref.watch(resumeFlowProvider).resume?['name'] as String?)?.trim();
+    final name = (AppPrefs.accountName ?? ref.watch(resumeFlowProvider).resume?['name'] as String?)?.trim();
     final theme = ref.watch(themeModeProvider);
 
     return Scaffold(
@@ -131,12 +157,61 @@ class _State extends ConsumerState<SettingsScreen> {
                           overflow: TextOverflow.ellipsis,
                           style: HiredText.h2.copyWith(color: c.text)),
                       Text(
-                        name == null || name.isEmpty ? 'Add your resume to fill this in' : 'Taken from your saved resume',
+                        AppPrefs.signedIn
+                            ? AppPrefs.accountEmail!
+                            : AppPrefs.guest
+                                ? 'Guest · everything stays on this phone'
+                                : (name == null || name.isEmpty ? 'Add your resume to fill this in' : 'Taken from your saved resume'),
                         style: HiredText.small.copyWith(color: c.text3),
                       ),
                     ]),
                   ),
                   if (demo) const Tag('Demo data', tone: TagTone.signal),
+                ]),
+              ),
+              const SizedBox(height: HiredSpace.xl),
+              const SectionLabel('Account'),
+              const SizedBox(height: HiredSpace.sm),
+              _Row(
+                icon: Icons.flag_outlined,
+                title: 'Edit your profile',
+                subtitle: AppPrefs.targetRole.isEmpty ? 'Target role, branch, dream companies' : AppPrefs.targetRole,
+                onTap: () => context.push('/profile-setup?edit=1'),
+              ),
+              const SizedBox(height: HiredSpace.sm),
+              if (!demo)
+                _Row(
+                  icon: AppPrefs.signedIn ? Icons.logout_rounded : Icons.person_add_alt_1_rounded,
+                  title: AppPrefs.signedIn ? 'Sign out' : 'Create an account',
+                  subtitle: AppPrefs.signedIn ? 'Your data stays on this phone' : 'Sign in on this phone with an email',
+                  onTap: _busy ? null : _accountAction,
+                ),
+              const SizedBox(height: HiredSpace.xl),
+              const SectionLabel('Preferences'),
+              const SizedBox(height: HiredSpace.sm),
+              Glass(
+                padding: const EdgeInsets.symmetric(horizontal: HiredSpace.lg, vertical: 10),
+                child: Row(children: [
+                  Icon(Icons.vibration_rounded, color: c.text2),
+                  const SizedBox(width: HiredSpace.md),
+                  Expanded(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text('Haptics', style: HiredText.body.copyWith(color: c.text, fontWeight: FontWeight.w500)),
+                      Text('Gentle taps on buttons, tabs and scores', style: HiredText.small.copyWith(color: c.text3)),
+                    ]),
+                  ),
+                  Switch(
+                    value: Haptics.enabled,
+                    activeTrackColor: c.ember,
+                    activeThumbColor: c.onEmber,
+                    onChanged: (v) {
+                      Haptics.enabled = v;
+                      AppPrefs.haptics = v;
+                      AppPrefs.save();
+                      if (v) Haptics.success();
+                      setState(() {});
+                    },
+                  ),
                 ]),
               ),
               const SizedBox(height: HiredSpace.xl),
@@ -211,6 +286,13 @@ class _State extends ConsumerState<SettingsScreen> {
                 ),
               ],
               const SizedBox(height: HiredSpace.xl),
+              _Row(
+                icon: Icons.auto_awesome_rounded,
+                title: 'Hired Pro',
+                subtitle: 'A preview of what could come next',
+                onTap: () => context.push('/pro'),
+              ),
+              const SizedBox(height: HiredSpace.xl),
               Center(
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
@@ -234,4 +316,33 @@ String _initials(String? name) {
   if (parts.isEmpty) return 'H';
   if (parts.length == 1) return parts.first[0].toUpperCase();
   return (parts.first[0] + parts.last[0]).toUpperCase();
+}
+
+
+/// A tappable settings row: icon, title, a line under it, and a chevron.
+class _Row extends StatelessWidget {
+  const _Row({required this.icon, required this.title, required this.subtitle, required this.onTap});
+  final IconData icon;
+  final String title, subtitle;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.hc;
+    return Glass(
+      onTap: onTap,
+      padding: const EdgeInsets.symmetric(horizontal: HiredSpace.lg, vertical: 14),
+      child: Row(children: [
+        Icon(icon, color: c.text2),
+        const SizedBox(width: HiredSpace.md),
+        Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(title, style: HiredText.body.copyWith(color: c.text, fontWeight: FontWeight.w500)),
+            Text(subtitle, maxLines: 1, overflow: TextOverflow.ellipsis, style: HiredText.small.copyWith(color: c.text3)),
+          ]),
+        ),
+        Icon(Icons.chevron_right_rounded, color: c.text3),
+      ]),
+    );
+  }
 }

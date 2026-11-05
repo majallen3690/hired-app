@@ -19,7 +19,14 @@ class Haptics {
   /// A score has landed.
   static void success() => _fire(HapticFeedback.mediumImpact);
 
+  /// Something was refused or failed: a firmer buzz than a tap, so a wrong password is felt as well as seen.
+  static void error() => _fire(HapticFeedback.heavyImpact);
+
+  /// Set from Settings; when off, nothing in the app vibrates.
+  static bool enabled = true;
+
   static void _fire(Future<void> Function() f) {
+    if (!enabled) return;
     // A device with no vibrator, or a test with no platform, must never turn a tap into an error.
     unawaited(f().catchError((_) {}));
   }

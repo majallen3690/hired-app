@@ -13,6 +13,7 @@ import '../domain/speech_metrics.dart';
 import '../interview_controller.dart';
 import 'interview_widgets.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/widgets/waiting.dart';
 
 class InterviewLiveScreen extends ConsumerStatefulWidget {
   const InterviewLiveScreen({super.key});
@@ -142,6 +143,7 @@ class _State extends ConsumerState<InterviewLiveScreen> {
             Text(title, style: HiredText.h2.copyWith(color: c.text)),
             const SizedBox(height: HiredSpace.xs),
             Text(sub, style: HiredText.small.copyWith(color: c.text3)),
+            const Padding(padding: EdgeInsets.symmetric(horizontal: HiredSpace.xxl, vertical: HiredSpace.xxl), child: TipRotator()),
           ],
         ),
       );

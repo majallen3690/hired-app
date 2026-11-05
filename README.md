@@ -33,6 +33,8 @@ Features:
   role and skills, but only values that appear in the pasted text. Follow-up nudges and interview reminders.
 - **Progress and scorecard.** Readiness timeline replayed from real results, streak, badges that unlock only from real
   results, and a shareable scorecard image.
+- **Accounts and profile.** First-run slides, email sign-in (or guest), and a profile that pre-fills your mock interviews.
+- **Progress report.** A radar of the four areas, per-area change, the area worth fixing first, and a 14-day activity chart.
 - **Demo mode.** A hidden toggle (tap the version number in Settings 7 times) that loads a sample student with three
   weeks of history, kept separate from your own data. See [docs/DEMO.md](docs/DEMO.md).
 

@@ -6,6 +6,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/controls.dart';
 import '../resume_flow.dart';
+import '../../../core/widgets/waiting.dart';
 
 const _steps = [
   (FlowStage.reading, 'Reading your resume'),
@@ -69,6 +70,8 @@ class AnalysingScreen extends ConsumerWidget {
               ),
               const SizedBox(height: HiredSpace.lg),
             ],
+            const SizedBox(height: HiredSpace.xxl),
+            const Center(child: TipRotator()),
           ],
         ),
       ),

@@ -15,6 +15,7 @@ import 'core/storage/app_prefs.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_mode_provider.dart';
 import 'dev/demo_forge.dart';
+import 'features/auth/auth_service.dart';
 import 'features/interview/interview_prefill.dart';
 import 'features/tracker/data/application_store.dart';
 import 'firebase_options.dart';
@@ -26,9 +27,11 @@ Future<void> main() async {
   // A few bytes of settings: which data folder to open and which theme to draw the first frame in.
   await AppPrefs.load();
   AppDir.demo = AppPrefs.demoOn;
+  Haptics.enabled = AppPrefs.haptics;
   // Neither of these is needed to draw the first screen, so the app opens now and they finish behind it.
   // Gemini calls await `firebaseReady`; reminders await their own init.
   firebaseReady = Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((_) {});
+  unawaited(firebaseReady.then((_) => session.verify()));
   unawaited(ReminderService.instance.init());
   if (forgeDemo) unawaited(runDemoForge());
   runApp(const AppRoot());

@@ -15,6 +15,7 @@ import '../domain/speech_metrics.dart';
 import '../interview_controller.dart';
 import 'interview_widgets.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/widgets/skeleton.dart';
 
 class InterviewReportScreen extends ConsumerStatefulWidget {
   const InterviewReportScreen({super.key, required this.id});
@@ -57,7 +58,7 @@ class _State extends ConsumerState<InterviewReportScreen> {
       body: Aurora(
         child: SafeArea(
           child: async.when(
-            loading: () => const Center(child: DelayedSpinner()),
+            loading: () => const Padding(padding: EdgeInsets.all(HiredSpace.screen), child: SkeletonCards(count: 3)),
             error: (e, _) => Center(child: Text('Could not open this report.', style: HiredText.body.copyWith(color: c.text2))),
             data: (r) {
               if (r == null) {

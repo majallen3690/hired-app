@@ -14,6 +14,7 @@ import '../domain/intro_analysis.dart';
 import '../intro_controller.dart';
 import 'countdown_ring.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/widgets/waiting.dart';
 
 class IntroRecorderScreen extends ConsumerStatefulWidget {
   const IntroRecorderScreen({super.key});
@@ -248,6 +249,7 @@ class _State extends ConsumerState<IntroRecorderScreen> {
           transcribing ? 'Step 1 of 2' : 'Step 2 of 2 · checking each point against your words',
           style: HiredText.small.copyWith(color: c.text3),
         ),
+        const Padding(padding: EdgeInsets.symmetric(horizontal: HiredSpace.xxl, vertical: HiredSpace.xxl), child: TipRotator()),
       ]),
     );
   }

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/auth/auth_service.dart';
+import '../features/auth/profile_setup_screen.dart';
+import '../features/auth/sign_in_screen.dart';
 import '../features/home/home_screen.dart';
+import '../features/onboarding/onboarding_screen.dart';
+import '../features/onboarding/splash_screen.dart';
+import '../features/settings/pro_screen.dart';
 import '../features/interview/ui/coach_replay_screen.dart';
 import '../features/intro/ui/intro_recorder_screen.dart';
 import '../features/intro/ui/intro_result_screen.dart';
@@ -19,6 +25,9 @@ import '../features/resume/ui/analysing_screen.dart';
 import '../features/resume/ui/result_screen.dart';
 import '../features/resume/ui/resume_input_screen.dart';
 import 'motion/motion.dart';
+import 'route_gate.dart';
+import 'storage/app_dir.dart';
+import 'storage/app_prefs.dart';
 import 'theme/app_theme.dart';
 import 'theme/tokens.dart';
 import 'widgets/glass.dart';
@@ -219,8 +228,23 @@ class _TabItem extends StatelessWidget {
 }
 
 final router = GoRouter(
-  initialLocation: '/home',
+  initialLocation: '/splash',
+  refreshListenable: session,
+  redirect: (context, state) => gateRedirect(
+    location: state.matchedLocation,
+    demo: AppDir.demo,
+    onboarded: AppPrefs.onboarded,
+    authed: session.authed,
+  ),
   routes: [
+    GoRoute(path: '/splash', builder: (_, __) => const SplashScreen()),
+    GoRoute(path: '/onboarding', builder: (_, __) => const OnboardingScreen()),
+    GoRoute(path: '/sign-in', builder: (_, __) => const SignInScreen()),
+    GoRoute(
+      path: '/profile-setup',
+      builder: (_, state) => ProfileSetupScreen(editing: state.uri.queryParameters['edit'] == '1'),
+    ),
+    GoRoute(path: '/pro', builder: (_, __) => const ProScreen()),
     StatefulShellRoute.indexedStack(
       builder: (context, state, shell) => _Shell(shell: shell),
       branches: [
