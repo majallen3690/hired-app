@@ -1,0 +1,546 @@
+{
+ "generatedAt": "2026-11-05T03:49:10.371373Z",
+ "textModel": "gemini-3.5-flash",
+ "fastModel": "gemini-3.5-flash-lite",
+ "resumeMatches": {
+  "v1": {
+   "role": "Software Development Engineer I (Payments Platform)",
+   "overall": 49,
+   "keyword": 44,
+   "semantic": 42,
+   "rubric": 62,
+   "requirements": 10,
+   "matched": 4
+  },
+  "v3": {
+   "role": "Software Development Engineer I (Payments Platform)",
+   "overall": 79,
+   "keyword": 76,
+   "semantic": 75,
+   "rubric": 88,
+   "requirements": 10,
+   "matched": 7
+  },
+  "v2": {
+   "role": "Software Development Engineer I (Payments Platform)",
+   "overall": 63,
+   "keyword": 56,
+   "semantic": 59,
+   "rubric": 77,
+   "requirements": 10,
+   "matched": 5
+  }
+ },
+ "sessions": {
+  "demo-s1": {
+   "evaluation": {
+    "headline": "Needs greater depth, structural clarity, and professional polish",
+    "questions": [
+     {
+      "question": "Tell me about the project you are proudest of.",
+      "structure": {
+       "score": 2,
+       "evidence": "Basically I searched a lot of videos and, um, I somehow fixed it after some days."
+      },
+      "relevance": {
+       "score": 4,
+       "evidence": "I think my proudest project is the Campus Attendance App."
+      },
+      "depth": {
+       "score": 2,
+       "evidence": "It was not working at first. Basically I searched a lot of videos and, um, I somehow fixed it after some days."
+      },
+      "clarity": {
+       "score": 3,
+       "evidence": "Actually, it was a team project, so, you know, I did the, um, the mobile app part mostly."
+      },
+      "situation": true,
+      "task": true,
+      "action": true,
+      "result": true,
+      "good": "Mentioned the specific technologies used (Flutter, Firebase) and highlighted the app's functionality.",
+      "fix": "Explain the exact technical problem with real-time updates and how you resolved it using Firebase listeners or state management instead of saying 'somehow fixed it'.",
+      "modelAnswer": "While building the Campus Attendance App using Flutter and Firebase, I developed the backend and login screen to enable teachers to mark attendance via QR codes. When real-time tracking of student scans encountered syncing issues, I resolved it by configuring [specific Firebase listener or query]. As a result, our team successfully tested the app with [number] students during live classes."
+     },
+     {
+      "question": "Tell me about a time you disagreed with a teammate.",
+      "structure": {
+       "score": 2,
+       "evidence": "I did not agree, but, you know, we just went with his idea in the end."
+      },
+      "relevance": {
+       "score": 3,
+       "evidence": "my teammate wanted to use a different database."
+      },
+      "depth": {
+       "score": 1,
+       "evidence": "It was fine."
+      },
+      "clarity": {
+       "score": 3,
+       "evidence": "I did not agree, but, you know, we just went with his idea in the end."
+      },
+      "situation": true,
+      "task": true,
+      "action": false,
+      "result": true,
+      "good": "Identified a realistic technical decision conflict regarding database choice.",
+      "fix": "Explain how you evaluated technical trade-offs with data or testing rather than just giving up on your position without discussion.",
+      "modelAnswer": "During a group project, a teammate wanted to use a different database than SQL. I analyzed our requirements around query complexity and data structure, discussing pros and cons with the team. Ultimately, we reached consensus on [chosen database], which allowed us to complete the project smoothly."
+     },
+     {
+      "question": "Why do you want to work as a software engineer?",
+      "structure": {
+       "score": 2,
+       "evidence": "Actually I also want a good salary, basically, so that is why."
+      },
+      "relevance": {
+       "score": 3,
+       "evidence": "Because, uh, I like coding and I want to learn."
+      },
+      "depth": {
+       "score": 1,
+       "evidence": "Because, uh, I like coding and I want to learn."
+      },
+      "clarity": {
+       "score": 2,
+       "evidence": "Companies like yours have a good, um, learning environment."
+      },
+      "situation": false,
+      "task": false,
+      "action": false,
+      "result": false,
+      "good": "Showed clear enthusiasm for continuous learning and coding.",
+      "fix": "Focus on your passion for solving real-world problems and reference relevant practical experience rather than mentioning salary in an interview.",
+      "modelAnswer": "I want to work as a software engineer because I enjoy solving real-world problems, such as reducing library seat search times by 30% using Python and SQL. During my Brightlabs internship, I gained experience debugging Java dashboards and writing production SQL queries. I want to build on my technical background in Java, Python, and databases while delivering impactful solutions for your team."
+     }
+    ],
+    "topFixes": [
+     "Structure answers using the STAR method, detailing exact technical actions taken instead of saying 'somehow fixed it'.",
+     "Frame workplace disagreements around trade-off analysis and constructive collaboration rather than passive compliance.",
+     "Anchor career motivation responses in your engineering accomplishments from your resume rather than salary expectations."
+    ]
+   },
+   "pauses": [
+    {
+     "startMs": 66550,
+     "endMs": 71950
+    }
+   ]
+  },
+  "demo-s2": {
+   "evaluation": {
+    "headline": "Strong technical foundations with clear system design awareness",
+    "questions": [
+     {
+      "question": "How did the teacher's screen update live as students scanned?",
+      "structure": {
+       "score": 5,
+       "evidence": "Teachers needed to see the count of students who had scanned change instantly."
+      },
+      "relevance": {
+       "score": 5,
+       "evidence": "So I switched to a Firestore snapshot listener scoped to the active class session, and added a small local cache."
+      },
+      "depth": {
+       "score": 4,
+       "evidence": "After that the count updated in under a second, and battery drain in our tests dropped by about a third."
+      },
+      "clarity": {
+       "score": 4,
+       "evidence": "At first the app polled Firestore every few seconds, which made the screen laggy and drained the battery."
+      },
+      "situation": true,
+      "task": true,
+      "action": true,
+      "result": true,
+      "good": "Effectively structured the response using the STAR format, clearly stating the initial problem and quantitative metrics of improvement.",
+      "fix": "State the load testing considerations upfront as part of your technical evaluation rather than as an afterthought.",
+      "modelAnswer": "In the Campus Attendance App built with Flutter and Firebase, I replaced polling with Firestore snapshot listeners to deliver real-time updates. This reduced latency so that the live scan count updated in under a second for [400] students across [6] classes. I also implemented local caching to reduce redundant network calls and improve efficiency."
+     },
+     {
+      "question": "How did you design the tables, and what would break at scale?",
+      "structure": {
+       "score": 5,
+       "evidence": "I kept one table for seat events with a seat id, a student id, a status and a timestamp"
+      },
+      "relevance": {
+       "score": 5,
+       "evidence": "At around 200,000 rows, loading the seat map took about 900 milliseconds, so I added a composite index and a small summary table, and it dropped to roughly 80."
+      },
+      "depth": {
+       "score": 4,
+       "evidence": "At real scale I would worry about the single database and about write bursts at exam time, so I would look at read replicas and caching the seat map."
+      },
+      "clarity": {
+       "score": 5,
+       "evidence": "At around 200,000 rows, loading the seat map took about 900 milliseconds, so I added a composite index and a small summary table, and it dropped to roughly 80."
+      },
+      "situation": true,
+      "task": true,
+      "action": true,
+      "result": true,
+      "good": "Provided concrete database latency numbers before and after optimization to demonstrate technical depth.",
+      "fix": "Explain the specific composite index column order and schema structure in more detail before jumping to scaling solutions.",
+      "modelAnswer": "For the Library Seat Finder project, I designed a PostgreSQL schema to track real-time seat availability, reducing student seat search time by [30%]. To handle scaling bottlenecks, I optimized query performance using indexing and summary structures. At larger scale, I would implement read replicas and a caching layer to handle high write bursts during peak usage."
+     },
+     {
+      "question": "Explain the difference between a HashMap and a TreeMap, and when you would pick each.",
+      "structure": {
+       "score": 4,
+       "evidence": "A HashMap gives average constant time lookups and inserts using hashing, but it has no ordering."
+      },
+      "relevance": {
+       "score": 5,
+       "evidence": "I would use a HashMap by default, and a TreeMap when I need sorted iteration, like a leaderboard, sorry, or finding the nearest key to a value."
+      },
+      "depth": {
+       "score": 4,
+       "evidence": "A TreeMap keeps keys sorted using a red black tree, so operations are logarithmic, and you get range queries, like all keys between two values."
+      },
+      "clarity": {
+       "score": 4,
+       "evidence": "A HashMap gives average constant time lookups and inserts using hashing, but it has no ordering."
+      },
+      "situation": false,
+      "task": false,
+      "action": true,
+      "result": false,
+      "good": "Clearly contrasted time complexities and underlying data structures for both structures alongside real-world use cases.",
+      "fix": "Avoid mid-sentence self-corrections like 'sorry' to maintain a professional tone.",
+      "modelAnswer": "I leverage Java HashMap for O(1) average lookup performance when key order is not required. I choose TreeMap when sorted order or range queries are required, as it maintains keys in a red-black tree with O(log n) operations. During my internship at Brightlabs, I applied core Java fundamentals to debug dashboard functionality and handle SQL operations."
+     },
+     {
+      "question": "What happens when you type a URL into a browser and press enter?",
+      "structure": {
+       "score": 4,
+       "evidence": "First the browser checks its cache, then DNS resolves the domain to an IP address."
+      },
+      "relevance": {
+       "score": 4,
+       "evidence": "Then it opens a TCP connection, and for https there is a TLS handshake."
+      },
+      "depth": {
+       "score": 3,
+       "evidence": "Um, I am less sure about what happens inside the load balancer, that part I have only read about."
+      },
+      "clarity": {
+       "score": 3,
+       "evidence": "It sends an HTTP request, the server responds, and the browser renders the page."
+      },
+      "situation": false,
+      "task": false,
+      "action": true,
+      "result": false,
+      "good": "Correctly outlined the sequential flow from DNS lookup and TCP/TLS handshakes to HTTP rendering.",
+      "fix": "Frame gaps in knowledge positively rather than using hedge phrases like 'Um, I am less sure'.",
+      "modelAnswer": "Entering a URL triggers a browser cache check and DNS resolution to map the domain to an IP address. The client establishes a TCP connection with a TLS handshake for secure HTTPS communication before issuing HTTP requests. The backend server processes the REST API call and returns data that the browser parses to render the UI."
+     }
+    ],
+    "topFixes": [
+     "Eliminate verbal hesitations such as 'um' and apologetic phrasing like 'sorry' to present technical answers with consistent confidence.",
+     "Deepen knowledge of load balancers, web server gateways, and network infrastructure to answer full-stack system architecture questions completely.",
+     "Elaborate on database indexing choices and schema trade-offs prior to suggesting higher-level infrastructure changes like read replicas."
+    ]
+   },
+   "pauses": [
+    {
+     "startMs": 114150,
+     "endMs": 118450
+    }
+   ]
+  },
+  "demo-s3": {
+   "evaluation": {
+    "headline": "Strong technical candidate with precise data-driven answers",
+    "questions": [
+     {
+      "question": "Tell me about a time something you built failed in front of real users, and what you did.",
+      "structure": {
+       "score": 5,
+       "evidence": "During a live class, our Campus Attendance App started marking some students present twice."
+      },
+      "relevance": {
+       "score": 5,
+       "evidence": "During a live class, our Campus Attendance App started marking some students present twice."
+      },
+      "depth": {
+       "score": 5,
+       "evidence": "I moved marking into a Firestore transaction with a duplicate check, and added an idempotency key per student and session."
+      },
+      "clarity": {
+       "score": 5,
+       "evidence": "Duplicates dropped to zero over the next week, and I wrote a test that fires 20 parallel scans so it cannot come back unnoticed."
+      },
+      "situation": true,
+      "task": true,
+      "action": true,
+      "result": true,
+      "good": "Exemplary STAR response with clear technical diagnosis and quantitative proof of resolution.",
+      "fix": "Explain how you communicated with impacted users or professors while resolving the live incident.",
+      "modelAnswer": "While 400 students used the Campus Attendance App across six classes, duplicate records occurred when two scans happened within one second. I identified missing concurrency control, refactored backend writes to use Firestore transactions with idempotency keys per session, and added a automated test firing 20 parallel scans. This eliminated duplicate records completely while keeping live updates under 1 second."
+     },
+     {
+      "question": "Since this is a payments company, how would you design an API so that a payment is never charged twice when the client retries?",
+      "structure": {
+       "score": 4,
+       "evidence": "I would use an idempotency key."
+      },
+      "relevance": {
+       "score": 5,
+       "evidence": "The client sends a unique key with every payment request."
+      },
+      "depth": {
+       "score": 4,
+       "evidence": "The server stores that key together with the result of the first attempt, in the same database transaction as the charge."
+      },
+      "clarity": {
+       "score": 5,
+       "evidence": "If the same key arrives again, it returns the stored result instead of charging again."
+      },
+      "situation": false,
+      "task": false,
+      "action": true,
+      "result": true,
+      "good": "Delivered a clear and correct system design approach to idempotency in payment processing APIs.",
+      "fix": "Mention specific HTTP status codes and state machine transitions used for handling concurrent duplicate retries.",
+      "modelAnswer": "To prevent double charging, the API requires clients to submit a unique idempotency key per payment attempt. The server saves this key along with the charge result inside PostgreSQL within the same database transaction. Subsequent requests with the identical key return the stored response without re-executing the transaction, while invalid payload reuses are rejected."
+     },
+     {
+      "question": "Your Library Seat Finder query got much faster. Walk me through how you found the bottleneck.",
+      "structure": {
+       "score": 5,
+       "evidence": "I turned on slow query logging in Postgres and saw the seat map took about 900 milliseconds."
+      },
+      "relevance": {
+       "score": 5,
+       "evidence": "Then I ran explain analyze."
+      },
+      "depth": {
+       "score": 5,
+       "evidence": "It was a sequential scan over roughly 200,000 rows, because the only index was on seat id."
+      },
+      "clarity": {
+       "score": 5,
+       "evidence": "The query dropped to around 80 milliseconds."
+      },
+      "situation": true,
+      "task": true,
+      "action": true,
+      "result": true,
+      "good": "Demonstrated systematic database profiling methodology using standard tools like EXPLAIN ANALYZE.",
+      "fix": "Isolate and state the latency reduction contributed by the composite index versus the summary table.",
+      "modelAnswer": "While developing the Library Seat Finder using Python and PostgreSQL, the seat map load time reached 900 ms on 200,000 rows. Using EXPLAIN ANALYZE, I identified a sequential scan caused by indexing only the seat ID, then created a composite index on seat ID and timestamp alongside a latest-status summary table. This lowered query execution time to 80 ms, helping reduce overall seat searching time for students by 30%."
+     },
+     {
+      "question": "Tell me about a time you had to learn something quickly.",
+      "structure": {
+       "score": 5,
+       "evidence": "Before my internship at Brightlabs I had never used Kafka."
+      },
+      "relevance": {
+       "score": 5,
+       "evidence": "My mentor gave me one week to build a consumer for order events."
+      },
+      "depth": {
+       "score": 4,
+       "evidence": "I read the documentation, built a small producer and consumer demo that same evening, and shipped the real consumer in six days."
+      },
+      "clarity": {
+       "score": 5,
+       "evidence": "It processed about 5,000 events a day in staging, and I documented the retry logic for the next intern."
+      },
+      "situation": true,
+      "task": true,
+      "action": true,
+      "result": true,
+      "good": "Shows self-driven learning agility backed by concrete project delivery and handover documentation.",
+      "fix": "Explain the specific implementation details of dead-letter handling and retry mechanisms built into the Kafka consumer.",
+      "modelAnswer": "During my internship at Brightlabs Pvt Ltd, I had one week to learn Kafka and build an event consumer. I created a working prototype on my first day and delivered the Java consumer with retry and dead-letter handling within six days. The consumer successfully processed 5,000 order events per day in staging, and I documented the architecture for future engineering interns."
+     }
+    ],
+    "topFixes": [
+     "Detail the specific technical mechanics of dead-letter queues and retries when discussing event processing.",
+     "Isolate and quantify the performance gains contributed by individual database optimization techniques.",
+     "Include user communication and incident mitigation steps when explaining production bug resolutions."
+    ]
+   },
+   "pauses": []
+  }
+ },
+ "intros": {
+  "demo-i1": {
+   "transcript": "Hi, um, my name is Ishita Rao and I am a final year B.Tech student in computer science, uh, at PES University in Bengaluru. I like, you know, programming and I have done some projects in Flutter and Python. Basically I made an attendance app for my college and also a library seat tool. Um, I did an internship also. I am a hard worker and I learn fast. Thank you for this opportunity.",
+   "delivery": {
+    "words": 74,
+    "speakingMs": 28300,
+    "wpm": 156.8904593639576,
+    "fillerCount": 5,
+    "topFillers": {
+     "um": 2,
+     "uh": 1,
+     "you know": 1,
+     "basically": 1
+    },
+    "longestPause": null,
+    "longPauses": 0,
+    "steadinessDb": 4.745144007950011,
+    "score": 60
+   },
+   "evaluation": {
+    "headline": "Clear identity, but needs specifics and target motivation.",
+    "clarity": {
+     "score": 3,
+     "evidence": "Basically I made an attendance app for my college and also a library seat tool."
+    },
+    "structure": {
+     "score": 3,
+     "evidence": "Hi, um, my name is Ishita Rao and I am a final year B.Tech student in computer science, uh, at PES University in Bengaluru."
+    },
+    "confidence": {
+     "score": 2,
+     "evidence": "I like, you know, programming and I have done some projects in Flutter and Python."
+    },
+    "who": {
+     "covered": true,
+     "evidence": "my name is Ishita Rao and I am a final year B.Tech student in computer science, uh, at PES University in Bengaluru.",
+     "note": "Successfully introduced name, year, branch, and college."
+    },
+    "what": {
+     "covered": true,
+     "evidence": "Basically I made an attendance app for my college and also a library seat tool.",
+     "note": "Mentions college attendance app, library seat tool, and an internship."
+    },
+    "why": {
+     "covered": false,
+     "evidence": null,
+     "note": "Does not state motivation for the Software Development Engineer I role or tech industry."
+    },
+    "good": "You clearly introduced yourself and mentioned relevant engineering projects alongside an internship.",
+    "fix": "Remove filler phrases like 'you know' and state concrete technical results along with your interest in the SDE I role.",
+    "stronger": "Hi, I am Ishita Rao, a final-year Computer Science and Engineering student at PES University, Bengaluru. I focus on software development using Java, Python, Flutter, and SQL. During my internship at Brightlabs Pvt Ltd, I fixed backend bugs in Java and wrote SQL queries for monthly reporting. I also developed a Flutter and Firebase attendance app using QR codes, and created a Python and SQL Library Seat Finder that reduced student search time by 30%. I am eager to contribute my software engineering skills to the Software Development Engineer I role."
+   }
+  },
+  "demo-i2": {
+   "transcript": "Hello, I am Ishita Rao, a final year computer science student at PES University in Bengaluru. I enjoy building backend systems that people actually use. I built a campus attendance app that 400 students used across six classes, and library seat finder, where I cut a slow query from 900 milliseconds to 80. At my Bright Labs internship I built a Kafka consumer in Java that handled about 5,000 events a day. I want to join Razorpay as an SDE 1 because payments is a place where correctness matters, and I like that kind of problem. Thank you.",
+   "delivery": {
+    "words": 98,
+    "speakingMs": 37600,
+    "wpm": 156.38297872340425,
+    "fillerCount": 2,
+    "topFillers": {
+     "actually": 1,
+     "kind of": 1
+    },
+    "longestPause": null,
+    "longPauses": 0,
+    "steadinessDb": 5.134419171626106,
+    "score": 88
+   },
+   "evaluation": {
+    "headline": "Clear, structured, and tailored for Razorpay SDE 1",
+    "clarity": {
+     "score": 5,
+     "evidence": "I built a campus attendance app that 400 students used across six classes, and library seat finder, where I cut a slow query from 900 milliseconds to 80."
+    },
+    "structure": {
+     "score": 5,
+     "evidence": "Hello, I am Ishita Rao, a final year computer science student at PES University in Bengaluru."
+    },
+    "confidence": {
+     "score": 5,
+     "evidence": "I enjoy building backend systems that people actually use."
+    },
+    "who": {
+     "covered": true,
+     "evidence": "Hello, I am Ishita Rao, a final year computer science student at PES University in Bengaluru.",
+     "note": "Fully covered with name, final-year status, branch, and college."
+    },
+    "what": {
+     "covered": true,
+     "evidence": "I built a campus attendance app that 400 students used across six classes, and library seat finder, where I cut a slow query from 900 milliseconds to 80.",
+     "note": "Fully covered with specific project details and impact metrics."
+    },
+    "why": {
+     "covered": true,
+     "evidence": "I want to join Razorpay as an SDE 1 because payments is a place where correctness matters, and I like that kind of problem.",
+     "note": "Fully covered with company name, role, and domain rationale."
+    },
+    "good": "Excellent use of quantitative metrics and a strong direct connection to Razorpay.",
+    "fix": "Ensure internship details spoken in your pitch align directly with your resume points to prevent follow-up confusion.",
+    "stronger": "Hello, I am Ishita Rao, a final-year Computer Science and Engineering student at PES University, Bengaluru. I enjoy building backend systems that solve real user problems. I developed a campus attendance app using Flutter and Firebase that 400 students used across six classes. I also built a library seat finder using Python and PostgreSQL, where I optimized a query latency from 900 milliseconds down to 80 milliseconds. During my software internship at Brightlabs, I worked with Java, Spring Boot, and SQL to fix bugs and build internal reports. I want to join Razorpay as an SDE 1 because payment systems require absolute correctness, and that is precisely the kind of engineering problem I want to solve."
+   }
+  }
+ },
+ "autofill": {
+  "razorpay": {
+   "company": "Razorpay",
+   "role": "Software Development Engineer I (Payments Platform)",
+   "skills": [
+    "Java",
+    "Spring Boot",
+    "PostgreSQL",
+    "Kafka",
+    "Docker",
+    "AWS",
+    "Git",
+    "CI/CD pipelines"
+   ]
+  },
+  "zoho": {
+   "company": "Zoho Corporation",
+   "role": "Member Technical Staff (Software Developer)",
+   "skills": [
+    "data structures and algorithms",
+    "C++",
+    "Java",
+    "object-oriented design",
+    "SQL",
+    "relational databases",
+    "HTTP",
+    "REST"
+   ]
+  },
+  "swiggy": {
+   "company": "Swiggy",
+   "role": "Software Development Engineer 1 (Backend)",
+   "skills": [
+    "Kotlin",
+    "Java",
+    "Spring Boot",
+    "REST APIs",
+    "Kafka",
+    "MySQL",
+    "Redis",
+    "AWS"
+   ]
+  },
+  "flipkart": {
+   "company": "Flipkart",
+   "role": "Software Development Engineer 1",
+   "skills": [
+    "Java",
+    "SQL",
+    "object-oriented design",
+    "caching",
+    "indexing",
+    "load balancing",
+    "data structures",
+    "algorithms"
+   ]
+  },
+  "freshworks": {
+   "company": "Freshworks",
+   "role": "Associate Software Engineer",
+   "skills": [
+    "Java",
+    "JavaScript",
+    "Git",
+    "REST APIs",
+    "relational databases",
+    "SQL database",
+    "JSON"
+   ]
+  }
+ }
+}

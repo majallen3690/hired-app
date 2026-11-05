@@ -18,6 +18,4 @@ Everything is on screen labelled "Demo data". The user's own data lives in the n
   from them by the app's normal code.
 
 ## Status
-Fixtures are NOT generated yet: Gemini currently answers every request with "Firebase App Check token is invalid"
-(App Check enforcement is on for Firebase AI Logic). Until fixtures exist, switching demo mode on shows
-"Could not set up the demo data" and changes nothing.
+Fixtures are generated and committed (`assets/demo/fixtures.json`); demo mode works. Re-run the forge only if the authored inputs change.

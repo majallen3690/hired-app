@@ -2,9 +2,26 @@
   "note": "Three versions of the demo persona's resume, in the parsed form ResumeAi.parse returns. v1 is the text of sample_resume.pdf. v2 and v3 are what she wrote after the app's feedback: the same facts, with the numbers she had and the stack the job asks for.",
   "v1": {
     "name": "Ishita Rao",
-    "skills": ["Java", "Python", "C++", "SQL", "Flutter", "Dart", "Firebase", "REST APIs", "Git", "Data Structures and Algorithms", "OOP"],
-    "education": ["PES University, Bengaluru - B.Tech Computer Science and Engineering, 2023-2027, CGPA 8.4"],
-    "certifications": ["Google Associate Android Developer (in progress)", "NPTEL Data Structures and Algorithms"],
+    "skills": [
+      "Java",
+      "Python",
+      "C++",
+      "SQL",
+      "Flutter",
+      "Dart",
+      "Firebase",
+      "REST APIs",
+      "Git",
+      "Data Structures and Algorithms",
+      "OOP"
+    ],
+    "education": [
+      "PES University, Bengaluru - B.Tech Computer Science and Engineering, 2023-2027, CGPA 8.4"
+    ],
+    "certifications": [
+      "Google Associate Android Developer (in progress)",
+      "NPTEL Data Structures and Algorithms"
+    ],
     "experience": [
       {
         "company": "Brightlabs Pvt Ltd",
@@ -19,7 +36,10 @@
     "projects": [
       {
         "name": "Campus Attendance App",
-        "tech": ["Flutter", "Firebase"],
+        "tech": [
+          "Flutter",
+          "Firebase"
+        ],
         "bullets": [
           "Built a mobile app for marking class attendance with QR codes",
           "Worked on the backend using Firebase and made the login screen",
@@ -28,7 +48,10 @@
       },
       {
         "name": "Library Seat Finder",
-        "tech": ["Python", "SQL"],
+        "tech": [
+          "Python",
+          "SQL"
+        ],
         "bullets": [
           "Created a web tool that shows free seats in the college library",
           "Reduced time students spend searching for a seat by 30%"
@@ -38,9 +61,30 @@
   },
   "v2": {
     "name": "Ishita Rao",
-    "skills": ["Java", "Python", "C++", "SQL", "PostgreSQL", "Flutter", "Dart", "Firebase", "REST APIs", "Git", "Data Structures and Algorithms", "OOP"],
-    "education": ["PES University, Bengaluru - B.Tech Computer Science and Engineering, 2023-2027, CGPA 8.4"],
-    "certifications": ["Google Associate Android Developer (in progress)", "NPTEL Data Structures and Algorithms"],
+    "skills": [
+      "Java",
+      "Spring Boot",
+      "JUnit",
+      "Python",
+      "C++",
+      "SQL",
+      "PostgreSQL",
+      "Flutter",
+      "Dart",
+      "Firebase",
+      "REST APIs",
+      "Git",
+      "Docker",
+      "Data Structures and Algorithms",
+      "OOP"
+    ],
+    "education": [
+      "PES University, Bengaluru - B.Tech Computer Science and Engineering, 2023-2027, CGPA 8.4"
+    ],
+    "certifications": [
+      "Google Associate Android Developer (in progress)",
+      "NPTEL Data Structures and Algorithms"
+    ],
     "experience": [
       {
         "company": "Brightlabs Pvt Ltd",
@@ -55,7 +99,10 @@
     "projects": [
       {
         "name": "Campus Attendance App",
-        "tech": ["Flutter", "Firebase"],
+        "tech": [
+          "Flutter",
+          "Firebase"
+        ],
         "bullets": [
           "Built a QR attendance app used by about 400 students across 6 classes",
           "Replaced polling with Firestore snapshot listeners so the live scan count updates in under a second",
@@ -64,19 +111,46 @@
       },
       {
         "name": "Library Seat Finder",
-        "tech": ["Python", "PostgreSQL"],
+        "tech": [
+          "Python",
+          "PostgreSQL"
+        ],
         "bullets": [
           "Built a web tool that shows free library seats in real time",
-          "Reduced the time students spend searching for a seat by 30%"
+          "Reduced the time students spend searching for a seat by 30%",
+          "Exposed a REST API with token authentication and ran it in a Docker container"
         ]
       }
     ]
   },
   "v3": {
     "name": "Ishita Rao",
-    "skills": ["Java", "Spring Boot", "Python", "C++", "SQL", "PostgreSQL", "Kafka", "JUnit", "Docker", "Flutter", "Dart", "Firebase", "REST APIs", "Git", "Data Structures and Algorithms", "OOP"],
-    "education": ["PES University, Bengaluru - B.Tech Computer Science and Engineering, 2023-2027, CGPA 8.4"],
-    "certifications": ["AWS Certified Cloud Practitioner", "Google Associate Android Developer (in progress)", "NPTEL Data Structures and Algorithms"],
+    "skills": [
+      "Java",
+      "Spring Boot",
+      "Python",
+      "C++",
+      "SQL",
+      "PostgreSQL",
+      "Kafka",
+      "JUnit",
+      "Docker",
+      "Flutter",
+      "Dart",
+      "Firebase",
+      "REST APIs",
+      "Git",
+      "Data Structures and Algorithms",
+      "OOP"
+    ],
+    "education": [
+      "PES University, Bengaluru - B.Tech Computer Science and Engineering, 2023-2027, CGPA 8.4"
+    ],
+    "certifications": [
+      "AWS Certified Cloud Practitioner",
+      "Google Associate Android Developer (in progress)",
+      "NPTEL Data Structures and Algorithms"
+    ],
     "experience": [
       {
         "company": "Brightlabs Pvt Ltd",
@@ -91,7 +165,11 @@
     "projects": [
       {
         "name": "Campus Attendance App",
-        "tech": ["Flutter", "Firebase", "Dart"],
+        "tech": [
+          "Flutter",
+          "Firebase",
+          "Dart"
+        ],
         "bullets": [
           "Built a QR attendance app used by about 400 students across 6 classes",
           "Replaced Firestore polling with scoped snapshot listeners, so the live scan count updates in under 1 second and battery drain fell by about a third in tests",
@@ -100,7 +178,10 @@
       },
       {
         "name": "Library Seat Finder",
-        "tech": ["Python", "PostgreSQL"],
+        "tech": [
+          "Python",
+          "PostgreSQL"
+        ],
         "bullets": [
           "Built a web tool showing free library seats in real time, reducing the time students spend searching for a seat by 30%",
           "Cut seat map load time from 900 ms to 80 ms on 200,000 rows using a composite index and a latest-status summary table"

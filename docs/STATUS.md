@@ -152,14 +152,15 @@ Second polish round (verified on the emulator unless noted):
 - tracker board: lifted card, drop highlight and haptics on lift and drop; dragging works on the new build
 - bug found by the existing board test and fixed: a press-feedback wrapper threw if its card was rebuilt under the finger mid-drag
 
-## Demo mode (built, waiting on Gemini access to generate its data)
+## Demo mode (built, fixtures generated, verified on the emulator)
 - Settings screen (profile, appearance with persisted theme, delete my data, version tap x7 unlocks the demo section)
 - Storage root (`AppDir`) lets demo data live in its own folder; a switch restarts every provider; Home and Settings carry a "Demo data" tag
 - Seeder, WAV amplitude analysis, authored script, generated recordings, forge harness; sample-JD chips on the resume screen in demo mode
-- 16 new tests (231 total), analyzer clean. Verified on the emulator: Settings layout, seven taps unlock, switch fails safely with no fixtures
-- BLOCKED: every Gemini call returns "Firebase App Check token is invalid" (checked with the raw error from the app and with curl).
-  Needs the user: Firebase console -> App Check -> APIs -> Firebase AI Logic -> Unenforce. Then run the forge (docs/DEMO.md)
-- Not verified: the seeded persona on screen, Coach Replay on the synthetic audio, reminders for the two upcoming interviews
+- Fixtures come from running the real pipelines (`assets/demo/fixtures.json`): resume matches 49, 63, 79; sessions 47, 85, 96; two intros
+- Verified on the emulator: seven taps unlock, switch on gives Home 77 (3 of 4), Progress climb "62 in 3 weeks", Tracker with 8 applications and a Swiggy follow-up nudge
+- Resume v2 was reworded (Docker, Spring Boot, JUnit added) because its first scores (45, 43) fell below v1; scores themselves are never edited
+- Known rough edges: Speaking 98 and Interview 96 are high for a student (clean synthetic audio, strong scripted answers); streak shows "No streak yet" because the newest activity is 2 days old
+- Not verified: Coach Replay on the synthetic audio, reminders for the two upcoming interviews
 
 ## Known behaviour
 - Match score varies a few points between runs of the same inputs (38 to 46 seen): Gemini re-extracts the
