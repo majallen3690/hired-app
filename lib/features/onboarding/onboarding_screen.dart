@@ -136,6 +136,7 @@ class _Promise extends StatelessWidget {
     return _Slide(
       art: Stack(
         alignment: Alignment.center,
+        clipBehavior: Clip.none,
         children: [
           TickDial(
             size: 250,
